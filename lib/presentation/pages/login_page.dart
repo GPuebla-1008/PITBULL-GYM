@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../core/utils/pwa_installer.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../core/services/auth_service.dart';
 import '../../core/services/validation_service.dart';
 import '../../core/theme/app_theme.dart';
@@ -71,28 +71,14 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(height: 24),
                   ElevatedButton.icon(
-                    onPressed: () {
-                      final prompted = promptPwaInstall();
-                      
-                      if (!prompted) {
-                        showDialog(
-                          context: context,
-                          builder: (ctx) => AlertDialog(
-                            backgroundColor: AppTheme.charcoalBackground,
-                            title: Text('Instalación Manual', style: TextStyle(color: AppTheme.goldAccent)),
-                            content: Text(
-                              'Tu dispositivo no permite lanzar el instalador en este momento.\n\n'
-                              'Para descargar la PWA, abre el menú de tu navegador (los 3 puntos o Compartir) y selecciona "Instalar Aplicación" o "Agregar a Inicio".',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(ctx),
-                                child: Text('ENTENDIDO', style: TextStyle(color: AppTheme.goldAccent)),
-                              ),
-                            ],
-                          ),
-                        );
+                    onPressed: () async {
+                      final Uri url = Uri.parse('https://github.com/GPuebla-1008/PITBULL-GYM/releases/latest/download/app-release.apk');
+                      try {
+                        await launchUrl(url, mode: LaunchMode.externalNonBrowserApplication);
+                      } catch (e) {
+                         ScaffoldMessenger.of(context).showSnackBar(
+                           SnackBar(content: Text('No se pudo abrir el enlace de descarga.')),
+                         );
                       }
                     },
                     icon: Icon(Icons.download, color: Colors.black),
