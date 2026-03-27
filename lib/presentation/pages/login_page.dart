@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../core/utils/pwa_installer.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../core/services/auth_service.dart';
 import '../../core/services/validation_service.dart';
 import '../../core/theme/app_theme.dart';
@@ -25,6 +25,27 @@ class _LoginPageState extends State<LoginPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Credenciales incorrectas'),
+            backgroundColor: Colors.redAccent,
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _downloadAPK() async {
+    // ⚠️ ATENCIÓN: Reemplaza 'TU_USUARIO' por tu cuenta real (ej. GPuebla-1008) 
+    // y 'TU_REPO' por el nombre del proyecto (ej. PITBULL-GYM)
+    final Uri url = Uri.parse('https://github.com/TU_USUARIO/TU_REPO/releases/latest/download/app-release.apk');
+    
+    try {
+      if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+        throw Exception('No se pudo abrir el enlace de descarga.');
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error al iniciar la descarga. Verifica el enlace de GitHub.'),
             backgroundColor: Colors.redAccent,
           ),
         );
@@ -71,30 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(height: 24),
                   ElevatedButton.icon(
-                    onPressed: () {
-                      final prompted = promptPwaInstall();
-                      
-                      if (!prompted) {
-                        showDialog(
-                          context: context,
-                          builder: (ctx) => AlertDialog(
-                            backgroundColor: AppTheme.charcoalBackground,
-                            title: Text('Instalación Manual', style: TextStyle(color: AppTheme.goldAccent)),
-                            content: Text(
-                              'Tu dispositivo no permite lanzar la instalación directa (es posible que estés en iOS o falte HTTPS).\n\n'
-                              'Para descargar la aplicación, abre el menú de tu navegador (los 3 puntos en Android o "Compartir" en Safari) y selecciona "Agregar a la pantalla principal".',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () => Navigator.pop(ctx),
-                                child: Text('ENTENDIDO', style: TextStyle(color: AppTheme.goldAccent)),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                    },
+                    onPressed: _downloadAPK,
                     icon: Icon(Icons.download, color: Colors.black),
                     label: Text('Descargar App (Todos los Dispositivos)', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
                     style: ElevatedButton.styleFrom(
