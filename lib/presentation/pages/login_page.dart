@@ -34,17 +34,17 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _downloadAPK() async {
-    // 1. Detección Inteligente para iPhone/iOS
+    // 1. Detección Inteligente para iPhone/iPad/iOS
     // Ni Apple ni los iPhones permiten instalar archivos .apk
-    if (defaultTargetPlatform == TargetPlatform.iOS) {
+    if (defaultTargetPlatform == TargetPlatform.iOS || defaultTargetPlatform == TargetPlatform.macOS) {
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
           backgroundColor: AppTheme.charcoalBackground,
-          title: Text('Instalación en iPhone', style: TextStyle(color: AppTheme.goldAccent)),
+          title: Text('Instalación en Dispositivos Apple', style: TextStyle(color: AppTheme.goldAccent)),
           content: Text(
-            'Los teléfonos iPhone no admiten archivos .APK.\n\n'
-            'Para instalar esta aplicación en tu iPhone, simplemente toca el botón "Compartir" de Safari (el ícono cuadrado con una flecha hacia arriba) y selecciona "Agregar a Inicio".',
+            'Los dispositivos de Apple (iPhone/iPad) no admiten instaladores .APK.\n\n'
+            'Para usar PITBULL GYM como aplicación en tu pantalla, toca el botón "Compartir" (el ícono cuadrado inferior con una flecha hacia arriba) y selecciona "Agregar a Inicio".',
             style: TextStyle(color: Colors.white),
           ),
           actions: [
@@ -55,11 +55,11 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       );
-      return; // Detenemos la ejecución aquí para iOS
+      return; // Detenemos la ejecución aquí para dispositivos Apple
     }
 
-    // 2. Si es Android o PC, descargar el APK desde GitHub
-    final Uri url = Uri.parse('https://github.com/GPuebla-1008/PITBULL-GYM/releases/latest/download/app-release.apk');
+    // 2. Si es Android o PC, descargar el APK desde Firebase (evita el Error 404 de GitHub Privado)
+    final Uri url = Uri.parse('https://pitbull-gym-100889.web.app/app-release.apk');
     
     try {
       if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
