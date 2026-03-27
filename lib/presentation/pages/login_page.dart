@@ -58,8 +58,8 @@ class _LoginPageState extends State<LoginPage> {
       return; // Detenemos la ejecución aquí para iOS
     }
 
-    // 2. Si es Android o PC, descarga el APK directamente desde tu propio servidor Firebase
-    final Uri url = Uri.parse('https://pitbull-gym-100889.web.app/app-release.apk');
+    // 2. Si es Android o PC, descargar el APK desde GitHub
+    final Uri url = Uri.parse('https://github.com/GPuebla-1008/PITBULL-GYM/releases/latest/download/app-release.apk');
     
     try {
       if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
