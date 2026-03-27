@@ -6,6 +6,9 @@ on:
       - main
   workflow_dispatch: # Permite disparar la compilación manualmente desde GitHub Actions
 
+permissions:
+  contents: write
+
 jobs:
   build_android:
     name: Build Android APK
