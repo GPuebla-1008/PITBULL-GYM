@@ -1,0 +1,95 @@
+name: Build Flutter Apps (APK, EXE & iOS)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Permite disparar la compilación manualmente desde GitHub Actions
+
+jobs:
+  build_android:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Instalar Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Descargar dependencias
+        run: flutter pub get
+
+      - name: Analizar código
+        run: flutter analyze
+
+      - name: Compilar APK (Release)
+        run: flutter build apk --release
+
+      - name: Subir Artifact del APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: pitbull-gym-android-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+  build_windows:
+    name: Build Windows EXE
+    runs-on: windows-latest
+    steps:
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+
+      - name: Instalar Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Habilitar Windows Desktop
+        run: flutter config --enable-windows-desktop
+
+      - name: Descargar dependencias
+        run: flutter pub get
+
+      - name: Compilar Windows EXE (Release)
+        run: flutter build windows --release
+
+      - name: Subir Artifact de Windows (Zip/Carpeta)
+        uses: actions/upload-artifact@v4
+        with:
+          name: pitbull-gym-windows-exe
+          path: build/windows/x64/runner/Release/*
+
+  build_ios_skeleton:
+    name: Build iOS App (Esqueleto)
+    runs-on: macos-latest
+    steps:
+      - name: Checkout código fuente
+        uses: actions/checkout@v4
+
+      - name: Instalar Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Descargar dependencias
+        run: flutter pub get
+
+      - name: Configurar Pods (Dependencies Nativas iOS)
+        run: cd ios && pod install
+
+      - name: Construir aplicación iOS (Sin Firma Digital)
+        run: flutter build ios --release --no-codesign
+      
+      # ⚠️ ADVERTENCIA SOBRE iOS: 
+      # Para compilar e instalar un ".ipa" real en un iPhone físico (o subirlo a la App Store),
+      # necesitas importar de antemano el 'Provisioning Profile' y los Certificados (p12) de una cuenta de 
+      # desarrollador de Apple ($99/año). Debido a esto, aquí solo validamos que no tenga errores y genere el "Runner.app",
+      # pero el archivo no será instalable por personas normales hasta completar ese proceso.
