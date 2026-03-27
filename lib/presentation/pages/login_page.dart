@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../core/services/auth_service.dart';
@@ -33,9 +34,32 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _downloadAPK() async {
-    // ⚠️ ATENCIÓN: Reemplaza 'TU_USUARIO' por tu cuenta real (ej. GPuebla-1008) 
-    // y 'TU_REPO' por el nombre del proyecto (ej. PITBULL-GYM)
-    final Uri url = Uri.parse('https://github.com/TU_USUARIO/TU_REPO/releases/latest/download/app-release.apk');
+    // 1. Detección Inteligente para iPhone/iOS
+    // Ni Apple ni los iPhones permiten instalar archivos .apk
+    if (defaultTargetPlatform == TargetPlatform.iOS) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          backgroundColor: AppTheme.charcoalBackground,
+          title: Text('Instalación en iPhone', style: TextStyle(color: AppTheme.goldAccent)),
+          content: Text(
+            'Los teléfonos iPhone no admiten archivos .APK.\n\n'
+            'Para instalar esta aplicación en tu iPhone, simplemente toca el botón "Compartir" de Safari (el ícono cuadrado con una flecha hacia arriba) y selecciona "Agregar a Inicio".',
+            style: TextStyle(color: Colors.white),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx),
+              child: Text('ENTENDIDO', style: TextStyle(color: AppTheme.goldAccent)),
+            ),
+          ],
+        ),
+      );
+      return; // Detenemos la ejecución aquí para iOS
+    }
+
+    // 2. Si es Android o PC, descarga el APK directamente desde tu propio servidor Firebase
+    final Uri url = Uri.parse('https://pitbull-gym-100889.web.app/app-release.apk');
     
     try {
       if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
@@ -45,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error al iniciar la descarga. Verifica el enlace de GitHub.'),
+            content: Text('Error al procesar la descarga de la App.'),
             backgroundColor: Colors.redAccent,
           ),
         );
