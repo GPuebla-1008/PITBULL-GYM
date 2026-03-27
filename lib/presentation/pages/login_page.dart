@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../../core/utils/pwa_installer.dart';
 import '../../core/services/auth_service.dart';
 import '../../core/services/validation_service.dart';
 import '../../core/theme/app_theme.dart';
@@ -71,18 +71,32 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   SizedBox(height: 24),
                   ElevatedButton.icon(
-                    onPressed: () async {
-                      final Uri url = Uri.parse('https://github.com/GPuebla-1008/PITBULL-GYM/releases/latest/download/app-release.apk');
-                      try {
-                        await launchUrl(url, mode: LaunchMode.externalNonBrowserApplication);
-                      } catch (e) {
-                         ScaffoldMessenger.of(context).showSnackBar(
-                           SnackBar(content: Text('No se pudo abrir el enlace de descarga.')),
-                         );
+                    onPressed: () {
+                      final prompted = promptPwaInstall();
+                      
+                      if (!prompted) {
+                        showDialog(
+                          context: context,
+                          builder: (ctx) => AlertDialog(
+                            backgroundColor: AppTheme.charcoalBackground,
+                            title: Text('Instalación Manual', style: TextStyle(color: AppTheme.goldAccent)),
+                            content: Text(
+                              'Tu dispositivo no permite lanzar la instalación directa (es posible que estés en iOS o falte HTTPS).\n\n'
+                              'Para descargar la aplicación, abre el menú de tu navegador (los 3 puntos en Android o "Compartir" en Safari) y selecciona "Agregar a la pantalla principal".',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.pop(ctx),
+                                child: Text('ENTENDIDO', style: TextStyle(color: AppTheme.goldAccent)),
+                              ),
+                            ],
+                          ),
+                        );
                       }
                     },
                     icon: Icon(Icons.download, color: Colors.black),
-                    label: Text('Descargar APK / Instalar App', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                    label: Text('Descargar App (Todos los Dispositivos)', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppTheme.goldAccent,
                       minimumSize: Size(double.infinity, 50),
