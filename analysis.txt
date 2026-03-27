@@ -1,0 +1,28 @@
+﻿Resolving dependencies...
+Downloading packages...
+  google_fonts 6.3.3 (8.0.2 available)
+  intl 0.19.0 (0.20.2 available)
+  meta 1.17.0 (1.18.2 available)
+  test_api 0.7.10 (0.7.11 available)
+  vector_math 2.2.0 (2.3.0 available)
+Got dependencies!
+5 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+Analyzing PITBULL GYM2...                                       
+
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\core\theme\app_theme.dart:67:47 - deprecated_member_use
+   info - Constructors for public widgets should have a named 'key' parameter - lib\main.dart:48:7 - use_key_in_widget_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\main.dart:137:36 - deprecated_member_use
+warning - Unused import: '../../core/services/validation_service.dart' - lib\presentation\pages\login_page.dart:4:8 - unused_import
+   info - Constructors for public widgets should have a named 'key' parameter - lib\presentation\pages\login_page.dart:7:7 - use_key_in_widget_constructors
+   info - Invalid use of a private type in a public API - lib\presentation\pages\login_page.dart:9:3 - library_private_types_in_public_api
+  error - The getter 'neonGreen' isn't defined for the type 'AppTheme' - lib\presentation\pages\login_page.dart:106:48 - undefined_getter
+warning - Unused import: '../../core/theme/app_theme.dart' - lib\presentation\widgets\mercado_pago_button.dart:3:8 - unused_import
+   info - Constructors for public widgets should have a named 'key' parameter - lib\presentation\widgets\mercado_pago_button.dart:5:7 - use_key_in_widget_constructors
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\mercado_pago_button.dart:27:38 - deprecated_member_use
+   info - Constructors for public widgets should have a named 'key' parameter - lib\presentation\widgets\stopwatch_widget.dart:5:7 - use_key_in_widget_constructors
+   info - Invalid use of a private type in a public API - lib\presentation\widgets\stopwatch_widget.dart:7:3 - library_private_types_in_public_api
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\stopwatch_widget.dart:59:55 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\stopwatch_widget.dart:62:40 - deprecated_member_use
+   info - 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss - lib\presentation\widgets\stopwatch_widget.dart:119:24 - deprecated_member_use
+
