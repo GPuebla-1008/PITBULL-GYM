@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/services/auth_service.dart';
 import '../../core/services/validation_service.dart';
 import '../../core/theme/app_theme.dart';
-
+import 'package:universal_html/html.dart' as html;
 class LoginPage extends StatefulWidget {
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -62,8 +62,17 @@ class _LoginPageState extends State<LoginPage> {
     final Uri url = Uri.parse('https://pitbull-gym-100889.web.app/app-release.apk');
     
     try {
-      if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-        throw Exception('No se pudo abrir el enlace de descarga.');
+      if (kIsWeb) {
+        final html.AnchorElement anchor = html.AnchorElement(href: url.toString())
+          ..setAttribute('download', 'app-release.apk')
+          ..target = '_blank';
+        html.document.body?.append(anchor);
+        anchor.click();
+        anchor.remove();
+      } else {
+        if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+          throw Exception('No se pudo abrir el enlace de descarga.');
+        }
       }
     } catch (e) {
       if (mounted) {
