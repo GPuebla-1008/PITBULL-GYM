@@ -3,7 +3,10 @@
 
 name: Deploy to Firebase Hosting on merge
 on:
-  push:
+  workflow_run:
+    workflows: ["Build Flutter Apps (APK, EXE & iOS)"]
+    types:
+      - completed
     branches:
       - main
 jobs:
