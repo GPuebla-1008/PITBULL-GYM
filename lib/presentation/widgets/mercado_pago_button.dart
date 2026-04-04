@@ -27,7 +27,7 @@ class MercadoPagoButton extends StatefulWidget {
 }
 
 class _MercadoPagoButtonState extends State<MercadoPagoButton> {
-  static const String _workerBase = 'https://pitbull-gym-checkout.workers.dev';
+  static const String _workerBase = 'https://pitbull-gym-checkout.pitbullgym.workers.dev';
   static const String _alias = 'pitbullgym';
 
   bool _loading = false;
