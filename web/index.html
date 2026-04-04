@@ -1,46 +1,418 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!--
-    If you are serving your web app in a path other than the root, change the
-    href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
-  -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="PITBULL GYM - Gestión de Entrenamiento Premium">
 
-  <!-- iOS meta tags & icons -->
+  <!-- PWA & iOS meta -->
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="pitbull_gym_pwa">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PITBULL GYM">
+  <meta name="theme-color" content="#CCFF00">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="apple-touch-startup-image" href="icons/Icon-512.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>pitbull_gym_pwa</title>
+  <title>PITBULL GYM</title>
   <link rel="manifest" href="manifest.json">
+
+  <style>
+    /* ───── Floating Install Button ───── */
+    #pwa-install-btn {
+      display: none;
+      position: fixed;
+      bottom: 28px;
+      right: 20px;
+      z-index: 9999;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 22px;
+      background: linear-gradient(135deg, #CCFF00 0%, #A8D600 100%);
+      color: #121212;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: 0.5px;
+      border: none;
+      border-radius: 50px;
+      box-shadow:
+        0 4px 24px rgba(204, 255, 0, 0.45),
+        0 2px 8px rgba(0,0,0,0.35);
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
+      animation: pwa-bounce-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      text-transform: uppercase;
+    }
+
+    #pwa-install-btn:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow:
+        0 8px 32px rgba(204, 255, 0, 0.55),
+        0 4px 12px rgba(0,0,0,0.4);
+    }
+
+    #pwa-install-btn:active {
+      transform: translateY(0) scale(0.97);
+    }
+
+    #pwa-install-btn svg {
+      flex-shrink: 0;
+    }
+
+    @keyframes pwa-bounce-in {
+      0%   { opacity: 0; transform: translateY(40px) scale(0.8); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ───── Installing Overlay ───── */
+    #pwa-installing-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: rgba(18, 18, 18, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      animation: pwa-fade-in 0.3s ease forwards;
+    }
+
+    #pwa-installing-overlay .pwa-spinner {
+      width: 64px;
+      height: 64px;
+      border: 4px solid rgba(204, 255, 0, 0.2);
+      border-top-color: #CCFF00;
+      border-radius: 50%;
+      animation: pwa-spin 0.8s linear infinite;
+    }
+
+    #pwa-installing-overlay .pwa-installing-text {
+      color: #CCFF00;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    #pwa-installing-overlay .pwa-installing-sub {
+      color: rgba(255,255,255,0.55);
+      font-size: 14px;
+      text-align: center;
+      max-width: 260px;
+      line-height: 1.5;
+    }
+
+    @keyframes pwa-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pwa-fade-in {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ───── iOS Modal ───── */
+    #ios-modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 99998;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: env(safe-area-inset-bottom, 20px);
+      animation: pwa-fade-in 0.25s ease forwards;
+    }
+
+    #ios-modal {
+      background: #1E1E1E;
+      border-radius: 24px 24px 0 0;
+      padding: 28px 24px 36px;
+      width: 100%;
+      max-width: 480px;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      animation: pwa-slide-up 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      border-top: 2px solid rgba(204,255,0,0.3);
+    }
+
+    @keyframes pwa-slide-up {
+      from { transform: translateY(100%); }
+      to   { transform: translateY(0); }
+    }
+
+    #ios-modal .ios-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    #ios-modal .ios-modal-title {
+      color: #CCFF00;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    #ios-modal-close {
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    #ios-modal-close:hover { background: rgba(255,255,255,0.2); }
+
+    #ios-modal .ios-modal-step {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    #ios-modal .ios-modal-step:last-of-type { border-bottom: none; }
+
+    #ios-modal .ios-step-num {
+      background: #CCFF00;
+      color: #121212;
+      font-weight: 800;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    #ios-modal .ios-step-text {
+      color: rgba(255,255,255,0.85);
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    #ios-modal .ios-step-text strong {
+      color: #fff;
+    }
+
+    #ios-modal .ios-modal-footer {
+      margin-top: 20px;
+      text-align: center;
+      color: rgba(255,255,255,0.4);
+      font-size: 12px;
+    }
+  </style>
 </head>
 <body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
-
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
+  <!-- ─── Flutter App ─── -->
   <script src="flutter_bootstrap.js" async></script>
+
+  <!-- ─── Floating Install Button ─── -->
+  <button id="pwa-install-btn" aria-label="Instalar aplicación PITBULL GYM">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    Instalar App
+  </button>
+
+  <!-- ─── Installing Overlay ─── -->
+  <div id="pwa-installing-overlay" role="status" aria-live="polite">
+    <div class="pwa-spinner"></div>
+    <div class="pwa-installing-text">Instalando…</div>
+    <div class="pwa-installing-sub">Agregando PITBULL GYM a tu pantalla de inicio</div>
+  </div>
+
+  <!-- ─── iOS Modal ─── -->
+  <div id="ios-modal-backdrop" role="dialog" aria-modal="true" aria-label="Instrucciones de instalación iOS">
+    <div id="ios-modal">
+      <div class="ios-modal-header">
+        <span class="ios-modal-title">📲 Instalar en iPhone/iPad</span>
+        <button id="ios-modal-close" aria-label="Cerrar">✕</button>
+      </div>
+
+      <div class="ios-modal-step">
+        <div class="ios-step-num">1</div>
+        <div class="ios-step-text">
+          Tocá el botón <strong>Compartir</strong> 
+          <svg style="display:inline;vertical-align:middle;margin:0 3px" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#CCFF00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+          en la barra inferior del navegador Safari
+        </div>
+      </div>
+
+      <div class="ios-modal-step">
+        <div class="ios-step-num">2</div>
+        <div class="ios-step-text">
+          Deslizá hacia abajo y tocá <strong>"Añadir a pantalla de inicio"</strong>
+        </div>
+      </div>
+
+      <div class="ios-modal-step">
+        <div class="ios-step-num">3</div>
+        <div class="ios-step-text">
+          Confirmá tocando <strong>"Añadir"</strong> — la app aparecerá en tu pantalla
+        </div>
+      </div>
+
+      <div class="ios-modal-footer">
+        Disponible en Safari · iOS 12 o superior
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PWA Logic ─── -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* ── State ── */
+      var deferredPrompt = null;
+      var installBtn     = document.getElementById('pwa-install-btn');
+      var overlay        = document.getElementById('pwa-installing-overlay');
+      var iosBackdrop    = document.getElementById('ios-modal-backdrop');
+      var iosClose       = document.getElementById('ios-modal-close');
+
+      /* ── Helpers ── */
+      function isIOS() {
+        return /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+               (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      }
+
+      function isStandalone() {
+        return window.matchMedia('(display-mode: standalone)').matches ||
+               window.navigator.standalone === true;
+      }
+
+      function showBtn() {
+        installBtn.style.display = 'flex';
+      }
+
+      function hideBtn() {
+        installBtn.style.display = 'none';
+      }
+
+      function showOverlay() {
+        overlay.style.display = 'flex';
+      }
+
+      function hideOverlay() {
+        overlay.style.display = 'none';
+      }
+
+      function showIOSModal() {
+        iosBackdrop.style.display = 'flex';
+      }
+
+      function hideIOSModal() {
+        iosBackdrop.style.display = 'none';
+      }
+
+      /* ── Already installed? → hide button ── */
+      if (isStandalone()) {
+        return; // running in standalone mode — button never needed
+      }
+
+      /* ── iOS: show button always (no beforeinstallprompt) ── */
+      if (isIOS()) {
+        showBtn();
+        installBtn.textContent = ''; // clear, rebuild with icon
+        installBtn.innerHTML =
+          '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg> Instalar en iPhone';
+
+        installBtn.addEventListener('click', function () {
+          showIOSModal();
+        });
+      } else {
+        /* ── Android / Desktop Chrome: capture beforeinstallprompt ── */
+        window.addEventListener('beforeinstallprompt', function (e) {
+          e.preventDefault();
+          deferredPrompt = e;
+          showBtn();
+        });
+
+        installBtn.addEventListener('click', async function () {
+          if (!deferredPrompt) return;
+
+          // Show installing overlay
+          showOverlay();
+
+          try {
+            await deferredPrompt.prompt();
+            var result = await deferredPrompt.userChoice;
+
+            if (result.outcome === 'accepted') {
+              // Keep overlay until appinstalled fires
+              deferredPrompt = null;
+              hideBtn();
+            } else {
+              hideOverlay();
+            }
+          } catch (err) {
+            console.warn('PWA install error:', err);
+            hideOverlay();
+          }
+        });
+      }
+
+      /* ── appinstalled event ── */
+      window.addEventListener('appinstalled', function () {
+        hideOverlay();
+        hideBtn();
+        deferredPrompt = null;
+        console.log('PITBULL GYM installed successfully!');
+      });
+
+      /* ── iOS modal close ── */
+      iosClose.addEventListener('click', hideIOSModal);
+      iosBackdrop.addEventListener('click', function (e) {
+        if (e.target === iosBackdrop) hideIOSModal();
+      });
+
+      /* ── Public API for Flutter interop (optional) ── */
+      window.pitbullGymPWA = {
+        isInstalled:  isStandalone,
+        isIOS:        isIOS,
+        triggerInstall: function () { installBtn.click(); }
+      };
+
+      /* ── Register Service Worker ── */
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('flutter_service_worker.js', {
+            scope: '/'
+          }).then(function (reg) {
+            console.log('[SW] Registered, scope:', reg.scope);
+          }).catch(function (err) {
+            console.warn('[SW] Registration failed:', err);
+          });
+        });
+      }
+
+    })();
+  </script>
 </body>
 </html>
