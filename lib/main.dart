@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-// import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'core/services/firebase_config.dart';
 import 'core/theme/app_theme.dart';
-import 'core/services/auth_service.dart';
+import 'core/services/auth_provider.dart' as gym;
 import 'presentation/pages/login_page.dart';
 import 'presentation/widgets/stopwatch_widget.dart';
 import 'presentation/widgets/mercado_pago_button.dart';
@@ -11,12 +14,15 @@ import 'presentation/pages/routines_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
+  // Inicializar Firebase con las credenciales del proyecto pitbull-gym-100889
+  await Firebase.initializeApp(options: FirebaseConfig.webOptions);
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => AuthService()),
+        ChangeNotifierProvider(create: (_) => gym.AuthProvider()),
       ],
       child: const PitbullGymApp(),
     ),
@@ -29,161 +35,185 @@ class PitbullGymApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    
+
     return MaterialApp(
-      title: 'Pitbull Gym PWA',
+      title: 'PITBULL GYM',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeProvider.mode,
-      initialRoute: '/login',
+      // AuthGate decide la ruta inicial basándose en el estado de Firebase Auth
+      home: const AuthGate(),
       routes: {
-        '/login': (context) => LoginPage(),
-        '/dashboard': (context) => MainDashboard(),
+        '/login': (context) => const LoginPage(),
+        '/dashboard': (context) => const MainDashboard(),
       },
     );
   }
 }
 
+/// AuthGate: escucha el stream de Firebase Auth y redirige automáticamente.
+/// Si el usuario está autenticado → Dashboard. Si no → Login.
+class AuthGate extends StatelessWidget {
+  const AuthGate({super.key});
 
-// Mock dashboard to demonstrate the widgets
-class MainDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthService>(context);
-    final user = auth.currentUser;
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        // Cargando
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            backgroundColor: AppTheme.charcoalBackground,
+            body: Center(
+              child: CircularProgressIndicator(color: AppTheme.goldAccent),
+            ),
+          );
+        }
+        // Autenticado → Dashboard
+        if (snapshot.hasData) return const MainDashboard();
+        // No autenticado → Login
+        return const LoginPage();
+      },
+    );
+  }
+}
 
-    if (user == null) return LoginPage();
+// ── Dashboard Principal ────────────────────────────────────────────────────────
+class MainDashboard extends StatelessWidget {
+  const MainDashboard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final authProvider = Provider.of<gym.AuthProvider>(context);
+    final perfil = authProvider.perfil;
+    final firebaseUser = authProvider.firebaseUser;
+
+    // Protección extra: si no hay sesión, mandar al login
+    if (firebaseUser == null) return const LoginPage();
+
+    final displayName = perfil?.nombre ?? firebaseUser.email?.split('@').first ?? 'Atleta';
+    final inicial = displayName[0].toUpperCase();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(user.role == UserRole.admin ? 'ADMIN PANEL' : 'GESTOR DE CLASE'),
+        title: const Text('PITBULL GYM'),
         actions: [
           IconButton(
-            icon: Icon(Icons.brightness_6),
+            icon: const Icon(Icons.brightness_6),
             onPressed: () => Provider.of<ThemeProvider>(context, listen: false).toggleMode(),
           ),
           IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              Provider.of<AuthService>(context, listen: false).logout();
-              Navigator.of(context).pushReplacementNamed('/login');
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              await authProvider.logout();
+              if (context.mounted) Navigator.of(context).pushReplacementNamed('/login');
             },
           ),
         ],
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Header usuario
             Row(
               children: [
                 CircleAvatar(
+                  radius: 24,
                   backgroundColor: AppTheme.goldAccent,
-                  child: Text(user.username[0].toUpperCase(), style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                  child: Text(
+                    inicial,
+                    style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
+                  ),
                 ),
-                SizedBox(width: 12),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Hola, ${user.username}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                    Text('Rol: ${user.role.toString().split('.').last.toUpperCase()} | Tenant: ${user.tenantId}', style: TextStyle(fontSize: 12, color: Colors.white54)),
-                    SizedBox(height: 8),
-                    InkWell(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => MyAccountPage()));
-                      },
-                      child: Text('Mi Cuenta', style: TextStyle(color: AppTheme.goldAccent, decoration: TextDecoration.underline, fontWeight: FontWeight.bold)),
-                    ),
-                  ],
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Hola, $displayName 💪',
+                        style: GoogleFonts.outfit(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                      if (perfil != null)
+                        Text(
+                          'Objetivo: ${perfil.objetivo}',
+                          style: GoogleFonts.inter(fontSize: 12, color: Colors.white54),
+                        ),
+                      const SizedBox(height: 4),
+                      InkWell(
+                        onTap: () => Navigator.push(
+                          context, MaterialPageRoute(builder: (_) => MyAccountPage())),
+                        child: Text(
+                          'Mi Cuenta',
+                          style: GoogleFonts.inter(
+                            color: AppTheme.goldAccent,
+                            decoration: TextDecoration.underline,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-            SizedBox(height: 32),
-            _buildSectionHeader('SEGUIMIENTO DE CLASE'),
-            SizedBox(height: 16),
+            const SizedBox(height: 32),
+
+            _sectionHeader('SEGUIMIENTO DE CLASE'),
+            const SizedBox(height: 16),
             Center(
-              child: Image.asset(
-                'assets/images/logo.png',
-                height: 480, // Quadrupled logo size
-                fit: BoxFit.contain,
-              ),
+              child: Image.asset('assets/images/logo.png', height: 320, fit: BoxFit.contain),
             ),
-            SizedBox(height: 16),
-            StopwatchWidget(),
-            SizedBox(height: 48),
-            _buildSectionHeader('ENTRENAMIENTO'),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
+            const StopwatchWidget(),
+            const SizedBox(height: 48),
+
+            _sectionHeader('ENTRENAMIENTO'),
+            const SizedBox(height: 16),
             Card(
               child: ListTile(
                 leading: Icon(Icons.fitness_center, color: AppTheme.goldAccent, size: 36),
-                title: Text('MIS RUTINAS', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-                subtitle: Text('Principiante, Intermedio y Avanzado'),
+                title: Text('MIS RUTINAS', style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 18)),
+                subtitle: const Text('Principiante, Intermedio y Avanzado'),
                 trailing: Icon(Icons.arrow_forward_ios, color: AppTheme.goldAccent),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => RoutinesPage()));
-                },
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => RoutinesPage())),
               ),
             ),
-            SizedBox(height: 48),
-            _buildSectionHeader('SUSCRIPCIÓN'),
-            SizedBox(height: 16),
-            MercadoPagoButton(),
-            SizedBox(height: 48),
-            _buildSectionHeader('ENTIDADES (TENANT)'),
-            Card(
-              child: ListTile(
-                leading: Icon(Icons.fitness_center, color: AppTheme.goldAccent),
-                title: Text('HIIT AVANZADO', style: TextStyle(fontWeight: FontWeight.bold)),
-                subtitle: Text('ID del Tenant: ${user.tenantId}'),
-                trailing: user.role == UserRole.admin 
-                    ? Icon(Icons.edit, color: AppTheme.goldAccent) 
-                    : Icon(Icons.lock_outline, size: 16),
-              ),
-            ),
-            if (user.role == UserRole.admin) ...[
-              SizedBox(height: 20),
-              Card(
-                child: ListTile(
-                  leading: Icon(Icons.people, color: AppTheme.goldAccent),
-                  title: Text('GESTIÓN DE USUARIOS', style: TextStyle(fontWeight: FontWeight.bold)),
-                  subtitle: Text('Admin access enabled'),
-                  trailing: Icon(Icons.settings),
-                ),
-              ),
-            ],
-            SizedBox(height: 48),
-            _buildSectionHeader('CONTACTOS'),
-            SizedBox(height: 16),
-            Image.asset(
-              'assets/images/contacts.png',
-              width: double.infinity,
-              fit: BoxFit.contain,
-            ),
+            const SizedBox(height: 48),
+
+            _sectionHeader('SUSCRIPCIÓN'),
+            const SizedBox(height: 16),
+            const MercadoPagoButton(),
+            const SizedBox(height: 48),
+
+            _sectionHeader('CONTACTOS'),
+            const SizedBox(height: 16),
+            Image.asset('assets/images/contacts.png', width: double.infinity, fit: BoxFit.contain),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildSectionHeader(String title) {
-    return Text(
-      title,
-      style: TextStyle(
-        fontSize: 14,
-        fontWeight: FontWeight.bold,
-        color: AppTheme.goldAccent.withOpacity(0.8),
-        letterSpacing: 2,
-      ),
-    );
-  }
+  Widget _sectionHeader(String title) => Text(
+        title,
+        style: GoogleFonts.outfit(
+          fontSize: 13,
+          fontWeight: FontWeight.bold,
+          color: AppTheme.goldAccent.withOpacity(0.85),
+          letterSpacing: 2.5,
+        ),
+      );
 }
 
-
-// Basic Theme Manager
+// ── Theme Provider ────────────────────────────────────────────────────────────
 class ThemeProvider with ChangeNotifier {
-  ThemeMode _mode = ThemeMode.system;
+  ThemeMode _mode = ThemeMode.dark;
   ThemeMode get mode => _mode;
 
   void toggleMode() {
