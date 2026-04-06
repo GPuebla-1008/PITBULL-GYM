@@ -170,7 +170,7 @@ class MainDashboard extends StatelessWidget {
               child: Image.asset('assets/images/logo.png', height: 320, fit: BoxFit.contain),
             ),
             const SizedBox(height: 16),
-            const StopwatchWidget(),
+            StopwatchWidget(),
             const SizedBox(height: 48),
 
             _sectionHeader('ENTRENAMIENTO'),
@@ -188,7 +188,7 @@ class MainDashboard extends StatelessWidget {
 
             _sectionHeader('SUSCRIPCIÓN'),
             const SizedBox(height: 16),
-            const MercadoPagoButton(),
+            MercadoPagoButton(),
             const SizedBox(height: 48),
 
             _sectionHeader('CONTACTOS'),
