@@ -4,6 +4,7 @@ class UsuarioModel {
   final String uid;
   final String nombre;
   final String email;
+  final String documento;
   final String objetivo;
   final List<String> rutinasAsignadas;
   final String rol;
@@ -13,6 +14,7 @@ class UsuarioModel {
     required this.uid,
     required this.nombre,
     required this.email,
+    required this.documento,
     required this.objetivo,
     this.rutinasAsignadas = const [],
     this.rol = 'miembro',
@@ -25,6 +27,7 @@ class UsuarioModel {
       uid: doc.id,
       nombre: d['nombre'] ?? '',
       email: d['email'] ?? '',
+      documento: d['documento'] ?? '',
       objetivo: d['objetivo'] ?? '',
       rutinasAsignadas: List<String>.from(d['rutinas_asignadas'] ?? []),
       rol: d['rol'] ?? 'miembro',
@@ -35,6 +38,7 @@ class UsuarioModel {
   Map<String, dynamic> toFirestore() => {
         'nombre': nombre,
         'email': email,
+        'documento': documento,
         'objetivo': objetivo,
         'rutinas_asignadas': rutinasAsignadas,
         'rol': rol,

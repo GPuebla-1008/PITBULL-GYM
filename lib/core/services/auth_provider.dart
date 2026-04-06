@@ -52,10 +52,16 @@ class AuthProvider with ChangeNotifier {
   Future<bool> login(String email, String password) async {
     _errorMessage = null;
     try {
-      await _auth.signInWithEmailAndPassword(
+      final credential = await _auth.signInWithEmailAndPassword(
         email: email.trim(),
         password: password,
       );
+      if (credential.user != null && !credential.user!.emailVerified) {
+        _errorMessage = 'Debes verificar tu email antes de entrar. Revisa tu bandeja de entrada o correo no deseado.';
+        await _auth.signOut();
+        notifyListeners();
+        return false;
+      }
       return true;
     } on FirebaseAuthException catch (e) {
       _errorMessage = _traducirError(e.code);
@@ -69,6 +75,7 @@ class AuthProvider with ChangeNotifier {
     required String nombre,
     required String email,
     required String password,
+    required String documento,
     required String objetivo,
   }) async {
     _errorMessage = null;
@@ -82,17 +89,22 @@ class AuthProvider with ChangeNotifier {
       // Actualizar displayName en Firebase Auth
       await user.updateDisplayName(nombre);
 
-      // Crear documento en Firestore /usuarios/{uid}
       final perfil = UsuarioModel(
         uid: user.uid,
         nombre: nombre,
         email: email.trim(),
+        documento: documento,
         objetivo: objetivo,
         rutinasAsignadas: [],
         rol: 'miembro',
         fechaRegistro: DateTime.now(),
       );
       await _db.collection('usuarios').doc(user.uid).set(perfil.toFirestore());
+      
+      // Enviar email de verificación y cerrar sesión temporalmente
+      await user.sendEmailVerification();
+      await _auth.signOut();
+
       return true;
     } on FirebaseAuthException catch (e) {
       _errorMessage = _traducirError(e.code);

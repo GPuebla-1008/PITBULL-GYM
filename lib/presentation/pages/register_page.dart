@@ -15,6 +15,7 @@ class _RegisterPageState extends State<RegisterPage>
   final _formKey = GlobalKey<FormState>();
   final _nombreCtrl = TextEditingController();
   final _emailCtrl = TextEditingController();
+  final _documentoCtrl = TextEditingController();
   final _passCtrl = TextEditingController();
   final _confirmCtrl = TextEditingController();
   bool _obscure = true;
@@ -47,6 +48,7 @@ class _RegisterPageState extends State<RegisterPage>
     _anim.dispose();
     _nombreCtrl.dispose();
     _emailCtrl.dispose();
+    _documentoCtrl.dispose();
     _passCtrl.dispose();
     _confirmCtrl.dispose();
     super.dispose();
@@ -60,6 +62,7 @@ class _RegisterPageState extends State<RegisterPage>
       nombre: _nombreCtrl.text.trim(),
       email: _emailCtrl.text.trim(),
       password: _passCtrl.text,
+      documento: _documentoCtrl.text.trim(),
       objetivo: _objetivo,
     );
     if (!mounted) return;
@@ -67,13 +70,14 @@ class _RegisterPageState extends State<RegisterPage>
     if (ok) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('¡Cuenta creada! Bienvenido a PITBULL GYM 💪'),
+          content: const Text('¡Cuenta creada! Revisa tu email (o carpeta de spam) para verificarla'),
           backgroundColor: Colors.green.shade700,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          duration: const Duration(seconds: 6),
         ),
       );
-      Navigator.of(context).pushReplacementNamed('/dashboard');
+      Navigator.of(context).pop();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -143,6 +147,18 @@ class _RegisterPageState extends State<RegisterPage>
                       icon: Icons.person_outline,
                       validator: (v) => (v == null || v.trim().isEmpty)
                           ? 'Ingresá tu nombre'
+                          : null,
+                    ),
+                    const SizedBox(height: 14),
+
+                    // Documento
+                    _buildField(
+                      controller: _documentoCtrl,
+                      label: 'Número de Documento (DNI)',
+                      icon: Icons.badge_outlined,
+                      keyboardType: TextInputType.number,
+                      validator: (v) => (v == null || v.trim().isEmpty)
+                          ? 'Ingresá tu documento'
                           : null,
                     ),
                     const SizedBox(height: 14),

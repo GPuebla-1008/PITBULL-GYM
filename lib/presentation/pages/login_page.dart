@@ -163,27 +163,42 @@ class _LoginPageState extends State<LoginPage>
                     ),
                     const SizedBox(height: 24),
 
-                    // Link a registro
+                    // Separador
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('¿No tenés cuenta? ', style: GoogleFonts.inter(color: Colors.white54)),
-                        GestureDetector(
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => const RegisterPage()),
-                          ),
-                          child: Text(
-                            'Registrate',
-                            style: GoogleFonts.inter(
-                              color: AppTheme.goldAccent,
-                              fontWeight: FontWeight.bold,
-                              decoration: TextDecoration.underline,
-                              decorationColor: AppTheme.goldAccent,
-                            ),
+                        Expanded(child: Divider(color: Colors.white24, thickness: 1)),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Text('O', style: GoogleFonts.inter(color: Colors.white54, fontSize: 13)),
+                        ),
+                        Expanded(child: Divider(color: Colors.white24, thickness: 1)),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Botón Crear Cuenta
+                    SizedBox(
+                      width: double.infinity,
+                      height: 56,
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => const RegisterPage()),
+                        ),
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: AppTheme.goldAccent, width: 2),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                        ),
+                        child: Text(
+                          'CREAR CUENTA',
+                          style: GoogleFonts.outfit(
+                            fontWeight: FontWeight.w900,
+                            fontSize: 16,
+                            letterSpacing: 2,
+                            color: AppTheme.goldAccent,
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
