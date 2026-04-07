@@ -220,20 +220,20 @@ class _RutinaAdaptacionPageState extends State<RutinaAdaptacionPage> with Ticker
                   style: GoogleFonts.outfit(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 const SizedBox(height: 12),
-                Row(
+                Wrap(
+                  spacing: 8.0,
+                  runSpacing: 8.0,
                   children: [
                     Chip(
                       label: Text(ej.tipo, style: TextStyle(fontSize: 12)),
                       backgroundColor: Colors.black38,
                       side: BorderSide(color: AppTheme.electricOrange),
                     ),
-                    const SizedBox(width: 8),
                     Chip(
                       label: Text(ej.seriesReps, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
                       backgroundColor: AppTheme.goldAccent.withOpacity(0.2),
                       side: BorderSide(color: AppTheme.goldAccent),
                     ),
-                    const SizedBox(width: 8),
                     Chip(
                       avatar: Icon(Icons.timer, size: 14, color: Colors.white),
                       label: Text(ej.descanso, style: TextStyle(fontSize: 12)),
