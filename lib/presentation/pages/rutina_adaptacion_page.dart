@@ -202,13 +202,9 @@ class _RutinaAdaptacionPageState extends State<RutinaAdaptacionPage> with Ticker
             child: Container(
               color: Colors.white, // Fondo blanco para GIFs transparentes
               height: 180,
-              child: Image.network(
+              child: Image.asset(
                 ej.urlGif,
                 fit: BoxFit.contain,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return const Center(child: CircularProgressIndicator(color: AppTheme.goldAccent));
-                },
                 errorBuilder: (context, error, stackTrace) => 
                     const Icon(Icons.fitness_center, size: 50, color: Colors.black26),
               ),

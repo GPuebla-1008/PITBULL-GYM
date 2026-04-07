@@ -285,10 +285,9 @@ class MainDashboard extends StatelessWidget {
                               child: Stack(
                                 fit: StackFit.expand,
                                 children: [
-                                  Image.network(
+                                  Image.asset(
                                     ej.urlGif,
                                     fit: BoxFit.contain,
-                                    loadingBuilder: (c, child, p) => p == null ? child : const Center(child: CircularProgressIndicator(color: AppTheme.electricOrange)),
                                     errorBuilder: (c,e,s) => const Icon(Icons.fitness_center, color: Colors.grey, size: 40),
                                   ),
                                   if (ej.isCompleted)
