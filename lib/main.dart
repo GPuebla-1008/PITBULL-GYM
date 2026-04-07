@@ -286,10 +286,10 @@ class MainDashboard extends StatelessWidget {
                                 fit: StackFit.expand,
                                 children: [
                                   Image.network(
-                                    ej.urlGif,
+                                    'https://api.allorigins.win/raw?url=\${Uri.encodeComponent(ej.urlGif)}',
                                     fit: BoxFit.contain,
-                                    loadingBuilder: (c, child, p) => p == null ? child : const Center(child: CircularProgressIndicator()),
-                                    errorBuilder: (c,e,s) => const Icon(Icons.fitness_center, color: Colors.grey),
+                                    loadingBuilder: (c, child, p) => p == null ? child : const Center(child: CircularProgressIndicator(color: AppTheme.electricOrange)),
+                                    errorBuilder: (c,e,s) => const Icon(Icons.fitness_center, color: Colors.grey, size: 40),
                                   ),
                                   if (ej.isCompleted)
                                     Container(
