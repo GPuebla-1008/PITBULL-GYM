@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  static const Color charcoalBackground = Color(0xFF333333);
+  // Ajustado para coincidir exactamente con el fondo de logo.png (#363B3E)
+  static const Color charcoalBackground = Color(0xFF363B3E);
   static const Color goldAccent = Color(0xFFFFB300);
   static const Color deepBlack = Color(0xFF000000);
   static const Color warmGrey = Color(0xFF424242);
