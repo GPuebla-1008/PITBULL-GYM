@@ -10,6 +10,7 @@ import 'presentation/pages/login_page.dart';
 import 'presentation/widgets/stopwatch_widget.dart';
 import 'presentation/pages/my_account_page.dart';
 import 'presentation/pages/routines_page.dart';
+import 'presentation/pages/payment_info_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -181,6 +182,19 @@ class MainDashboard extends StatelessWidget {
                 subtitle: const Text('Principiante, Intermedio y Avanzado'),
                 trailing: Icon(Icons.arrow_forward_ios, color: AppTheme.goldAccent),
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => RoutinesPage())),
+              ),
+            ),
+            const SizedBox(height: 48),
+
+            _sectionHeader('SUSCRIPCIÓN'),
+            const SizedBox(height: 16),
+            Card(
+              child: ListTile(
+                leading: Icon(Icons.payment, color: AppTheme.goldAccent, size: 36),
+                title: Text('PAGAR CUOTA', style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 18)),
+                subtitle: const Text('Realizar transferencia (Alias)'),
+                trailing: Icon(Icons.arrow_forward_ios, color: AppTheme.goldAccent),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PaymentInfoPage())),
               ),
             ),
             const SizedBox(height: 48),
