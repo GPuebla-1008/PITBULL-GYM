@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
+import 'rutina_adaptacion_page.dart';
 
 class Routine {
   final String title;
@@ -132,9 +133,13 @@ class _RoutinesPageState extends State<RoutinesPage> with SingleTickerProviderSt
                     SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Iniciando rutina: \${routine.title}')),
-                        );
+                        if (routine.title == 'Full Body Adaptación') {
+                          Navigator.push(context, MaterialPageRoute(builder: (_) => const RutinaAdaptacionPage()));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Iniciando rutina: ${routine.title}')),
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.charcoalBackground,

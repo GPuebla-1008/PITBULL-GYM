@@ -7,6 +7,7 @@ import 'core/services/firebase_config.dart';
 import 'core/theme/app_theme.dart';
 import 'core/services/auth_provider.dart' as gym;
 import 'core/services/admin_provider.dart';
+import 'core/services/workout_provider.dart';
 import 'presentation/pages/login_page.dart';
 import 'presentation/widgets/stopwatch_widget.dart';
 import 'presentation/pages/my_account_page.dart';
@@ -26,6 +27,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => gym.AuthProvider()),
         ChangeNotifierProvider(create: (_) => AdminProvider()),
+        ChangeNotifierProvider(create: (_) => WorkoutProvider()),
       ],
       child: const PitbullGymApp(),
     ),
@@ -174,6 +176,8 @@ class MainDashboard extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             StopwatchWidget(),
+            const SizedBox(height: 16),
+            _buildRutinaActiva(context),
             const SizedBox(height: 48),
 
             _sectionHeader('ENTRENAMIENTO'),
@@ -229,6 +233,100 @@ class MainDashboard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildRutinaActiva(BuildContext context) {
+    final workout = Provider.of<WorkoutProvider>(context);
+    final rutina = workout.rutinaActiva;
+    
+    if (rutina == null) return const SizedBox.shrink();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Center(
+          child: Text(
+            'RUTINA ACTIVA: ${rutina.nombreDia.toUpperCase()}',
+            style: GoogleFonts.outfit(color: AppTheme.electricOrange, fontWeight: FontWeight.bold, fontSize: 16, letterSpacing: 1),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Container(
+          height: 250, // Carrusel horizontal
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: rutina.ejercicios.length,
+            itemBuilder: (ctx, i) {
+              final ej = rutina.ejercicios[i];
+              return Container(
+                width: 200,
+                margin: const EdgeInsets.only(right: 16),
+                child: Card(
+                  color: ej.isCompleted ? Colors.green.withOpacity(0.1) : AppTheme.warmGrey,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      color: ej.isCompleted ? Colors.green : AppTheme.electricOrange.withOpacity(0.5), 
+                      width: ej.isCompleted ? 2 : 1
+                    ),
+                    borderRadius: BorderRadius.circular(16)
+                  ),
+                  child: InkWell(
+                    onTap: () => workout.toggleEjercicio(i),
+                    borderRadius: BorderRadius.circular(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                            child: Container(
+                              color: Colors.white,
+                              child: Stack(
+                                fit: StackFit.expand,
+                                children: [
+                                  Image.network(
+                                    ej.urlGif,
+                                    fit: BoxFit.contain,
+                                    loadingBuilder: (c, child, p) => p == null ? child : const Center(child: CircularProgressIndicator()),
+                                    errorBuilder: (c,e,s) => const Icon(Icons.fitness_center, color: Colors.grey),
+                                  ),
+                                  if (ej.isCompleted)
+                                    Container(
+                                      color: Colors.green.withOpacity(0.4),
+                                      child: const Icon(Icons.check_circle, color: Colors.white, size: 60),
+                                    )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(ej.nombre, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white), maxLines: 1, overflow: TextOverflow.ellipsis),
+                              const SizedBox(height: 4),
+                              Text('${ej.seriesReps} • Descanso: ${ej.descanso}', style: const TextStyle(color: Colors.white70, fontSize: 11)),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        const SizedBox(height: 16),
+        ElevatedButton(
+          onPressed: () => workout.finalizarSesion(),
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent, foregroundColor: Colors.white),
+          child: const Text('FINALIZAR ENTRENAMIENTO'),
+        ),
+      ],
     );
   }
 

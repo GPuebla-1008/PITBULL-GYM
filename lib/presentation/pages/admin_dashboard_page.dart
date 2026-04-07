@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../core/services/admin_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/models/usuario_model.dart';
+import '../../core/services/seed_rutinas_service.dart';
 
 class AdminDashboardPage extends StatefulWidget {
   const AdminDashboardPage({super.key});
@@ -87,6 +88,13 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
       appBar: AppBar(
         title: const Text('PANEL DE CONTROL'),
         backgroundColor: Colors.transparent,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.cloud_upload, color: Colors.blueAccent),
+            tooltip: 'Sembrar Rutinas',
+            onPressed: () => SeedRutinasService.inyectarDatos(context),
+          ),
+        ],
       ),
       body: admin.loading
           ? const Center(child: CircularProgressIndicator(color: AppTheme.goldAccent))
