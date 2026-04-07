@@ -22,6 +22,7 @@ class _RegisterPageState extends State<RegisterPage>
   bool _obscureConfirm = true;
   bool _loading = false;
   String _objetivo = 'Ganar músculo';
+  int _diaPago = 10;
   late AnimationController _anim;
   late Animation<double> _fadeIn;
 
@@ -34,6 +35,8 @@ class _RegisterPageState extends State<RegisterPage>
     'Rehabilitación',
     'Bienestar general',
   ];
+
+  static const List<int> _diasPago = [1, 5, 10, 15, 20];
 
   @override
   void initState() {
@@ -64,6 +67,7 @@ class _RegisterPageState extends State<RegisterPage>
       password: _passCtrl.text,
       documento: _documentoCtrl.text.trim(),
       objetivo: _objetivo,
+      diaPagoFijo: _diaPago,
     );
     if (!mounted) return;
     setState(() => _loading = false);
@@ -202,6 +206,34 @@ class _RegisterPageState extends State<RegisterPage>
                           .map((o) => DropdownMenuItem(value: o, child: Text(o)))
                           .toList(),
                       onChanged: (v) => setState(() => _objetivo = v!),
+                    ),
+                    const SizedBox(height: 14),
+
+                    // Día de Pago (Dropdown)
+                    DropdownButtonFormField<int>(
+                      value: _diaPago,
+                      decoration: InputDecoration(
+                        labelText: 'Día de Pago Fijo (Mes)',
+                        prefixIcon: Icon(Icons.calendar_month_outlined, color: AppTheme.goldAccent),
+                        filled: true,
+                        fillColor: Colors.black26,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14),
+                          borderSide: BorderSide(color: AppTheme.goldAccent, width: 2),
+                        ),
+                        labelStyle: TextStyle(color: AppTheme.goldAccent.withOpacity(0.7)),
+                      ),
+                      dropdownColor: AppTheme.warmGrey,
+                      style: const TextStyle(color: Colors.white),
+                      iconEnabledColor: AppTheme.goldAccent,
+                      items: _diasPago
+                          .map((d) => DropdownMenuItem(value: d, child: Text('Día $d de cada mes')))
+                          .toList(),
+                      onChanged: (v) => setState(() => _diaPago = v!),
                     ),
                     const SizedBox(height: 14),
 

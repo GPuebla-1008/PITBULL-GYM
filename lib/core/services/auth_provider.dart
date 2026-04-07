@@ -77,6 +77,7 @@ class AuthProvider with ChangeNotifier {
     required String password,
     required String documento,
     required String objetivo,
+    required int diaPagoFijo,
   }) async {
     _errorMessage = null;
     try {
@@ -95,6 +96,7 @@ class AuthProvider with ChangeNotifier {
         email: email.trim(),
         documento: documento,
         objetivo: objetivo,
+        diaPagoFijo: diaPagoFijo,
         rutinasAsignadas: [],
         rol: 'miembro',
         fechaRegistro: DateTime.now(),

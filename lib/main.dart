@@ -6,11 +6,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'core/services/firebase_config.dart';
 import 'core/theme/app_theme.dart';
 import 'core/services/auth_provider.dart' as gym;
+import 'core/services/admin_provider.dart';
 import 'presentation/pages/login_page.dart';
 import 'presentation/widgets/stopwatch_widget.dart';
 import 'presentation/pages/my_account_page.dart';
 import 'presentation/pages/routines_page.dart';
 import 'presentation/pages/payment_info_page.dart';
+import 'presentation/pages/admin_dashboard_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +25,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
         ChangeNotifierProvider(create: (_) => gym.AuthProvider()),
+        ChangeNotifierProvider(create: (_) => AdminProvider()),
       ],
       child: const PitbullGymApp(),
     ),
@@ -202,6 +205,27 @@ class MainDashboard extends StatelessWidget {
             _sectionHeader('CONTACTOS'),
             const SizedBox(height: 16),
             Image.asset('assets/images/contacts.png', width: double.infinity, fit: BoxFit.contain),
+            const SizedBox(height: 48),
+
+            if (perfil != null && perfil.rol == 'admin') ...[
+              _sectionHeader('ADMINISTRACIÓN (Solo Dueños)'),
+              const SizedBox(height: 16),
+              Card(
+                color: Colors.redAccent.withOpacity(0.1),
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(color: Colors.redAccent, width: 1.5),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: ListTile(
+                  leading: const Icon(Icons.admin_panel_settings, color: Colors.redAccent, size: 36),
+                  title: Text('GESTOR DE SOCIOS', style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white)),
+                  subtitle: const Text('Control de pagos y deudores', style: TextStyle(color: Colors.white70)),
+                  trailing: const Icon(Icons.arrow_forward_ios, color: Colors.redAccent),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AdminDashboardPage())),
+                ),
+              ),
+              const SizedBox(height: 48),
+            ],
           ],
         ),
       ),

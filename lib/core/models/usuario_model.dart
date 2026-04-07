@@ -9,6 +9,7 @@ class UsuarioModel {
   final List<String> rutinasAsignadas;
   final String rol;
   final DateTime fechaRegistro;
+  final int diaPagoFijo;
 
   UsuarioModel({
     required this.uid,
@@ -19,6 +20,7 @@ class UsuarioModel {
     this.rutinasAsignadas = const [],
     this.rol = 'miembro',
     required this.fechaRegistro,
+    this.diaPagoFijo = 10,
   });
 
   factory UsuarioModel.fromFirestore(DocumentSnapshot doc) {
@@ -32,6 +34,7 @@ class UsuarioModel {
       rutinasAsignadas: List<String>.from(d['rutinas_asignadas'] ?? []),
       rol: d['rol'] ?? 'miembro',
       fechaRegistro: (d['fecha_registro'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      diaPagoFijo: d['dia_pago_fijo'] ?? 10,
     );
   }
 
@@ -43,5 +46,6 @@ class UsuarioModel {
         'rutinas_asignadas': rutinasAsignadas,
         'rol': rol,
         'fecha_registro': Timestamp.fromDate(fechaRegistro),
+        'dia_pago_fijo': diaPagoFijo,
       };
 }
