@@ -203,7 +203,7 @@ class _RutinaAdaptacionPageState extends State<RutinaAdaptacionPage> with Ticker
               color: Colors.white, // Fondo blanco para GIFs transparentes
               height: 180,
               child: Image.network(
-                'https://api.allorigins.win/raw?url=\${Uri.encodeComponent(ej.urlGif)}',
+                ej.urlGif,
                 fit: BoxFit.contain,
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress == null) return child;
