@@ -52,15 +52,19 @@ class _RoutinesPageState extends State<RoutinesPage> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
+    final screenW = MediaQuery.of(context).size.width;
+    final isSmall = screenW < 380;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('RUTINAS DE ENTRENO'),
+        title: Text('RUTINAS DE ENTRENO', style: TextStyle(fontSize: isSmall ? 16 : 20)),
         bottom: TabBar(
           controller: _tabController,
           labelColor: AppTheme.goldAccent,
           unselectedLabelColor: Colors.white60,
           indicatorColor: AppTheme.goldAccent,
-          tabs: [
+          labelStyle: TextStyle(fontSize: isSmall ? 11 : 14, fontWeight: FontWeight.bold),
+          tabs: const [
             Tab(text: 'PRINCIPIANTE'),
             Tab(text: 'INTERMEDIO'),
             Tab(text: 'AVANZADO'),
@@ -79,13 +83,18 @@ class _RoutinesPageState extends State<RoutinesPage> with SingleTickerProviderSt
   }
 
   Widget _buildRoutineList(List<Routine> routines) {
+    final screenW = MediaQuery.of(context).size.width;
+    final screenH = MediaQuery.of(context).size.height;
+    final isSmall = screenW < 380;
+    final imgH = (screenH * 0.22).clamp(120.0, 200.0);
+
     return ListView.builder(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(isSmall ? 10 : 16),
       itemCount: routines.length,
       itemBuilder: (context, index) {
         final routine = routines[index];
         return Card(
-          margin: EdgeInsets.only(bottom: 16),
+          margin: EdgeInsets.only(bottom: isSmall ? 12 : 16),
           color: AppTheme.warmGrey,
           clipBehavior: Clip.antiAlias,
           child: Column(
@@ -93,7 +102,7 @@ class _RoutinesPageState extends State<RoutinesPage> with SingleTickerProviderSt
             children: [
               Image.asset(
                 routine.imagePath,
-                height: 180,
+                height: imgH,
                 fit: BoxFit.cover,
                 alignment: Alignment.center,
               ),

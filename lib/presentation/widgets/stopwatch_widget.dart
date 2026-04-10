@@ -51,8 +51,18 @@ class _StopwatchWidgetState extends State<StopwatchWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final screenW = MediaQuery.of(context).size.width;
+    // Scale font size based on screen width: small phones get smaller text
+    final timerFontSize = (screenW * 0.11).clamp(28.0, 52.0);
+    final labelFontSize = (screenW * 0.03).clamp(10.0, 13.0);
+    final buttonSize = (screenW * 0.12).clamp(40.0, 56.0);
+
     return Container(
-      padding: EdgeInsets.all(20),
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(
+        horizontal: screenW < 380 ? 12 : 20,
+        vertical: screenW < 380 ? 14 : 20,
+      ),
       decoration: BoxDecoration(
         color: AppTheme.warmGrey,
         borderRadius: BorderRadius.circular(24),
@@ -74,20 +84,23 @@ class _StopwatchWidgetState extends State<StopwatchWidget> {
               color: AppTheme.goldAccent,
               letterSpacing: 2,
               fontWeight: FontWeight.bold,
-              fontSize: 12,
+              fontSize: labelFontSize,
             ),
           ),
-          SizedBox(height: 10),
-          Text(
-            _formatTime(),
-            style: TextStyle(
-              fontSize: 48,
-              fontFamily: 'Courier',
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+          const SizedBox(height: 8),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              _formatTime(),
+              style: TextStyle(
+                fontSize: timerFontSize,
+                fontFamily: 'Courier',
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 14),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -95,12 +108,14 @@ class _StopwatchWidgetState extends State<StopwatchWidget> {
                 icon: _stopwatch.isRunning ? Icons.pause : Icons.play_arrow,
                 color: _stopwatch.isRunning ? AppTheme.electricOrange : AppTheme.goldAccent,
                 onPressed: _startStopwatch,
+                size: buttonSize,
               ),
-              SizedBox(width: 20),
+              SizedBox(width: screenW < 380 ? 14 : 20),
               _buildButton(
                 icon: Icons.refresh,
                 color: Colors.white,
                 onPressed: _resetStopwatch,
+                size: buttonSize,
               ),
             ],
           ),
@@ -109,18 +124,23 @@ class _StopwatchWidgetState extends State<StopwatchWidget> {
     );
   }
 
-  Widget _buildButton({required IconData icon, required Color color, required VoidCallback onPressed}) {
+  Widget _buildButton({
+    required IconData icon,
+    required Color color,
+    required VoidCallback onPressed,
+    required double size,
+  }) {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        height: 50,
-        width: 50,
+        height: size,
+        width: size,
         decoration: BoxDecoration(
           color: color.withOpacity(0.1),
           shape: BoxShape.circle,
           border: Border.all(color: color, width: 2),
         ),
-        child: Icon(icon, color: color, size: 24),
+        child: Icon(icon, color: color, size: size * 0.48),
       ),
     );
   }

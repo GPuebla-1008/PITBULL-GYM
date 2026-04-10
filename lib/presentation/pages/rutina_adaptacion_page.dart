@@ -41,11 +41,14 @@ class _RutinaAdaptacionPageState extends State<RutinaAdaptacionPage> with Ticker
   @override
   Widget build(BuildContext context) {
     final workout = context.watch<WorkoutProvider>();
+    final screenW = MediaQuery.of(context).size.width;
+    final screenH = MediaQuery.of(context).size.height;
+    final isSmall = screenW < 380;
 
     if (workout.loading) {
       return Scaffold(
         backgroundColor: AppTheme.charcoalBackground,
-        body: Center(child: CircularProgressIndicator(color: AppTheme.goldAccent)),
+        body: const Center(child: CircularProgressIndicator(color: AppTheme.goldAccent)),
       );
     }
 
@@ -62,7 +65,7 @@ class _RutinaAdaptacionPageState extends State<RutinaAdaptacionPage> with Ticker
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
             SliverAppBar(
-              expandedHeight: 250.0,
+              expandedHeight: (screenH * 0.28).clamp(160.0, 280.0),
               pinned: true,
               backgroundColor: AppTheme.deepBlack,
               flexibleSpace: FlexibleSpaceBar(
@@ -71,7 +74,8 @@ class _RutinaAdaptacionPageState extends State<RutinaAdaptacionPage> with Ticker
                   style: GoogleFonts.outfit(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    shadows: [Shadow(color: Colors.black54, blurRadius: 4)],
+                    fontSize: isSmall ? 14 : 18,
+                    shadows: [const Shadow(color: Colors.black54, blurRadius: 4)],
                   ),
                 ),
                 background: Stack(
@@ -101,30 +105,36 @@ class _RutinaAdaptacionPageState extends State<RutinaAdaptacionPage> with Ticker
             ),
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: EdgeInsets.symmetric(
+                  horizontal: isSmall ? 12 : 16,
+                  vertical: isSmall ? 12 : 16,
+                ),
                 child: Column(
                   children: [
                     Text(
                       'Configura tu frecuencia semanal',
-                      style: TextStyle(color: Colors.white70, fontSize: 16),
+                      style: TextStyle(color: Colors.white70, fontSize: isSmall ? 13 : 16),
                     ),
-                    const SizedBox(height: 16),
-                    SegmentedButton<String>(
-                      segments: const [
-                        ButtonSegment(value: '3 Días', label: Text('3 DÍAS / SEMANA')),
-                        ButtonSegment(value: '5 Días', label: Text('5 DÍAS / SEMANA')),
-                      ],
-                      selected: {_varianteSeleccionada},
-                      onSelectionChanged: (Set<String> newSelection) {
-                        setState(() {
-                          _varianteSeleccionada = newSelection.first;
-                        });
-                      },
-                      style: SegmentedButton.styleFrom(
-                        backgroundColor: AppTheme.warmGrey,
-                        selectedBackgroundColor: AppTheme.goldAccent,
-                        selectedForegroundColor: Colors.black,
-                        foregroundColor: Colors.white,
+                    const SizedBox(height: 12),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: SegmentedButton<String>(
+                        segments: const [
+                          ButtonSegment(value: '3 Días', label: Text('3 DÍAS / SEMANA')),
+                          ButtonSegment(value: '5 Días', label: Text('5 DÍAS / SEMANA')),
+                        ],
+                        selected: {_varianteSeleccionada},
+                        onSelectionChanged: (Set<String> newSelection) {
+                          setState(() {
+                            _varianteSeleccionada = newSelection.first;
+                          });
+                        },
+                        style: SegmentedButton.styleFrom(
+                          backgroundColor: AppTheme.warmGrey,
+                          selectedBackgroundColor: AppTheme.goldAccent,
+                          selectedForegroundColor: Colors.black,
+                          foregroundColor: Colors.white,
+                        ),
                       ),
                     ),
                   ],
@@ -141,6 +151,7 @@ class _RutinaAdaptacionPageState extends State<RutinaAdaptacionPage> with Ticker
                     labelColor: AppTheme.goldAccent,
                     unselectedLabelColor: Colors.white54,
                     indicatorColor: AppTheme.goldAccent,
+                    labelStyle: TextStyle(fontSize: isSmall ? 12 : 14),
                     tabs: rutinaData.dias.map((d) => Tab(text: d.nombreDia)).toList(),
                   ),
                 ),
@@ -155,17 +166,16 @@ class _RutinaAdaptacionPageState extends State<RutinaAdaptacionPage> with Ticker
                   return Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: EdgeInsets.all(isSmall ? 10 : 16),
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            // Cargar la rutina e ir al Dash!
                             context.read<WorkoutProvider>().iniciarSesion(dia, _varianteSeleccionada);
                             Navigator.popUntil(context, (route) => route.isFirst);
                           },
-                          icon: Icon(Icons.play_arrow_rounded, size: 28),
-                          label: Text('COMENZAR ESTE DÍA'),
+                          icon: const Icon(Icons.play_arrow_rounded, size: 28),
+                          label: Text('COMENZAR ESTE DÍA', style: TextStyle(fontSize: isSmall ? 13 : 15)),
                           style: ElevatedButton.styleFrom(
-                            minimumSize: Size(double.infinity, 50),
+                            minimumSize: const Size(double.infinity, 50),
                             backgroundColor: AppTheme.goldAccent,
                             foregroundColor: Colors.black,
                           ),
@@ -173,11 +183,11 @@ class _RutinaAdaptacionPageState extends State<RutinaAdaptacionPage> with Ticker
                       ),
                       Expanded(
                         child: ListView.builder(
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          padding: EdgeInsets.symmetric(horizontal: isSmall ? 10 : 16),
                           itemCount: dia.ejercicios.length,
                           itemBuilder: (ctx, i) {
                             final ej = dia.ejercicios[i];
-                            return _buildExerciseCard(ej);
+                            return _buildExerciseCard(ej, screenW, screenH);
                           },
                         ),
                       ),
@@ -189,19 +199,22 @@ class _RutinaAdaptacionPageState extends State<RutinaAdaptacionPage> with Ticker
     );
   }
 
-  Widget _buildExerciseCard(Ejercicio ej) {
+  Widget _buildExerciseCard(Ejercicio ej, double screenW, double screenH) {
+    final isSmall = screenW < 380;
+    final imgH = (screenH * 0.20).clamp(120.0, 200.0);
+
     return Card(
       color: AppTheme.warmGrey,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: EdgeInsets.only(bottom: isSmall ? 12 : 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
             child: Container(
               color: Colors.white, // Fondo blanco para GIFs transparentes
-              height: 180,
+              height: imgH,
               child: Image.asset(
                 ej.urlGif,
                 fit: BoxFit.contain,
@@ -211,34 +224,37 @@ class _RutinaAdaptacionPageState extends State<RutinaAdaptacionPage> with Ticker
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(isSmall ? 12 : 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   ej.nombre,
-                  style: GoogleFonts.outfit(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                  style: GoogleFonts.outfit(fontSize: isSmall ? 16 : 20, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 const SizedBox(height: 12),
                 Wrap(
-                  spacing: 8.0,
-                  runSpacing: 8.0,
+                  spacing: 6.0,
+                  runSpacing: 6.0,
                   children: [
                     Chip(
-                      label: Text(ej.tipo, style: TextStyle(fontSize: 12)),
+                      label: Text(ej.tipo, style: const TextStyle(fontSize: 11)),
                       backgroundColor: Colors.black38,
                       side: BorderSide(color: AppTheme.electricOrange),
+                      visualDensity: VisualDensity.compact,
                     ),
                     Chip(
-                      label: Text(ej.seriesReps, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+                      label: Text(ej.seriesReps, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
                       backgroundColor: AppTheme.goldAccent.withOpacity(0.2),
                       side: BorderSide(color: AppTheme.goldAccent),
+                      visualDensity: VisualDensity.compact,
                     ),
                     Chip(
-                      avatar: Icon(Icons.timer, size: 14, color: Colors.white),
-                      label: Text(ej.descanso, style: TextStyle(fontSize: 12)),
+                      avatar: const Icon(Icons.timer, size: 14, color: Colors.white),
+                      label: Text(ej.descanso, style: const TextStyle(fontSize: 11)),
                       backgroundColor: Colors.black38,
                       side: BorderSide.none,
+                      visualDensity: VisualDensity.compact,
                     ),
                   ],
                 ),

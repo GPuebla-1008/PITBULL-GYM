@@ -36,81 +36,88 @@ class PaymentInfoPage extends StatelessWidget {
         ),
       ),
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppTheme.goldAccent.withOpacity(0.12),
-                  border: Border.all(color: AppTheme.goldAccent.withOpacity(0.3), width: 1.5),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 500),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppTheme.goldAccent.withOpacity(0.12),
+                    border: Border.all(color: AppTheme.goldAccent.withOpacity(0.3), width: 1.5),
+                  ),
+                  child: Icon(Icons.account_balance_wallet_outlined, color: AppTheme.goldAccent, size: 48),
                 ),
-                child: Icon(Icons.account_balance_wallet_outlined, color: AppTheme.goldAccent, size: 48),
-              ),
-              const SizedBox(height: 24),
-              Text(
-                'DATOS',
-                style: GoogleFonts.outfit(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w900,
-                  color: AppTheme.goldAccent,
-                  letterSpacing: 3,
+                const SizedBox(height: 24),
+                Text(
+                  'DATOS',
+                  style: GoogleFonts.outfit(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w900,
+                    color: AppTheme.goldAccent,
+                    letterSpacing: 3,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Transfiere tu cuota mensual al siguiente alias y envíanos el comprobante.',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.inter(color: Colors.white70, fontSize: 14),
-              ),
-              const SizedBox(height: 32),
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
-                decoration: BoxDecoration(
-                  color: AppTheme.warmGrey,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: Colors.white10),
+                const SizedBox(height: 16),
+                Text(
+                  'Transfiere tu cuota mensual al siguiente alias y envíanos el comprobante.',
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.inter(color: Colors.white70, fontSize: 14),
                 ),
-                child: Column(
-                  children: [
-                    Text(
-                      'ALIAS:',
-                      style: GoogleFonts.inter(
-                        color: Colors.white54,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 2,
+                const SizedBox(height: 32),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
+                  decoration: BoxDecoration(
+                    color: AppTheme.warmGrey,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(color: Colors.white10),
+                  ),
+                  child: Column(
+                    children: [
+                      Text(
+                        'ALIAS:',
+                        style: GoogleFonts.inter(
+                          color: Colors.white54,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 2,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      alias,
-                      style: GoogleFonts.outfit(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                      const SizedBox(height: 8),
+                      // Use FittedBox to scale down alias if it's too long for the screen
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          alias,
+                          style: GoogleFonts.outfit(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton.icon(
-                      onPressed: () => _copyAlias(context),
-                      icon: const Icon(Icons.copy, size: 18),
-                      label: const Text('COPIAR ALIAS'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppTheme.goldAccent,
-                        foregroundColor: Colors.black,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                        textStyle: GoogleFonts.outfit(fontWeight: FontWeight.bold, letterSpacing: 1),
+                      const SizedBox(height: 20),
+                      ElevatedButton.icon(
+                        onPressed: () => _copyAlias(context),
+                        icon: const Icon(Icons.copy, size: 18),
+                        label: const Text('COPIAR ALIAS'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.goldAccent,
+                          foregroundColor: Colors.black,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                          textStyle: GoogleFonts.outfit(fontWeight: FontWeight.bold, letterSpacing: 1),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

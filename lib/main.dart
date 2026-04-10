@@ -119,7 +119,10 @@ class MainDashboard extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+        padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width < 380 ? 16 : 24,
+          vertical: 24,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -172,7 +175,12 @@ class MainDashboard extends StatelessWidget {
             _sectionHeader('SEGUIMIENTO DE CLASE'),
             const SizedBox(height: 16),
             Center(
-              child: Image.asset('assets/images/logo.png', height: 320, fit: BoxFit.contain),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final logoH = (MediaQuery.of(context).size.height * 0.28).clamp(140.0, 280.0);
+                  return Image.asset('assets/images/logo.png', height: logoH, fit: BoxFit.contain);
+                },
+              ),
             ),
             const SizedBox(height: 16),
             StopwatchWidget(),
@@ -252,72 +260,80 @@ class MainDashboard extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        Container(
-          height: 250, // Carrusel horizontal
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: rutina.ejercicios.length,
-            itemBuilder: (ctx, i) {
-              final ej = rutina.ejercicios[i];
-              return Container(
-                width: 200,
-                margin: const EdgeInsets.only(right: 16),
-                child: Card(
-                  color: ej.isCompleted ? Colors.green.withOpacity(0.1) : AppTheme.warmGrey,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: ej.isCompleted ? Colors.green : AppTheme.electricOrange.withOpacity(0.5), 
-                      width: ej.isCompleted ? 2 : 1
-                    ),
-                    borderRadius: BorderRadius.circular(16)
-                  ),
-                  child: InkWell(
-                    onTap: () => workout.toggleEjercicio(i),
-                    borderRadius: BorderRadius.circular(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-                            child: Container(
-                              color: Colors.white,
-                              child: Stack(
-                                fit: StackFit.expand,
-                                children: [
-                                  Image.asset(
-                                    ej.urlGif,
-                                    fit: BoxFit.contain,
-                                    errorBuilder: (c,e,s) => const Icon(Icons.fitness_center, color: Colors.grey, size: 40),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final screenW = MediaQuery.of(context).size.width;
+            final cardW = (screenW * 0.60).clamp(160.0, 220.0);
+            final carouselH = (MediaQuery.of(context).size.height * 0.30).clamp(200.0, 280.0);
+            
+            return SizedBox(
+              height: carouselH,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: rutina.ejercicios.length,
+                itemBuilder: (ctx, i) {
+                  final ej = rutina.ejercicios[i];
+                  return Container(
+                    width: cardW,
+                    margin: const EdgeInsets.only(right: 12),
+                    child: Card(
+                      color: ej.isCompleted ? Colors.green.withOpacity(0.1) : AppTheme.warmGrey,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: ej.isCompleted ? Colors.green : AppTheme.electricOrange.withOpacity(0.5), 
+                          width: ej.isCompleted ? 2 : 1
+                        ),
+                        borderRadius: BorderRadius.circular(16)
+                      ),
+                      child: InkWell(
+                        onTap: () => workout.toggleEjercicio(i),
+                        borderRadius: BorderRadius.circular(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                                child: Container(
+                                  color: Colors.white,
+                                  child: Stack(
+                                    fit: StackFit.expand,
+                                    children: [
+                                      Image.asset(
+                                        ej.urlGif,
+                                        fit: BoxFit.contain,
+                                        errorBuilder: (c,e,s) => const Icon(Icons.fitness_center, color: Colors.grey, size: 40),
+                                      ),
+                                      if (ej.isCompleted)
+                                        Container(
+                                          color: Colors.green.withOpacity(0.4),
+                                          child: const Icon(Icons.check_circle, color: Colors.white, size: 60),
+                                        )
+                                    ],
                                   ),
-                                  if (ej.isCompleted)
-                                    Container(
-                                      color: Colors.green.withOpacity(0.4),
-                                      child: const Icon(Icons.check_circle, color: Colors.white, size: 60),
-                                    )
-                                ],
+                                ),
                               ),
                             ),
-                          ),
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(ej.nombre, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 13), maxLines: 1, overflow: TextOverflow.ellipsis),
+                                  const SizedBox(height: 3),
+                                  Text('${ej.seriesReps} • Descanso: ${ej.descanso}', style: const TextStyle(color: Colors.white70, fontSize: 10)),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(ej.nombre, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white), maxLines: 1, overflow: TextOverflow.ellipsis),
-                              const SizedBox(height: 4),
-                              Text('${ej.seriesReps} • Descanso: ${ej.descanso}', style: const TextStyle(color: Colors.white70, fontSize: 11)),
-                            ],
-                          ),
-                        )
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              );
-            },
-          ),
+                  );
+                },
+              ),
+            );
+          },
         ),
         const SizedBox(height: 16),
         ElevatedButton(

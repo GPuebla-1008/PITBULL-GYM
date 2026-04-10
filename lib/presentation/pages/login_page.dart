@@ -60,13 +60,19 @@ class _LoginPageState extends State<LoginPage>
 
   @override
   Widget build(BuildContext context) {
+    final screenW = MediaQuery.of(context).size.width;
+    final screenH = MediaQuery.of(context).size.height;
+    final isSmall = screenW < 380;
+    final logoH = (screenH * 0.22).clamp(100.0, 220.0);
+    final hPad = isSmall ? 20.0 : 28.0;
+
     return Scaffold(
       backgroundColor: AppTheme.charcoalBackground,
       body: FadeTransition(
         opacity: _fadeIn,
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(28, 48, 28, 100),
+            padding: EdgeInsets.fromLTRB(hPad, 32, hPad, 80),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 420),
               child: Form(
@@ -75,7 +81,7 @@ class _LoginPageState extends State<LoginPage>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Logo
-                    Image.asset('assets/images/logo.png', height: 220, fit: BoxFit.contain),
+                    Image.asset('assets/images/logo.png', height: logoH, fit: BoxFit.contain),
                     const SizedBox(height: 32),
 
                     // Título

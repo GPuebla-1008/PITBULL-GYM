@@ -96,6 +96,10 @@ class _RegisterPageState extends State<RegisterPage>
 
   @override
   Widget build(BuildContext context) {
+    final screenW = MediaQuery.of(context).size.width;
+    final isSmall = screenW < 380;
+    final hPad = isSmall ? 18.0 : 28.0;
+
     return Scaffold(
       backgroundColor: AppTheme.charcoalBackground,
       appBar: AppBar(
@@ -110,7 +114,7 @@ class _RegisterPageState extends State<RegisterPage>
         opacity: _fadeIn,
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.fromLTRB(28, 0, 28, 48),
+            padding: EdgeInsets.fromLTRB(hPad, 0, hPad, 48),
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 420),
               child: Form(
