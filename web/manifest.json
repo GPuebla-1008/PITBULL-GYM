@@ -2,6 +2,7 @@
     "name": "PITBULL GYM",
     "short_name": "PITBULL",
     "description": "PITBULL GYM - Gestión de Entrenamiento Premium",
+    "id": "/",
     "start_url": "/",
     "scope": "/",
     "display": "standalone",
