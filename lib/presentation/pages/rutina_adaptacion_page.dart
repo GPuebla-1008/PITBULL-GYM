@@ -161,6 +161,7 @@ class _RutinaAdaptacionPageState extends State<RutinaAdaptacionPage> with Ticker
         body: rutinaData.dias.isEmpty
             ? Center(child: Text("Rutina no disponible. Ingresa como Admin y siembra la base de datos.", style: TextStyle(color: Colors.white54), textAlign: TextAlign.center))
             : TabBarView(
+                key: ValueKey(rutinaData.dias.length),
                 controller: _tabController,
                 children: rutinaData.dias.map((dia) {
                   return Column(
@@ -287,6 +288,6 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return false;
+    return _tabBar != oldDelegate._tabBar || _tabBar.controller != oldDelegate._tabBar.controller;
   }
 }
