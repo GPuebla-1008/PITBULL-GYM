@@ -6,7 +6,8 @@ class Ejercicio {
   final String seriesReps; // ej: 3x12
   final String descanso; // ej: 90 seg
   final String urlGif;
-  bool isCompleted; // Para el estado local (no se guarda en la base general de la rutina)
+  final String instruccion; // Instrucción técnica breve
+  bool isCompleted; // Para el estado local (no se guarda base general)
 
   Ejercicio({
     required this.nombre,
@@ -14,6 +15,7 @@ class Ejercicio {
     required this.seriesReps,
     required this.descanso,
     required this.urlGif,
+    this.instruccion = '',
     this.isCompleted = false,
   });
 
@@ -24,6 +26,7 @@ class Ejercicio {
       seriesReps: map['series_reps'] ?? '',
       descanso: map['descanso'] ?? '',
       urlGif: map['url_gif'] ?? '',
+      instruccion: map['instruccion'] ?? '',
     );
   }
 
@@ -34,6 +37,7 @@ class Ejercicio {
       'series_reps': seriesReps,
       'descanso': descanso,
       'url_gif': urlGif,
+      'instruccion': instruccion,
     };
   }
 
@@ -45,6 +49,7 @@ class Ejercicio {
       seriesReps: seriesReps,
       descanso: descanso,
       urlGif: urlGif,
+      instruccion: instruccion,
       isCompleted: isCompleted ?? this.isCompleted,
     );
   }

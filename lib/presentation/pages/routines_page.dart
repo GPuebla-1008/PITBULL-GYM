@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
 import 'rutina_adaptacion_page.dart';
+import 'rutina_principiante_page.dart';
 
 class Routine {
   final String title;
@@ -22,7 +23,7 @@ class _RoutinesPageState extends State<RoutinesPage> with SingleTickerProviderSt
 
   final List<Routine> beginnerRoutines = [
     Routine(title: 'Full Body Adaptación', description: 'Rutina de 3 días para adaptar el cuerpo. Ejercicios básicos con peso corporal y máquinas.', imagePath: 'assets/images/beginner.png', duration: '45 min', level: 'Principiante'),
-    Routine(title: 'Tren Superior Básico', description: 'Enfoque en pecho, espalda y brazos para principiantes. Ideal para fuerza inicial.', imagePath: 'assets/images/beginner.png', duration: '50 min', level: 'Principiante'),
+    Routine(title: 'Rutina Principiante 3 Días', description: 'Enfoque en pecho, espalda, piernas y brazos para principiantes. Ideal con máquinas y mancuernas.', imagePath: 'assets/images/beginner.png', duration: '50 min', level: 'Principiante'),
     Routine(title: 'Tren Inferior y Core', description: 'Fortalecimiento de piernas, glúteos y zona media para una base sólida.', imagePath: 'assets/images/beginner.png', duration: '40 min', level: 'Principiante'),
   ];
 
@@ -144,6 +145,8 @@ class _RoutinesPageState extends State<RoutinesPage> with SingleTickerProviderSt
                       onPressed: () {
                         if (routine.title == 'Full Body Adaptación') {
                           Navigator.push(context, MaterialPageRoute(builder: (_) => const RutinaAdaptacionPage()));
+                        } else if (routine.title == 'Rutina Principiante 3 Días') {
+                          Navigator.push(context, MaterialPageRoute(builder: (_) => const RutinaPrincipiantePage()));
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Iniciando rutina: ${routine.title}')),

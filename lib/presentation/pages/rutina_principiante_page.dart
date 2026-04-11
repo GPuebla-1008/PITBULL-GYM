@@ -5,15 +5,15 @@ import '../../core/theme/app_theme.dart';
 import '../../core/services/workout_provider.dart';
 import '../../core/models/rutina_adaptacion_model.dart';
 
-class RutinaAdaptacionPage extends StatefulWidget {
-  const RutinaAdaptacionPage({super.key});
+class RutinaPrincipiantePage extends StatefulWidget {
+  const RutinaPrincipiantePage({super.key});
 
   @override
-  State<RutinaAdaptacionPage> createState() => _RutinaAdaptacionPageState();
+  State<RutinaPrincipiantePage> createState() => _RutinaPrincipiantePageState();
 }
 
-class _RutinaAdaptacionPageState extends State<RutinaAdaptacionPage> with TickerProviderStateMixin {
-  String _varianteSeleccionada = '3 Días';
+class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage> with TickerProviderStateMixin {
+  final String _varianteSeleccionada = 'Principiante 3 Días';
   late TabController _tabController;
 
   @override
@@ -70,7 +70,7 @@ class _RutinaAdaptacionPageState extends State<RutinaAdaptacionPage> with Ticker
               backgroundColor: AppTheme.deepBlack,
               flexibleSpace: FlexibleSpaceBar(
                 title: Text(
-                  'Full Body Adaptación',
+                  'Rutina Principiante',
                   style: GoogleFonts.outfit(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -109,36 +109,7 @@ class _RutinaAdaptacionPageState extends State<RutinaAdaptacionPage> with Ticker
                   horizontal: isSmall ? 12 : 16,
                   vertical: isSmall ? 12 : 16,
                 ),
-                child: Column(
-                  children: [
-                    Text(
-                      'Configura tu frecuencia semanal',
-                      style: TextStyle(color: Colors.white70, fontSize: isSmall ? 13 : 16),
-                    ),
-                    const SizedBox(height: 12),
-                    FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: SegmentedButton<String>(
-                        segments: const [
-                          ButtonSegment(value: '3 Días', label: Text('3 DÍAS / SEMANA')),
-                          ButtonSegment(value: '5 Días', label: Text('5 DÍAS / SEMANA')),
-                        ],
-                        selected: {_varianteSeleccionada},
-                        onSelectionChanged: (Set<String> newSelection) {
-                          setState(() {
-                            _varianteSeleccionada = newSelection.first;
-                          });
-                        },
-                        style: SegmentedButton.styleFrom(
-                          backgroundColor: AppTheme.warmGrey,
-                          selectedBackgroundColor: AppTheme.goldAccent,
-                          selectedForegroundColor: Colors.black,
-                          foregroundColor: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                child: SizedBox(height: 16), // Space instead of SegmentedButton
               ),
             ),
             if (rutinaData.dias.isNotEmpty)

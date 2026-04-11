@@ -260,6 +260,36 @@
     <div class="pwa-installing-sub">Agregando PITBULL GYM a tu pantalla de inicio</div>
   </div>
 
+  <!-- ─── PWA Updated Banner ─── -->
+  <div id="pwa-updated-banner">Actualizado a última versión</div>
+  <style>
+    #pwa-updated-banner {
+      display: none;
+      position: fixed;
+      top: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #CCFF00;
+      color: #121212;
+      padding: 14px 28px;
+      border-radius: 50px;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      z-index: 999999;
+      box-shadow: 0 8px 32px rgba(204, 255, 0, 0.45), 0 4px 12px rgba(0,0,0,0.35);
+      animation: pwa-slide-down 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    @keyframes pwa-slide-down {
+      from { opacity: 0; transform: translate(-50%, -20px); }
+      to   { opacity: 1; transform: translate(-50%, 0); }
+    }
+  </style>
+
   <!-- ─── iOS Modal ─── -->
   <div id="ios-modal-backdrop" role="dialog" aria-modal="true" aria-label="Instrucciones de instalación iOS">
     <div id="ios-modal">
@@ -411,6 +441,44 @@
         triggerInstall: function () { installBtn.click(); }
       };
 
+
+      /* ── Intercepción de Auto-Actualización ── */
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.ready.then((reg) => {
+          reg.addEventListener('updatefound', () => {
+            const newWorker = reg.installing;
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // Nueva versión detectada, avisamos que tras recargar muestre el toast
+                localStorage.setItem('pwaUpdated', 'true');
+                newWorker.postMessage({ type: 'SKIP_WAITING' });
+                newWorker.postMessage('skipWaiting'); // Fallback por estándares de Flutter
+              }
+            });
+          });
+        });
+
+        // Recargar la pestaña al aplicar la actualización
+        let isRefreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (isRefreshing) return;
+          isRefreshing = true;
+          window.location.reload();
+        });
+      }
+
+      /* ── Mostrar Banner si acaba de recargar por actualización ── */
+      if (localStorage.getItem('pwaUpdated') === 'true') {
+        localStorage.removeItem('pwaUpdated');
+        var updatedBanner = document.getElementById('pwa-updated-banner');
+        updatedBanner.style.display = 'block';
+        
+        setTimeout(() => {
+          updatedBanner.style.opacity = '0';
+          updatedBanner.style.transition = 'opacity 0.6s ease';
+          setTimeout(() => updatedBanner.style.display = 'none', 600);
+        }, 3000);
+      }
 
     })();
   </script>
