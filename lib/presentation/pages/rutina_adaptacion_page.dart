@@ -52,7 +52,9 @@ class _RutinaAdaptacionPageState extends State<RutinaAdaptacionPage> with Ticker
       );
     }
 
-    final rutinaData = workout.todasLasRutinas.firstWhere(
+    final rutinasFullBody = workout.todasLasRutinas.where((r) => r.id.startsWith('fullbody_')).toList();
+
+    final rutinaData = rutinasFullBody.firstWhere(
       (r) => r.variante == _varianteSeleccionada,
       orElse: () => RutinaAdaptacion(id: '', variante: _varianteSeleccionada, dias: []),
     );

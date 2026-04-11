@@ -76,10 +76,10 @@ class SeedRutinasService {
         ]
       );
 
-      // 3. Rutina Principiante 3 Días (Máquinas/Mancuernas)
+      // 3. Rutina Principiante - Variante 3 Días
       final rutinaPrincipiante3Dias = RutinaAdaptacion(
         id: 'principiante_3_dias',
-        variante: 'Principiante 3 Días',
+        variante: '3 Días',
         dias: [
           DiaRutina(nombreDia: 'Día 1', ejercicios: [
             Ejercicio(nombre: 'Press de Pecho en Máquina', tipo: 'Máquina', seriesReps: '3x12', descanso: '90 seg', urlGif: 'assets/images/exercises/machine_press.png', instruccion: 'Mantené la espalda apoyada y empujá controlando el movimiento.'),
@@ -104,9 +104,48 @@ class SeedRutinasService {
         ]
       );
 
+      // 4. Rutina Principiante - Variante 5 Días
+      final rutinaPrincipiante5Dias = RutinaAdaptacion(
+        id: 'principiante_5_dias',
+        variante: '5 Días',
+        dias: [
+          DiaRutina(nombreDia: 'Lunes (Pecho)', ejercicios: [
+            Ejercicio(nombre: 'Press de Banca Plano', tipo: 'Barra', seriesReps: '3x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/machine_press.png', instruccion: 'Bajá la barra al medio del pecho controlando la fase excéntrica y empujá con potencia.'),
+            Ejercicio(nombre: 'Press Inclinado', tipo: 'Mancuernas', seriesReps: '3x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/machine_press.png', instruccion: 'Incliná el banco a 30-45 grados. Mantené el abdomen firme para proteger la espalda baja.'),
+            Ejercicio(nombre: 'Peck Deck', tipo: 'Máquina', seriesReps: '3x10-12', descanso: '60 seg', urlGif: 'assets/images/exercises/machine_press.png', instruccion: 'Mantené los codos ligeramente flexionados, apretando el pecho al frente como en un abrazo.'),
+            Ejercicio(nombre: 'Cruces', tipo: 'Polea', seriesReps: '3x10-12', descanso: '60 seg', urlGif: 'assets/images/exercises/pushup.png', instruccion: 'Paso firme adelante. Cruzá las manos frente al abdomen sintiendo la contracción torácica.')
+          ]),
+          DiaRutina(nombreDia: 'Martes (Piernas)', ejercicios: [
+            Ejercicio(nombre: 'Sentadilla', tipo: 'Barra', seriesReps: '3x10-12', descanso: '120 seg', urlGif: 'assets/images/exercises/squat.png', instruccion: 'Espalda recta, pecho arriba. Rompé el paralelo flexionando la cadera hacia atrás y abajo.'),
+            Ejercicio(nombre: 'Estocadas', tipo: 'Mancuerna', seriesReps: '3x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/lunge.png', instruccion: 'Paso largo, bajá controlando que la rodilla no pase en exceso la punta de los pies.'),
+            Ejercicio(nombre: 'Prensa', tipo: 'Máquina', seriesReps: '3x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/leg_press.png', instruccion: 'Pies bien afirmados. Bajá las rodillas hacia el pecho y empujá con los talones sin bloquear arriba.'),
+            Ejercicio(nombre: 'Curl Femoral', tipo: 'Máquina', seriesReps: '3x10-12', descanso: '60 seg', urlGif: 'assets/images/exercises/hamstring_curl.png', instruccion: 'Tumbado, contraé el isquiosural arrastrando el peso hacia tus glúteos de forma fluida.')
+          ]),
+          DiaRutina(nombreDia: 'Miércoles (Espalda)', ejercicios: [
+            Ejercicio(nombre: 'Remo con Barra', tipo: 'Barra', seriesReps: '3x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/dumbbell_row.png', instruccion: 'Incliná el torso a 45 grados. Tirá de la barra hacia el ombligo juntando las escápulas.'),
+            Ejercicio(nombre: 'Remo a una Mano', tipo: 'Mancuerna', seriesReps: '3x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/dumbbell_row.png', instruccion: 'Apoyá rodilla y mano en banco. Traccioná la mancuerna en un arco hacia la cadera.'),
+            Ejercicio(nombre: 'Jalón al Pecho', tipo: 'Polea', seriesReps: '3x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/lat_pulldown.png', instruccion: 'Sentado firme, bajá la barra hacia el pecho expandiendo la caja torácica.'),
+            Ejercicio(nombre: 'Remo Sentado', tipo: 'Máquina', seriesReps: '3x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/dumbbell_row.png', instruccion: 'Postura vertical estricta. Evitá balancearte con la espalda baja al traccionar el agarre.')
+          ]),
+          DiaRutina(nombreDia: 'Jueves (Hombros)', ejercicios: [
+            Ejercicio(nombre: 'Press Militar', tipo: 'Barra', seriesReps: '3x10-12', descanso: '120 seg', urlGif: 'assets/images/exercises/machine_press.png', instruccion: 'Sostené la barra sobre la clavícula. Empujá vertical hasta extender brazos cerca de las orejas.'),
+            Ejercicio(nombre: 'Vuelos Laterales', tipo: 'Mancuerna', seriesReps: '3x10-12', descanso: '60 seg', urlGif: 'assets/images/exercises/dumbbell_row.png', instruccion: 'Movimiento de las mancuernas desde la cadera hacia la altura de los hombros, guiando con los codos.'),
+            Ejercicio(nombre: 'Press de Hombros', tipo: 'Máquina', seriesReps: '3x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/machine_press.png', instruccion: 'Sentado correctamente, empujá los agarres hacia el techo con un recorrido completo sin botar.'),
+            Ejercicio(nombre: 'Facepull', tipo: 'Polea', seriesReps: '3x10-12', descanso: '60 seg', urlGif: 'assets/images/exercises/lat_pulldown.png', instruccion: 'Enganchá una soga y tirá directo hacia el puente de la nariz separando los codos.')
+          ]),
+          DiaRutina(nombreDia: 'Viernes (Brazos)', ejercicios: [
+            Ejercicio(nombre: 'Curl con Barra', tipo: 'Barra', seriesReps: '3x10-12', descanso: '60 seg', urlGif: 'assets/images/exercises/biceps_curl.png', instruccion: 'Posición firme de torso, flexioná ambos brazos elevando la carga sin impulsar con la cadera.'),
+            Ejercicio(nombre: 'Curl Alterno', tipo: 'Mancuerna', seriesReps: '3x10-12', descanso: '60 seg', urlGif: 'assets/images/exercises/biceps_curl.png', instruccion: 'Alternando un brazo a la vez. Exprimí el bíceps arriba supindanto la muñeca.'),
+            Ejercicio(nombre: 'Extensión Invertida', tipo: 'Polea', seriesReps: '3x10-12', descanso: '60 seg', urlGif: 'assets/images/exercises/triceps_extension.png', instruccion: 'Codos encajados en los flancos. Extendé llevando la soga hacia abajo y separando las puntas.'),
+            Ejercicio(nombre: 'Press Francés', tipo: 'Barra', seriesReps: '3x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/triceps_extension.png', instruccion: 'Tumbado, bajá la barra tipo Z hacia la frente o justo detrás y finalizá la extensión arriba.')
+          ]),
+        ]
+      );
+
       await collection.doc(rutina3Dias.id).set(rutina3Dias.toFirestore());
       await collection.doc(rutina5Dias.id).set(rutina5Dias.toFirestore());
       await collection.doc(rutinaPrincipiante3Dias.id).set(rutinaPrincipiante3Dias.toFirestore());
+      await collection.doc(rutinaPrincipiante5Dias.id).set(rutinaPrincipiante5Dias.toFirestore());
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('¡Datos inyectados en Firestore con éxito!'), backgroundColor: Colors.green),

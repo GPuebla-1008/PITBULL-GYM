@@ -13,7 +13,7 @@ class RutinaPrincipiantePage extends StatefulWidget {
 }
 
 class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage> with TickerProviderStateMixin {
-  final String _varianteSeleccionada = 'Principiante 3 Días';
+  String _varianteSeleccionada = '3 Días';
   late TabController _tabController;
 
   @override
@@ -52,7 +52,9 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage> with Ti
       );
     }
 
-    final rutinaData = workout.todasLasRutinas.firstWhere(
+    final rutinasPrincipiante = workout.todasLasRutinas.where((r) => r.id.startsWith('principiante_')).toList();
+
+    final rutinaData = rutinasPrincipiante.firstWhere(
       (r) => r.variante == _varianteSeleccionada,
       orElse: () => RutinaAdaptacion(id: '', variante: _varianteSeleccionada, dias: []),
     );
@@ -109,7 +111,36 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage> with Ti
                   horizontal: isSmall ? 12 : 16,
                   vertical: isSmall ? 12 : 16,
                 ),
-                child: SizedBox(height: 16), // Space instead of SegmentedButton
+                child: Column(
+                  children: [
+                    Text(
+                      'Configura tu frecuencia semanal',
+                      style: TextStyle(color: Colors.white70, fontSize: isSmall ? 13 : 16),
+                    ),
+                    const SizedBox(height: 12),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: SegmentedButton<String>(
+                        segments: const [
+                          ButtonSegment(value: '3 Días', label: Text('3 DÍAS / SEMANA')),
+                          ButtonSegment(value: '5 Días', label: Text('5 DÍAS / SEMANA')),
+                        ],
+                        selected: {_varianteSeleccionada},
+                        onSelectionChanged: (Set<String> newSelection) {
+                          setState(() {
+                            _varianteSeleccionada = newSelection.first;
+                          });
+                        },
+                        style: SegmentedButton.styleFrom(
+                          backgroundColor: AppTheme.warmGrey,
+                          selectedBackgroundColor: AppTheme.goldAccent,
+                          selectedForegroundColor: Colors.black,
+                          foregroundColor: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             if (rutinaData.dias.isNotEmpty)

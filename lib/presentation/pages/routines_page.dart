@@ -23,7 +23,7 @@ class _RoutinesPageState extends State<RoutinesPage> with SingleTickerProviderSt
 
   final List<Routine> beginnerRoutines = [
     Routine(title: 'Full Body Adaptación', description: 'Rutina de 3 días para adaptar el cuerpo. Ejercicios básicos con peso corporal y máquinas.', imagePath: 'assets/images/beginner.png', duration: '45 min', level: 'Principiante'),
-    Routine(title: 'Rutina Principiante 3 Días', description: 'Enfoque en pecho, espalda, piernas y brazos para principiantes. Ideal con máquinas y mancuernas.', imagePath: 'assets/images/beginner.png', duration: '50 min', level: 'Principiante'),
+    Routine(title: 'Rutina Principiante (3 y 5 días)', description: 'Frecuencia flexible. Combina máquinas, poleas y mancuernas para una progresión constante.', imagePath: 'assets/images/beginner.png', duration: '50-60 min', level: 'Principiante'),
     Routine(title: 'Tren Inferior y Core', description: 'Fortalecimiento de piernas, glúteos y zona media para una base sólida.', imagePath: 'assets/images/beginner.png', duration: '40 min', level: 'Principiante'),
   ];
 
@@ -145,7 +145,7 @@ class _RoutinesPageState extends State<RoutinesPage> with SingleTickerProviderSt
                       onPressed: () {
                         if (routine.title == 'Full Body Adaptación') {
                           Navigator.push(context, MaterialPageRoute(builder: (_) => const RutinaAdaptacionPage()));
-                        } else if (routine.title == 'Rutina Principiante 3 Días') {
+                        } else if (routine.title == 'Rutina Principiante (3 y 5 días)') {
                           Navigator.push(context, MaterialPageRoute(builder: (_) => const RutinaPrincipiantePage()));
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
