@@ -78,6 +78,8 @@ class AuthProvider with ChangeNotifier {
     required String documento,
     required String objetivo,
     required int diaPagoFijo,
+    required String telefono,
+    required String telefonoEmergencia,
   }) async {
     _errorMessage = null;
     try {
@@ -96,6 +98,8 @@ class AuthProvider with ChangeNotifier {
         email: email.trim(),
         documento: documento,
         objetivo: objetivo,
+        telefono: telefono,
+        telefonoEmergencia: telefonoEmergencia,
         diaPagoFijo: diaPagoFijo,
         rutinasAsignadas: [],
         rol: 'miembro',
@@ -118,6 +122,58 @@ class AuthProvider with ChangeNotifier {
   // ── Logout ─────────────────────────────────────────────────────────────────
   Future<void> logout() async {
     await _auth.signOut();
+  }
+
+  // ── Actualizar Perfil ──────────────────────────────────────────────────────
+  Future<bool> updateProfile({
+    required String nombre,
+    required String email,
+    required String telefono,
+    required String telefonoEmergencia,
+  }) async {
+    _errorMessage = null;
+    try {
+      final user = _auth.currentUser;
+      if (user == null) return false;
+
+      // 1. Actualizar Nombre en Firebase Auth si cambió
+      if (nombre != user.displayName) {
+        await user.updateDisplayName(nombre);
+      }
+
+      // 2. Actualizar Email en Firebase Auth si cambió
+      // NOTA: Esto puede requerir re-autenticación reciente.
+      if (email.trim() != user.email) {
+        await user.verifyBeforeUpdateEmail(email.trim());
+        // Nota: En algunas versiones de Firebase se usa updateEmail, 
+        // pero verifyBeforeUpdateEmail es más seguro actualmente.
+      }
+
+      // 3. Actualizar Firestore
+      final updatedPerfil = _perfil!.copyWith(
+        nombre: nombre,
+        email: email.trim(),
+        telefono: telefono,
+        telefonoEmergencia: telefonoEmergencia,
+      );
+
+      await _db.collection('usuarios').doc(user.uid).update(updatedPerfil.toFirestore());
+      _perfil = updatedPerfil;
+      
+      notifyListeners();
+      return true;
+    } on FirebaseAuthException catch (e) {
+      _errorMessage = _traducirError(e.code);
+      if (e.code == 'requires-recent-login') {
+        _errorMessage = 'Para cambiar el email, debes haber iniciado sesión recientemente. Por favor, salí y volvé a entrar.';
+      }
+      notifyListeners();
+      return false;
+    } catch (e) {
+      _errorMessage = 'Error inesperado: $e';
+      notifyListeners();
+      return false;
+    }
   }
 
   // ── Traducción de errores de Firebase ─────────────────────────────────────

@@ -16,6 +16,8 @@ class _RegisterPageState extends State<RegisterPage>
   final _nombreCtrl = TextEditingController();
   final _emailCtrl = TextEditingController();
   final _documentoCtrl = TextEditingController();
+  final _telefonoCtrl = TextEditingController();
+  final _emergenciaCtrl = TextEditingController();
   final _passCtrl = TextEditingController();
   final _confirmCtrl = TextEditingController();
   bool _obscure = true;
@@ -52,6 +54,8 @@ class _RegisterPageState extends State<RegisterPage>
     _nombreCtrl.dispose();
     _emailCtrl.dispose();
     _documentoCtrl.dispose();
+    _telefonoCtrl.dispose();
+    _emergenciaCtrl.dispose();
     _passCtrl.dispose();
     _confirmCtrl.dispose();
     super.dispose();
@@ -66,6 +70,8 @@ class _RegisterPageState extends State<RegisterPage>
       email: _emailCtrl.text.trim(),
       password: _passCtrl.text,
       documento: _documentoCtrl.text.trim(),
+      telefono: _telefonoCtrl.text.trim(),
+      telefonoEmergencia: _emergenciaCtrl.text.trim(),
       objetivo: _objetivo,
       diaPagoFijo: _diaPago,
     );
@@ -182,6 +188,30 @@ class _RegisterPageState extends State<RegisterPage>
                         if (!v.contains('@')) return 'Email inválido';
                         return null;
                       },
+                    ),
+                    const SizedBox(height: 14),
+
+                    // Teléfono
+                    _buildField(
+                      controller: _telefonoCtrl,
+                      label: 'Teléfono Personal',
+                      icon: Icons.phone_outlined,
+                      keyboardType: TextInputType.phone,
+                      validator: (v) => (v == null || v.trim().isEmpty)
+                          ? 'Ingresá tu teléfono'
+                          : null,
+                    ),
+                    const SizedBox(height: 14),
+
+                    // Emergencia
+                    _buildField(
+                      controller: _emergenciaCtrl,
+                      label: 'Teléfono de Emergencia',
+                      icon: Icons.contact_emergency_outlined,
+                      keyboardType: TextInputType.phone,
+                      validator: (v) => (v == null || v.trim().isEmpty)
+                          ? 'Ingresá un contacto de emergencia'
+                          : null,
                     ),
                     const SizedBox(height: 14),
 
