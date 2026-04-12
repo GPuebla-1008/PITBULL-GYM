@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
 import 'package:provider/provider.dart';
-import '../../core/services/auth_service.dart';
+import '../../core/services/auth_provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MyAccountPage extends StatefulWidget {
   @override
@@ -11,10 +12,20 @@ class MyAccountPage extends StatefulWidget {
 class _MyAccountPageState extends State<MyAccountPage> {
   final _formKey = GlobalKey<FormState>();
   
-  final _nameController = TextEditingController(text: 'John Doe');
-  final _phoneController = TextEditingController(text: '+549');
-  final _emergencyPhoneController = TextEditingController();
-  final _emailController = TextEditingController(text: 'usuario@pitbullgym.com');
+  TextEditingController? _nameController;
+  TextEditingController? _phoneController;
+  TextEditingController? _emergencyPhoneController;
+  TextEditingController? _emailController;
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    _nameController?.dispose();
+    _phoneController?.dispose();
+    _emergencyPhoneController?.dispose();
+    _emailController?.dispose();
+    super.dispose();
+  }
 
   void _showPasswordRecovery() {
     showDialog(
@@ -43,55 +54,112 @@ class _MyAccountPageState extends State<MyAccountPage> {
     );
   }
 
-  void _saveChanges() {
+  Future<void> _saveChanges() async {
     if (_formKey.currentState!.validate()) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Cambios guardados exitosamente.')),
+      setState(() => _isLoading = true);
+      
+      final auth = Provider.of<AuthProvider>(context, listen: false);
+      final success = await auth.updateProfile(
+        nombre: _nameController?.text ?? '',
+        email: _emailController?.text ?? '',
+        telefono: _phoneController?.text ?? '',
+        telefonoEmergencia: _emergencyPhoneController?.text ?? '',
       );
-      Navigator.pop(context);
+
+      setState(() => _isLoading = false);
+
+      if (success) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Cambios guardados exitosamente.')),
+          );
+          Navigator.pop(context);
+        }
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(auth.errorMessage ?? 'Error al guardar los cambios.'),
+              backgroundColor: Colors.redAccent,
+            ),
+          );
+        }
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final auth = Provider.of<AuthService>(context);
-    final user = auth.currentUser;
+    final auth = Provider.of<AuthProvider>(context);
+    final perfil = auth.perfil;
+
+    // Inicialización tardía segura
+    _nameController ??= TextEditingController(text: perfil?.nombre ?? '');
+    _emailController ??= TextEditingController(text: perfil?.email ?? '');
+    _phoneController ??= TextEditingController(text: perfil?.telefono ?? '');
+    _emergencyPhoneController ??= TextEditingController(text: perfil?.telefonoEmergencia ?? '');
 
     return Scaffold(
       appBar: AppBar(
         title: Text('MI CUENTA'),
       ),
-      body: SingleChildScrollView(
+      body: _isLoading 
+        ? Center(child: CircularProgressIndicator(color: AppTheme.goldAccent))
+        : SingleChildScrollView(
         padding: EdgeInsets.all(24),
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _buildProfileImage(user?.username[0] ?? 'U'),
+              _buildProfileImage(perfil?.nombre.isNotEmpty == true ? perfil!.nombre[0] : 'U'),
               SizedBox(height: 32),
+              
+              // Warning Banner
+              Container(
+                padding: EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.orangeAccent.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.orangeAccent.withOpacity(0.5)),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.warning_amber_rounded, color: Colors.orangeAccent),
+                    SizedBox(width: 12),
+                    Expanded(
+                      child: Text(
+                        'IMPORTANTE: Asegurate de que tus datos sean reales ante cualquier emergencia médica.',
+                        style: TextStyle(color: Colors.white, fontSize: 11),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 24),
+
               _buildTextField(
-                controller: _nameController,
+                controller: _nameController!,
                 label: 'Nombre y Apellido',
                 icon: Icons.person_outline,
               ),
               SizedBox(height: 16),
               _buildTextField(
-                controller: _emailController,
+                controller: _emailController!,
                 label: 'Correo Electrónico',
                 icon: Icons.email_outlined,
                 keyboardType: TextInputType.emailAddress,
               ),
               SizedBox(height: 16),
               _buildTextField(
-                controller: _phoneController,
+                controller: _phoneController!,
                 label: 'Teléfono Particular',
                 icon: Icons.phone_outlined,
                 keyboardType: TextInputType.phone,
               ),
               SizedBox(height: 16),
               _buildTextField(
-                controller: _emergencyPhoneController,
+                controller: _emergencyPhoneController!,
                 label: 'Teléfono de Emergencia',
                 icon: Icons.contact_emergency_outlined,
                 keyboardType: TextInputType.phone,
