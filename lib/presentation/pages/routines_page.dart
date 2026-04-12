@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
 import 'rutina_adaptacion_page.dart';
 import 'rutina_principiante_page.dart';
+import 'rutina_intermedia_page.dart';
 
 class Routine {
   final String title;
@@ -28,9 +29,7 @@ class _RoutinesPageState extends State<RoutinesPage> with SingleTickerProviderSt
   ];
 
   final List<Routine> intermediateRoutines = [
-    Routine(title: 'Push / Pull / Legs', description: 'División clásica de empuje, tirón y piernas. 3 a 6 días por semana.', imagePath: 'assets/images/intermediate.png', duration: '60 min', level: 'Intermedio'),
-    Routine(title: 'Torso / Pierna', description: 'Rutina de 4 días enfocada en la hipertrofia general. Frecuencia 2.', imagePath: 'assets/images/intermediate.png', duration: '65 min', level: 'Intermedio'),
-    Routine(title: 'Funcional Híbrida', description: 'Combina levantamientos de pesas básicos con intervalos de alta intensidad (HIIT).', imagePath: 'assets/images/intermediate.png', duration: '55 min', level: 'Intermedio'),
+    Routine(title: 'Rutina Intermedia (3 y 5 días)', description: 'Frecuencia de 3 días Full Body o 5 días combinando PPL y Torso/Pierna.', imagePath: 'assets/images/intermediate.png', duration: '60-75 min', level: 'Intermedio'),
   ];
 
   final List<Routine> advancedRoutines = [
@@ -147,6 +146,8 @@ class _RoutinesPageState extends State<RoutinesPage> with SingleTickerProviderSt
                           Navigator.push(context, MaterialPageRoute(builder: (_) => const RutinaAdaptacionPage()));
                         } else if (routine.title == 'Rutina Principiante (3 y 5 días)') {
                           Navigator.push(context, MaterialPageRoute(builder: (_) => const RutinaPrincipiantePage()));
+                        } else if (routine.title == 'Rutina Intermedia (3 y 5 días)') {
+                          Navigator.push(context, MaterialPageRoute(builder: (_) => const RutinaIntermediaPage()));
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Iniciando rutina: ${routine.title}')),

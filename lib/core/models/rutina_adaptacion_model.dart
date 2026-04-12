@@ -7,6 +7,10 @@ class Ejercicio {
   final String descanso; // ej: 90 seg
   final String urlGif;
   final String instruccion; // Instrucción técnica breve
+  final String? series;
+  final String? repeticiones;
+  final String? tipoDeEquipo; // Enum/String: barbell, dumbbell, machine, bodyweight
+  final String? musculoObjetivo;
   bool isCompleted; // Para el estado local (no se guarda base general)
 
   Ejercicio({
@@ -16,6 +20,10 @@ class Ejercicio {
     required this.descanso,
     required this.urlGif,
     this.instruccion = '',
+    this.series,
+    this.repeticiones,
+    this.tipoDeEquipo,
+    this.musculoObjetivo,
     this.isCompleted = false,
   });
 
@@ -27,6 +35,10 @@ class Ejercicio {
       descanso: map['descanso'] ?? '',
       urlGif: map['url_gif'] ?? '',
       instruccion: map['instruccion'] ?? '',
+      series: map['series'],
+      repeticiones: map['repeticiones'],
+      tipoDeEquipo: map['tipo_equipo'],
+      musculoObjetivo: map['musculo_objetivo'],
     );
   }
 
@@ -38,6 +50,10 @@ class Ejercicio {
       'descanso': descanso,
       'url_gif': urlGif,
       'instruccion': instruccion,
+      if (series != null) 'series': series,
+      if (repeticiones != null) 'repeticiones': repeticiones,
+      if (tipoDeEquipo != null) 'tipo_equipo': tipoDeEquipo,
+      if (musculoObjetivo != null) 'musculo_objetivo': musculoObjetivo,
     };
   }
 
@@ -50,6 +66,10 @@ class Ejercicio {
       descanso: descanso,
       urlGif: urlGif,
       instruccion: instruccion,
+      series: series,
+      repeticiones: repeticiones,
+      tipoDeEquipo: tipoDeEquipo,
+      musculoObjetivo: musculoObjetivo,
       isCompleted: isCompleted ?? this.isCompleted,
     );
   }

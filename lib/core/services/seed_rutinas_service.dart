@@ -142,10 +142,84 @@ class SeedRutinasService {
         ]
       );
 
+      // --- NEW: RUTINAS INTERMEDIAS ---
+      final rutinaIntermedia3Dias = RutinaAdaptacion(
+        id: 'intermedio_3_dias',
+        variante: '3 Días',
+        dias: [
+          DiaRutina(nombreDia: 'Día 1: Fuerza Básica', ejercicios: [
+            Ejercicio(nombre: 'Sentadilla con Barra', tipo: 'Barra', seriesReps: '4x6-8', descanso: '120 seg', urlGif: 'assets/images/exercises/squat.png', series: '4', repeticiones: '6-8', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Piernas'),
+            Ejercicio(nombre: 'Press de Banca Plano', tipo: 'Barra', seriesReps: '4x6-8', descanso: '120 seg', urlGif: 'assets/images/exercises/machine_press.png', series: '4', repeticiones: '6-8', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Pecho'),
+            Ejercicio(nombre: 'Remo con Barra', tipo: 'Barra', seriesReps: '4x6-8', descanso: '120 seg', urlGif: 'assets/images/exercises/dumbbell_row.png', series: '4', repeticiones: '6-8', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Espalda'),
+            Ejercicio(nombre: 'Press Militar', tipo: 'Barra', seriesReps: '3x8-10', descanso: '90 seg', urlGif: 'assets/images/exercises/machine_press.png', series: '3', repeticiones: '8-10', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Hombros'),
+            Ejercicio(nombre: 'Plancha Abdominal Lastrada', tipo: 'Peso Corporal', seriesReps: '3x45-60 seg', descanso: '60 seg', urlGif: 'assets/images/exercises/plank.png', series: '3', repeticiones: '45-60 seg', tipoDeEquipo: 'Bodyweight', musculoObjetivo: 'Core'),
+          ]),
+          DiaRutina(nombreDia: 'Día 2: Máquinas/Aislamiento', ejercicios: [
+            Ejercicio(nombre: 'Prensa de Piernas', tipo: 'Máquina', seriesReps: '4x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/leg_press.png', series: '4', repeticiones: '10-12', tipoDeEquipo: 'Machine', musculoObjetivo: 'Piernas'),
+            Ejercicio(nombre: 'Press Inclinado en Máquina', tipo: 'Máquina', seriesReps: '3x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/machine_press.png', series: '3', repeticiones: '10-12', tipoDeEquipo: 'Machine', musculoObjetivo: 'Pecho'),
+            Ejercicio(nombre: 'Jalón Dorsal', tipo: 'Máquina', seriesReps: '3x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/lat_pulldown.png', series: '3', repeticiones: '10-12', tipoDeEquipo: 'Machine', musculoObjetivo: 'Espalda'),
+            Ejercicio(nombre: 'Extensión de Cuádriceps', tipo: 'Máquina', seriesReps: '3x15', descanso: '60 seg', urlGif: 'assets/images/exercises/leg_extension.png', series: '3', repeticiones: '15', tipoDeEquipo: 'Machine', musculoObjetivo: 'Cuádriceps'),
+            Ejercicio(nombre: 'Curl Femoral', tipo: 'Máquina', seriesReps: '3x15', descanso: '60 seg', urlGif: 'assets/images/exercises/hamstring_curl.png', series: '3', repeticiones: '15', tipoDeEquipo: 'Machine', musculoObjetivo: 'Isquiosurales'),
+          ]),
+          DiaRutina(nombreDia: 'Día 3: Mixto', ejercicios: [
+            Ejercicio(nombre: 'Peso Muerto Rumano', tipo: 'Mancuernas', seriesReps: '4x8-10', descanso: '90 seg', urlGif: 'assets/images/exercises/hamstring_curl.png', series: '4', repeticiones: '8-10', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Isquiosurales, Glúteos'),
+            Ejercicio(nombre: 'Estocadas Búlgaras', tipo: 'Mancuernas', seriesReps: '3x10/pierna', descanso: '90 seg', urlGif: 'assets/images/exercises/lunge.png', series: '3', repeticiones: '10 / pierna', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Piernas'),
+            Ejercicio(nombre: 'Press Inclinado con Mancuernas', tipo: 'Mancuernas', seriesReps: '3x8-10', descanso: '90 seg', urlGif: 'assets/images/exercises/machine_press.png', series: '3', repeticiones: '8-10', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Pecho Superior'),
+            Ejercicio(nombre: 'Dominadas Asistidas o Libres', tipo: 'Peso Corporal', seriesReps: '3xAl Fallo', descanso: '90 seg', urlGif: 'assets/images/exercises/lat_pulldown.png', series: '3', repeticiones: 'Al Fallo', tipoDeEquipo: 'Bodyweight', musculoObjetivo: 'Espalda'),
+            Ejercicio(nombre: 'Elevaciones Laterales', tipo: 'Mancuernas', seriesReps: '4x12-15', descanso: '60 seg', urlGif: 'assets/images/exercises/dumbbell_row.png', series: '4', repeticiones: '12-15', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Hombros Laterales'),
+          ]),
+        ]
+      );
+
+      final rutinaIntermedia5Dias = RutinaAdaptacion(
+        id: 'intermedio_5_dias',
+        variante: '5 Días',
+        dias: [
+          DiaRutina(nombreDia: 'Lunes: Empuje', ejercicios: [
+            Ejercicio(nombre: 'Press de Banca Plano', tipo: 'Barra', seriesReps: '4x6-8', descanso: '120 seg', urlGif: 'assets/images/exercises/machine_press.png', series: '4', repeticiones: '6-8', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Pecho'),
+            Ejercicio(nombre: 'Press Militar con Mancuernas', tipo: 'Mancuernas', seriesReps: '4x8-10', descanso: '90 seg', urlGif: 'assets/images/exercises/machine_press.png', series: '4', repeticiones: '8-10', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Hombros'),
+            Ejercicio(nombre: 'Aperturas Inclinadas', tipo: 'Mancuernas', seriesReps: '3x12', descanso: '60 seg', urlGif: 'assets/images/exercises/pushup.png', series: '3', repeticiones: '12', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Pecho Superior'),
+            Ejercicio(nombre: 'Elevaciones Laterales en Polea', tipo: 'Máquina', seriesReps: '4x15', descanso: '60 seg', urlGif: 'assets/images/exercises/dumbbell_row.png', series: '4', repeticiones: '15', tipoDeEquipo: 'Machine', musculoObjetivo: 'Hombros Laterales'),
+            Ejercicio(nombre: 'Extensión Invertida Tríceps', tipo: 'Máquina', seriesReps: '3x12', descanso: '60 seg', urlGif: 'assets/images/exercises/triceps_extension.png', series: '3', repeticiones: '12', tipoDeEquipo: 'Machine', musculoObjetivo: 'Tríceps'),
+          ]),
+          DiaRutina(nombreDia: 'Martes: Tirón', ejercicios: [
+            Ejercicio(nombre: 'Dominadas / Jalón al Pecho', tipo: 'Máquina', seriesReps: '4x8-10', descanso: '120 seg', urlGif: 'assets/images/exercises/lat_pulldown.png', series: '4', repeticiones: '8-10', tipoDeEquipo: 'Bodyweight o Machine', musculoObjetivo: 'Espalda'),
+            Ejercicio(nombre: 'Remo con Barra', tipo: 'Barra', seriesReps: '4x8-10', descanso: '90 seg', urlGif: 'assets/images/exercises/dumbbell_row.png', series: '4', repeticiones: '8-10', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Espalda Baja'),
+            Ejercicio(nombre: 'Remo a una mano', tipo: 'Mancuerna', seriesReps: '3x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/dumbbell_row.png', series: '3', repeticiones: '10-12', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Dorsales'),
+            Ejercicio(nombre: 'Facepull', tipo: 'Máquina', seriesReps: '3x15', descanso: '60 seg', urlGif: 'assets/images/exercises/lat_pulldown.png', series: '3', repeticiones: '15', tipoDeEquipo: 'Machine', musculoObjetivo: 'Deltoides posterior'),
+            Ejercicio(nombre: 'Curl de Bíceps Alternado', tipo: 'Mancueras', seriesReps: '3x12', descanso: '60 seg', urlGif: 'assets/images/exercises/biceps_curl.png', series: '3', repeticiones: '12', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Bíceps'),
+          ]),
+          DiaRutina(nombreDia: 'Miércoles: Pierna', ejercicios: [
+            Ejercicio(nombre: 'Sentadilla Libre', tipo: 'Barra', seriesReps: '4x6-8', descanso: '120 seg', urlGif: 'assets/images/exercises/squat.png', series: '4', repeticiones: '6-8', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Cuádriceps, Glúteos'),
+            Ejercicio(nombre: 'Prensa', tipo: 'Máquina', seriesReps: '4x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/leg_press.png', series: '4', repeticiones: '10-12', tipoDeEquipo: 'Machine', musculoObjetivo: 'Piernas'),
+            Ejercicio(nombre: 'Peso Muerto Rumano', tipo: 'Barra', seriesReps: '3x8-10', descanso: '90 seg', urlGif: 'assets/images/exercises/hamstring_curl.png', series: '3', repeticiones: '8-10', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Isquiosurales'),
+            Ejercicio(nombre: 'Elevación de Talones a un Pie', tipo: 'Mancuerna', seriesReps: '4x15', descanso: '60 seg', urlGif: 'assets/images/exercises/squat.png', series: '4', repeticiones: '15', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Pantorrillas'),
+          ]),
+          DiaRutina(nombreDia: 'Jueves: Torso Hipertrofia', ejercicios: [
+            Ejercicio(nombre: 'Press Inclinado con Mancuernas', tipo: 'Mancuernas', seriesReps: '4x8-10', descanso: '90 seg', urlGif: 'assets/images/exercises/machine_press.png', series: '4', repeticiones: '8-10', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Pecho Superior'),
+            Ejercicio(nombre: 'Remo en Máquina', tipo: 'Máquina', seriesReps: '4x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/dumbbell_row.png', series: '4', repeticiones: '10-12', tipoDeEquipo: 'Machine', musculoObjetivo: 'Espalda Central'),
+            Ejercicio(nombre: 'Press Militar Máquina', tipo: 'Máquina', seriesReps: '3x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/machine_press.png', series: '3', repeticiones: '10-12', tipoDeEquipo: 'Machine', musculoObjetivo: 'Hombros'),
+            Ejercicio(nombre: 'Curl de Bíceps en Polea', tipo: 'Máquina', seriesReps: '3x12-15', descanso: '60 seg', urlGif: 'assets/images/exercises/biceps_curl.png', series: '3', repeticiones: '12-15', tipoDeEquipo: 'Machine', musculoObjetivo: 'Bíceps'),
+            Ejercicio(nombre: 'Press Francés con Mancuerna', tipo: 'Mancuerna', seriesReps: '3x12-15', descanso: '60 seg', urlGif: 'assets/images/exercises/triceps_extension.png', series: '3', repeticiones: '12-15', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Tríceps'),
+          ]),
+          DiaRutina(nombreDia: 'Viernes: Pierna/Glúteo', ejercicios: [
+            Ejercicio(nombre: 'Hip Thrust', tipo: 'Barra', seriesReps: '4x8-10', descanso: '120 seg', urlGif: 'assets/images/exercises/lunge.png', series: '4', repeticiones: '8-10', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Glúteos'),
+            Ejercicio(nombre: 'Sentadilla Búlgara', tipo: 'Mancuerna', seriesReps: '3x10/pierna', descanso: '90 seg', urlGif: 'assets/images/exercises/lunge.png', series: '3', repeticiones: '10 / pierna', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Piernas'),
+            Ejercicio(nombre: 'Extensión de Cuádriceps', tipo: 'Máquina', seriesReps: '4x15', descanso: '60 seg', urlGif: 'assets/images/exercises/leg_extension.png', series: '4', repeticiones: '15', tipoDeEquipo: 'Machine', musculoObjetivo: 'Cuádriceps'),
+            Ejercicio(nombre: 'Curl Femoral Sentado', tipo: 'Máquina', seriesReps: '4x15', descanso: '60 seg', urlGif: 'assets/images/exercises/hamstring_curl.png', series: '4', repeticiones: '15', tipoDeEquipo: 'Machine', musculoObjetivo: 'Isquiosurales'),
+          ]),
+        ]
+      );
+
+      // Usamos SetOptions(merge: true) sugeridamente de acá en adelante si se quisiera no pisar estado local. 
+      // Por simplicidad para el seed general y asegurar que se refresque la última versión, usamos el clásico set.
       await collection.doc(rutina3Dias.id).set(rutina3Dias.toFirestore());
       await collection.doc(rutina5Dias.id).set(rutina5Dias.toFirestore());
       await collection.doc(rutinaPrincipiante3Dias.id).set(rutinaPrincipiante3Dias.toFirestore());
       await collection.doc(rutinaPrincipiante5Dias.id).set(rutinaPrincipiante5Dias.toFirestore());
+      
+      await collection.doc(rutinaIntermedia3Dias.id).set(rutinaIntermedia3Dias.toFirestore(), SetOptions(merge: true));
+      await collection.doc(rutinaIntermedia5Dias.id).set(rutinaIntermedia5Dias.toFirestore(), SetOptions(merge: true));
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('¡Datos inyectados en Firestore con éxito!'), backgroundColor: Colors.green),
