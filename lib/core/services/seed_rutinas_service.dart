@@ -211,6 +211,62 @@ class SeedRutinasService {
         ]
       );
 
+      // --- NEW: RUTINA AVANZADA (ARNOLD SPLIT) ---
+      final rutinaArnoldSplit = RutinaAdaptacion(
+        id: 'arnold_split_advanced',
+        variante: '6 Días - Arnold',
+        level: 'advanced',
+        tags: ['arnold', 'hypertrophy', '6-days'],
+        dias: [
+          DiaRutina(nombreDia: 'Lunes: Pecho/Espalda', ejercicios: [
+            Ejercicio(nombre: 'Press de Banca Plano', tipo: 'Barra', seriesReps: '4x6-8', descanso: '0 seg', urlGif: 'assets/images/exercises/machine_press.png', series: '4', repeticiones: '6-8', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Pecho', isSuperset: true, supersetGroupId: 1),
+            Ejercicio(nombre: 'Dominadas Lastradas', tipo: 'Peso Corporal', seriesReps: '4x6-8', descanso: '120 seg', urlGif: 'assets/images/exercises/lat_pulldown.png', series: '4', repeticiones: '6-8', tipoDeEquipo: 'Bodyweight', musculoObjetivo: 'Espalda', isSuperset: true, supersetGroupId: 1),
+            Ejercicio(nombre: 'Press Inclinado con Mancuernas', tipo: 'Mancuernas', seriesReps: '4x8-10', descanso: '0 seg', urlGif: 'assets/images/exercises/machine_press.png', series: '4', repeticiones: '8-10', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Pecho Superior', isSuperset: true, supersetGroupId: 2),
+            Ejercicio(nombre: 'Remo con Barra', tipo: 'Barra', seriesReps: '4x8-10', descanso: '90 seg', urlGif: 'assets/images/exercises/dumbbell_row.png', series: '4', repeticiones: '8-10', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Espalda Baja', isSuperset: true, supersetGroupId: 2),
+            Ejercicio(nombre: 'Aperturas en Polea', tipo: 'Máquina', seriesReps: '3x15', descanso: '0 seg', urlGif: 'assets/images/exercises/pushup.png', series: '3', repeticiones: '15', tipoDeEquipo: 'Machine', musculoObjetivo: 'Pecho', isSuperset: true, supersetGroupId: 3),
+            Ejercicio(nombre: 'Pullover con Mancuerna', tipo: 'Mancuerna', seriesReps: '3x15', descanso: '60 seg', urlGif: 'assets/images/exercises/lat_pulldown.png', series: '3', repeticiones: '15', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Dorsales', isSuperset: true, supersetGroupId: 3),
+          ]),
+          DiaRutina(nombreDia: 'Martes: Hombros/Brazos', ejercicios: [
+            Ejercicio(nombre: 'Press Militar Sentado', tipo: 'Mancuernas', seriesReps: '4x8-10', descanso: '90 seg', urlGif: 'assets/images/exercises/machine_press.png', series: '4', repeticiones: '8-10', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Hombros'),
+            Ejercicio(nombre: 'Elevaciones Laterales', tipo: 'Mancuernas', seriesReps: '4x15', descanso: '60 seg', urlGif: 'assets/images/exercises/dumbbell_row.png', series: '4', repeticiones: '15', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Hombros Laterales', intensityTechnique: 'Dropset al fallo'),
+            Ejercicio(nombre: 'Curl con Barra EZ', tipo: 'Barra', seriesReps: '4x10-12', descanso: '0 seg', urlGif: 'assets/images/exercises/biceps_curl.png', series: '4', repeticiones: '10-12', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Bíceps', isSuperset: true, supersetGroupId: 4),
+            Ejercicio(nombre: 'Press Francés', tipo: 'Barra', seriesReps: '4x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/triceps_extension.png', series: '4', repeticiones: '10-12', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Tríceps', isSuperset: true, supersetGroupId: 4),
+            Ejercicio(nombre: 'Curl Martillo', tipo: 'Mancuernas', seriesReps: '3x12', descanso: '0 seg', urlGif: 'assets/images/exercises/biceps_curl.png', series: '3', repeticiones: '12', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Braquial', isSuperset: true, supersetGroupId: 5),
+            Ejercicio(nombre: 'Extensión en Polea Alta', tipo: 'Máquina', seriesReps: '3x15', descanso: '60 seg', urlGif: 'assets/images/exercises/triceps_extension.png', series: '3', repeticiones: '15', tipoDeEquipo: 'Machine', musculoObjetivo: 'Tríceps', isSuperset: true, supersetGroupId: 5),
+          ]),
+          DiaRutina(nombreDia: 'Miércoles: Piernas/Abs', ejercicios: [
+            Ejercicio(nombre: 'Sentadilla High Bar', tipo: 'Barra', seriesReps: '5x5', descanso: '120 seg', urlGif: 'assets/images/exercises/squat.png', series: '5', repeticiones: '5', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Cuádriceps'),
+            Ejercicio(nombre: 'Peso Muerto Rumano', tipo: 'Barra', seriesReps: '4x8-10', descanso: '120 seg', urlGif: 'assets/images/exercises/hamstring_curl.png', series: '4', repeticiones: '8-10', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Isquiosurales'),
+            Ejercicio(nombre: 'Prensa de Piernas', tipo: 'Máquina', seriesReps: '4x12-15', descanso: '90 seg', urlGif: 'assets/images/exercises/leg_press.png', series: '4', repeticiones: '12-15', tipoDeEquipo: 'Machine', musculoObjetivo: 'Piernas', intensityTechnique: 'Pausa Descanso'),
+            Ejercicio(nombre: 'Extensiones de Cuádriceps', tipo: 'Máquina', seriesReps: '3x15', descanso: '0 seg', urlGif: 'assets/images/exercises/leg_extension.png', series: '3', repeticiones: '15', tipoDeEquipo: 'Machine', musculoObjetivo: 'Cuádriceps', isSuperset: true, supersetGroupId: 6),
+            Ejercicio(nombre: 'Curl Femoral', tipo: 'Máquina', seriesReps: '3x15', descanso: '60 seg', urlGif: 'assets/images/exercises/hamstring_curl.png', series: '3', repeticiones: '15', tipoDeEquipo: 'Machine', musculoObjetivo: 'Isquiosurales', isSuperset: true, supersetGroupId: 6),
+            Ejercicio(nombre: 'Elevaciones de Piernas Colgado', tipo: 'Peso Corporal', seriesReps: '4xAl Fallo', descanso: '60 seg', urlGif: 'assets/images/exercises/plank.png', series: '4', repeticiones: 'Fallo', tipoDeEquipo: 'Bodyweight', musculoObjetivo: 'Abdominales Inferiores'),
+          ]),
+          DiaRutina(nombreDia: 'Jueves: Pecho/Espalda', ejercicios: [
+            Ejercicio(nombre: 'Press Dominadas Lastradas', tipo: 'Peso Corporal', seriesReps: '4x8', descanso: '0 seg', urlGif: 'assets/images/exercises/lat_pulldown.png', series: '4', repeticiones: '8', tipoDeEquipo: 'Bodyweight', musculoObjetivo: 'Espalda', isSuperset: true, supersetGroupId: 7),
+            Ejercicio(nombre: 'Press Inclinado Barra', tipo: 'Barra', seriesReps: '4x8', descanso: '120 seg', urlGif: 'assets/images/exercises/machine_press.png', series: '4', repeticiones: '8', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Pecho', isSuperset: true, supersetGroupId: 7),
+            Ejercicio(nombre: 'Remo en Polea Baja', tipo: 'Máquina', seriesReps: '4x10-12', descanso: '0 seg', urlGif: 'assets/images/exercises/dumbbell_row.png', series: '4', repeticiones: '10-12', tipoDeEquipo: 'Machine', musculoObjetivo: 'Dorsales', isSuperset: true, supersetGroupId: 8),
+            Ejercicio(nombre: 'Press Plano Mancuernas', tipo: 'Mancuernas', seriesReps: '4x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/machine_press.png', series: '4', repeticiones: '10-12', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Pecho', isSuperset: true, supersetGroupId: 8),
+            Ejercicio(nombre: 'Jalón con Brazos Rectos', tipo: 'Máquina', seriesReps: '3x15', descanso: '0 seg', urlGif: 'assets/images/exercises/lat_pulldown.png', series: '3', repeticiones: '15', tipoDeEquipo: 'Machine', musculoObjetivo: 'Dorsales', isSuperset: true, supersetGroupId: 9),
+            Ejercicio(nombre: 'Cruces en Polea', tipo: 'Máquina', seriesReps: '3x15', descanso: '60 seg', urlGif: 'assets/images/exercises/pushup.png', series: '3', repeticiones: '15', tipoDeEquipo: 'Machine', musculoObjetivo: 'Pecho interno', isSuperset: true, supersetGroupId: 9, intensityTechnique: 'Dropset'),
+          ]),
+          DiaRutina(nombreDia: 'Viernes: Hombros/Brazos', ejercicios: [
+            Ejercicio(nombre: 'Press Militar de Pie con Barra', tipo: 'Barra', seriesReps: '4x6-8', descanso: '120 seg', urlGif: 'assets/images/exercises/machine_press.png', series: '4', repeticiones: '6-8', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Hombros'),
+            Ejercicio(nombre: 'Remo al Mentón', tipo: 'Barra', seriesReps: '4x10-12', descanso: '0 seg', urlGif: 'assets/images/exercises/dumbbell_row.png', series: '4', repeticiones: '10-12', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Hombros Laterales', isSuperset: true, supersetGroupId: 10),
+            Ejercicio(nombre: 'Elevaciones Posteriores', tipo: 'Mancuernas', seriesReps: '4x15', descanso: '60 seg', urlGif: 'assets/images/exercises/dumbbell_row.png', series: '4', repeticiones: '15', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Hombros Posteriores', isSuperset: true, supersetGroupId: 10),
+            Ejercicio(nombre: 'Curl Predicador', tipo: 'Máquina', seriesReps: '4x10-12', descanso: '0 seg', urlGif: 'assets/images/exercises/biceps_curl.png', series: '4', repeticiones: '10-12', tipoDeEquipo: 'Machine', musculoObjetivo: 'Bíceps Aislado', isSuperset: true, supersetGroupId: 11),
+            Ejercicio(nombre: 'Copa Tríceps a 2 Manos', tipo: 'Mancuerna', seriesReps: '4x10-12', descanso: '90 seg', urlGif: 'assets/images/exercises/triceps_extension.png', series: '4', repeticiones: '10-12', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Tríceps', isSuperset: true, supersetGroupId: 11),
+          ]),
+          DiaRutina(nombreDia: 'Sábado: Piernas/Abs', ejercicios: [
+            Ejercicio(nombre: 'Sentadilla Frontal', tipo: 'Barra', seriesReps: '4x8', descanso: '120 seg', urlGif: 'assets/images/exercises/squat.png', series: '4', repeticiones: '8', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Cuádriceps frontal'),
+            Ejercicio(nombre: 'Hip Thrust', tipo: 'Barra', seriesReps: '4x10-12', descanso: '120 seg', urlGif: 'assets/images/exercises/lunge.png', series: '4', repeticiones: '10-12', tipoDeEquipo: 'Barbell', musculoObjetivo: 'Glúteos'),
+            Ejercicio(nombre: 'Estocadas Búlgaras', tipo: 'Mancuernas', seriesReps: '4x10/pierna', descanso: '90 seg', urlGif: 'assets/images/exercises/lunge.png', series: '4', repeticiones: '10 / pierna', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Piernas'),
+            Ejercicio(nombre: 'Elevación de Talones a un Pie', tipo: 'Mancuerna', seriesReps: '4x15', descanso: '60 seg', urlGif: 'assets/images/exercises/squat.png', series: '4', repeticiones: '15', tipoDeEquipo: 'Dumbbell', musculoObjetivo: 'Pantorrillas', intensityTechnique: 'Myo-Reps'),
+            Ejercicio(nombre: 'Rueda Abdominal (Ab Wheel)', tipo: 'Bodyweight', seriesReps: '4x10-15', descanso: '60 seg', urlGif: 'assets/images/exercises/plank.png', series: '4', repeticiones: '10-15', tipoDeEquipo: 'Bodyweight', musculoObjetivo: 'Core'),
+          ]),
+        ]
+      );
+
       // Usamos SetOptions(merge: true) sugeridamente de acá en adelante si se quisiera no pisar estado local. 
       // Por simplicidad para el seed general y asegurar que se refresque la última versión, usamos el clásico set.
       await collection.doc(rutina3Dias.id).set(rutina3Dias.toFirestore());
@@ -220,6 +276,8 @@ class SeedRutinasService {
       
       await collection.doc(rutinaIntermedia3Dias.id).set(rutinaIntermedia3Dias.toFirestore(), SetOptions(merge: true));
       await collection.doc(rutinaIntermedia5Dias.id).set(rutinaIntermedia5Dias.toFirestore(), SetOptions(merge: true));
+
+      await collection.doc(rutinaArnoldSplit.id).set(rutinaArnoldSplit.toFirestore(), SetOptions(merge: true));
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('¡Datos inyectados en Firestore con éxito!'), backgroundColor: Colors.green),

@@ -11,6 +11,9 @@ class Ejercicio {
   final String? repeticiones;
   final String? tipoDeEquipo; // Enum/String: barbell, dumbbell, machine, bodyweight
   final String? musculoObjetivo;
+  final bool isSuperset;
+  final int? supersetGroupId;
+  final String? intensityTechnique;
   bool isCompleted; // Para el estado local (no se guarda base general)
 
   Ejercicio({
@@ -24,6 +27,9 @@ class Ejercicio {
     this.repeticiones,
     this.tipoDeEquipo,
     this.musculoObjetivo,
+    this.isSuperset = false,
+    this.supersetGroupId,
+    this.intensityTechnique,
     this.isCompleted = false,
   });
 
@@ -39,6 +45,9 @@ class Ejercicio {
       repeticiones: map['repeticiones'],
       tipoDeEquipo: map['tipo_equipo'],
       musculoObjetivo: map['musculo_objetivo'],
+      isSuperset: map['is_superset'] ?? false,
+      supersetGroupId: map['superset_group_id'],
+      intensityTechnique: map['intensity_technique'],
     );
   }
 
@@ -54,6 +63,9 @@ class Ejercicio {
       if (repeticiones != null) 'repeticiones': repeticiones,
       if (tipoDeEquipo != null) 'tipo_equipo': tipoDeEquipo,
       if (musculoObjetivo != null) 'musculo_objetivo': musculoObjetivo,
+      'is_superset': isSuperset,
+      if (supersetGroupId != null) 'superset_group_id': supersetGroupId,
+      if (intensityTechnique != null) 'intensity_technique': intensityTechnique,
     };
   }
 
@@ -70,6 +82,9 @@ class Ejercicio {
       repeticiones: repeticiones,
       tipoDeEquipo: tipoDeEquipo,
       musculoObjetivo: musculoObjetivo,
+      isSuperset: isSuperset,
+      supersetGroupId: supersetGroupId,
+      intensityTechnique: intensityTechnique,
       isCompleted: isCompleted ?? this.isCompleted,
     );
   }
@@ -103,14 +118,24 @@ class RutinaAdaptacion {
   final String id;
   final String variante; // Ej: 3 Dias, 5 Dias
   final List<DiaRutina> dias;
+  final String? level;
+  final List<String>? tags;
 
-  RutinaAdaptacion({required this.id, required this.variante, required this.dias});
+  RutinaAdaptacion({
+    required this.id, 
+    required this.variante, 
+    required this.dias,
+    this.level,
+    this.tags,
+  });
 
   factory RutinaAdaptacion.fromFirestore(DocumentSnapshot doc) {
     final d = doc.data() as Map<String, dynamic>? ?? {};
     return RutinaAdaptacion(
       id: doc.id,
       variante: d['variante'] ?? '',
+      level: d['level'],
+      tags: (d['tags'] as List<dynamic>?)?.map((e) => e.toString()).toList(),
       dias: (d['dias'] as List<dynamic>?)
               ?.map((e) => DiaRutina.fromMap(e))
               .toList() ??
@@ -121,6 +146,8 @@ class RutinaAdaptacion {
   Map<String, dynamic> toFirestore() {
     return {
       'variante': variante,
+      if (level != null) 'level': level,
+      if (tags != null) 'tags': tags,
       'dias': dias.map((d) => d.toMap()).toList(),
     };
   }

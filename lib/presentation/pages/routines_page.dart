@@ -3,6 +3,7 @@ import '../../core/theme/app_theme.dart';
 import 'rutina_adaptacion_page.dart';
 import 'rutina_principiante_page.dart';
 import 'rutina_intermedia_page.dart';
+import 'rutina_avanzada_page.dart';
 
 class Routine {
   final String title;
@@ -33,9 +34,7 @@ class _RoutinesPageState extends State<RoutinesPage> with SingleTickerProviderSt
   ];
 
   final List<Routine> advancedRoutines = [
-    Routine(title: 'Arnold Split', description: 'Pecho/Espalda, Hombros/Brazos, Piernas. Alta frecuencia y volumen extremo.', imagePath: 'assets/images/advanced.png', duration: '90 min', level: 'Avanzado'),
-    Routine(title: '5x5 Fuerza Pura', description: 'Sentadilla, Press de Banca y Peso Muerto pesado. Enfoque exclusivo en fuerza máxima.', imagePath: 'assets/images/advanced.png', duration: '80 min', level: 'Avanzado'),
-    Routine(title: 'Hipertrofia Intensiva', description: 'Uso avanzado de Dropsets, Superseries y Myo-reps para llevar el músculo al fallo absoluto.', imagePath: 'assets/images/advanced.png', duration: '75 min', level: 'Avanzado'),
+    Routine(title: 'Arnold Split (6 Días)', description: 'Alta frecuencia y volumen. Antagonistas en superserie.', imagePath: 'assets/images/advanced.png', duration: '90 min', level: 'Avanzado'),
   ];
 
   @override
@@ -148,6 +147,8 @@ class _RoutinesPageState extends State<RoutinesPage> with SingleTickerProviderSt
                           Navigator.push(context, MaterialPageRoute(builder: (_) => const RutinaPrincipiantePage()));
                         } else if (routine.title == 'Rutina Intermedia (3 y 5 días)') {
                           Navigator.push(context, MaterialPageRoute(builder: (_) => const RutinaIntermediaPage()));
+                        } else if (routine.title == 'Arnold Split (6 Días)') {
+                          Navigator.push(context, MaterialPageRoute(builder: (_) => const RutinaAvanzadaPage()));
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Iniciando rutina: ${routine.title}')),
