@@ -12,6 +12,7 @@ import 'presentation/pages/login_page.dart';
 import 'presentation/widgets/stopwatch_widget.dart';
 import 'presentation/pages/my_account_page.dart';
 import 'presentation/pages/routines_page.dart';
+import 'presentation/pages/dietas_page.dart';
 import 'presentation/pages/payment_info_page.dart';
 import 'presentation/pages/admin_dashboard_page.dart';
 
@@ -197,6 +198,16 @@ class MainDashboard extends StatelessWidget {
                 subtitle: const Text('Principiante, Intermedio y Avanzado'),
                 trailing: Icon(Icons.arrow_forward_ios, color: AppTheme.goldAccent),
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => RoutinesPage())),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Card(
+              child: ListTile(
+                leading: Image.asset('assets/images/dietas_logo.png', width: 36, height: 36, fit: BoxFit.contain),
+                title: Text('DIETAS RECOMENDADAS', style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 18, color: AppTheme.goldAccent)),
+                subtitle: const Text('Volumen Muscular y Definición'),
+                trailing: Icon(Icons.arrow_forward_ios, color: AppTheme.goldAccent),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const DietasRecomendadasPage())),
               ),
             ),
             const SizedBox(height: 48),
