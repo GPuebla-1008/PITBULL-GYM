@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_theme.dart';
+import 'dieta_mujer_definicion_page.dart';
 
 class DietasRecomendadasPage extends StatelessWidget {
   const DietasRecomendadasPage({super.key});
@@ -11,7 +12,7 @@ class DietasRecomendadasPage extends StatelessWidget {
       backgroundColor: AppTheme.charcoalBackground,
       appBar: AppBar(
         title: Text(
-          'Dietas Recomendadas',
+          'Planes de Alimentación',
           style: GoogleFonts.outfit(
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -34,28 +35,50 @@ class DietasRecomendadasPage extends StatelessWidget {
             const SizedBox(height: 32),
             _buildDietaShortcut(
               context,
-              title: 'Dietas para Definición',
-              subtitle: 'Pierde grasa y define tus músculos',
+              title: 'Definición para Mujeres',
+              subtitle: 'Quema de grasa y tonificación',
               icon: Icons.local_fire_department,
-              color: Colors.redAccent,
+              color: Colors.greenAccent.shade400,
               onTap: () {
-                // TODO: Navegar a dietas de definición
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const DietaMujerDefinicionPage()));
+              },
+            ),
+            const SizedBox(height: 16),
+            _buildDietaShortcut(
+              context,
+              title: 'Definición para Hombres',
+              subtitle: 'Reducción de porcentaje graso',
+              icon: Icons.whatshot,
+              color: Colors.greenAccent.shade700,
+              onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Próximamente: Dietas para Definición')),
+                  const SnackBar(content: Text('Próximamente: Definición Hombres')),
                 );
               },
             ),
             const SizedBox(height: 16),
             _buildDietaShortcut(
               context,
-              title: 'Dietas para Volumen Muscular',
-              subtitle: 'Aumenta masa muscular magra',
+              title: 'Ganancia Muscular para Mujeres',
+              subtitle: 'Construcción de masa magra',
               icon: Icons.fitness_center,
-              color: AppTheme.electricOrange,
+              color: Colors.lightGreen.shade400,
               onTap: () {
-                // TODO: Navegar a dietas de volumen
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Próximamente: Dietas para Volumen Muscular')),
+                  const SnackBar(content: Text('Próximamente: Ganancia Mujeres')),
+                );
+              },
+            ),
+            const SizedBox(height: 16),
+            _buildDietaShortcut(
+              context,
+              title: 'Ganancia Muscular para Hombres',
+              subtitle: 'Hipertrofia y volumen',
+              icon: Icons.sports_gymnastics,
+              color: Colors.lightGreen.shade700,
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Próximamente: Ganancia Hombres')),
                 );
               },
             ),

@@ -8,6 +8,7 @@ import 'core/theme/app_theme.dart';
 import 'core/services/auth_provider.dart' as gym;
 import 'core/services/admin_provider.dart';
 import 'core/services/workout_provider.dart';
+import 'core/services/metrics_provider.dart';
 import 'presentation/pages/login_page.dart';
 import 'presentation/widgets/stopwatch_widget.dart';
 import 'presentation/pages/my_account_page.dart';
@@ -29,6 +30,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => gym.AuthProvider()),
         ChangeNotifierProvider(create: (_) => AdminProvider()),
         ChangeNotifierProvider(create: (_) => WorkoutProvider()),
+        ChangeNotifierProvider(create: (_) => MetricsProvider()),
       ],
       child: const PitbullGymApp(),
     ),
@@ -204,8 +206,8 @@ class MainDashboard extends StatelessWidget {
             Card(
               child: ListTile(
                 leading: Image.asset('assets/images/dietas_logo.png', width: 36, height: 36, fit: BoxFit.contain),
-                title: Text('DIETAS RECOMENDADAS', style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 18, color: AppTheme.goldAccent)),
-                subtitle: const Text('Volumen Muscular y Definición'),
+                title: Text('PLANES DE ALIMENTACIÓN Y SEGUIMIENTO', style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 16, color: AppTheme.goldAccent)),
+                subtitle: const Text('Nutrición, Agua y Monitor de Peso'),
                 trailing: Icon(Icons.arrow_forward_ios, color: AppTheme.goldAccent),
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const DietasRecomendadasPage())),
               ),
