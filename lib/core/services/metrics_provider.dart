@@ -132,7 +132,7 @@ class MetricsProvider with ChangeNotifier {
   }
 
   Future<void> saveDailyWeight(double weight) async {
-    if (weight < 40 || weight > 150) return; // Validación límite
+    if (weight < 40 || weight > 200) return; // Validación límite para ambos géneros
 
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;

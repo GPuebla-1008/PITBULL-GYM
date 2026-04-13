@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_theme.dart';
 import 'dieta_mujer_definicion_page.dart';
+import 'dieta_hombre_definicion_page.dart';
 
 class DietasRecomendadasPage extends StatelessWidget {
   const DietasRecomendadasPage({super.key});
@@ -51,9 +52,7 @@ class DietasRecomendadasPage extends StatelessWidget {
               icon: Icons.whatshot,
               color: Colors.greenAccent.shade700,
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Próximamente: Definición Hombres')),
-                );
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const DietaHombreDefinicionPage()));
               },
             ),
             const SizedBox(height: 16),
