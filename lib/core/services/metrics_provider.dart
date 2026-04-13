@@ -160,11 +160,35 @@ class MetricsProvider with ChangeNotifier {
   Future<void> _loadLocalChecks() async {
     final prefs = await SharedPreferences.getInstance();
     final keys = prefs.getKeys();
+    final today = _getTodayDateStr();
+
     for (String key in keys) {
       if (key.startsWith('producto_')) {
         _supermarketChecks[key] = prefs.getBool(key) ?? false;
+      } else if (key.startsWith('meal_') && key.contains(today)) {
+        // Clean old meals if necessary? Optional, but let's just load today's
+        _supermarketChecks[key] = prefs.getBool(key) ?? false;
       }
     }
+    notifyListeners();
+  }
+
+  // --- COMIDAS REALIZADAS ---
+  bool isMealChecked(String dietaId, String horario) {
+    final today = _getTodayDateStr();
+    return _supermarketChecks['meal_${today}_${dietaId}_$horario'] ?? false;
+  }
+
+  Future<void> toggleMealCheck(String dietaId, String horario) async {
+    final today = _getTodayDateStr();
+    final key = 'meal_${today}_${dietaId}_$horario';
+    final current = isMealChecked(dietaId, horario);
+    
+    _supermarketChecks[key] = !current;
+    
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(key, !current);
+    
     notifyListeners();
   }
 

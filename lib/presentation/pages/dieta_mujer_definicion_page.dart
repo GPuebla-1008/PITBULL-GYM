@@ -88,31 +88,45 @@ class _DietaMujerDefinicionPageState extends State<DietaMujerDefinicionPage> {
             ),
             const SizedBox(height: 32),
 
-            // --- STEPPER CRONOGRAMA ---
+            // --- CRONOGRAMA ACORDEON CON CHECKBOX ---
             Text('Cronograma del Día', style: GoogleFonts.outfit(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             Card(
               color: AppTheme.warmGrey,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: Stepper(
-                  physics: const NeverScrollableScrollPhysics(),
-                  controlsBuilder: (context, details) => const SizedBox.shrink(),
-                  currentStep: dieta.cronograma.length - 1,
-                  steps: dieta.cronograma.map((comida) {
-                    return Step(
-                      title: Text('${comida.horario} - ${comida.titulo}', style: const TextStyle(color: Colors.greenAccent, fontWeight: FontWeight.bold)),
-                      content: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(comida.menu, style: const TextStyle(color: Colors.white, fontSize: 16)),
-                          const SizedBox(height: 4),
-                          Text('Porción: ${comida.porciones}', style: const TextStyle(color: Colors.white54, fontSize: 14)),
-                        ],
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Column(
+                  children: dieta.cronograma.map((comida) {
+                    final isChecked = metrics.isMealChecked(dieta.id, comida.horario);
+                    return ExpansionTile(
+                      leading: Checkbox(
+                        value: isChecked,
+                        activeColor: Colors.greenAccent.shade700,
+                        checkColor: Colors.white,
+                        onChanged: (val) => metrics.toggleMealCheck(dieta.id, comida.horario),
                       ),
-                      state: StepState.complete,
-                      isActive: true,
+                      title: Text(
+                        '${comida.horario} - ${comida.titulo}',
+                        style: TextStyle(
+                          color: isChecked ? Colors.white54 : Colors.greenAccent,
+                          fontWeight: FontWeight.bold,
+                          decoration: isChecked ? TextDecoration.lineThrough : null,
+                        ),
+                      ),
+                      iconColor: Colors.greenAccent,
+                      collapsedIconColor: Colors.white54,
+                      childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                      expandedAlignment: Alignment.centerLeft,
+                      children: [
+                        Text('Menú:', style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold, fontSize: 13)),
+                        const SizedBox(height: 4),
+                        Text(comida.menu, style: const TextStyle(color: Colors.white, fontSize: 15)),
+                        const SizedBox(height: 12),
+                        Text('Porción exacta:', style: TextStyle(color: Colors.white70, fontWeight: FontWeight.bold, fontSize: 13)),
+                        const SizedBox(height: 4),
+                        Text(comida.porciones, style: const TextStyle(color: Colors.white, fontSize: 15)),
+                      ],
                     );
                   }).toList(),
                 ),
