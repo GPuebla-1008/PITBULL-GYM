@@ -177,10 +177,11 @@ final List<DietaModel> dietasDefinicionHombre = [
       ComidaCronograma(horario: '09:00 PM', titulo: 'Cena', menu: 'Ensalada gigante verde + Atún al natural escurrido, tomates y cucharada alta de aceite de oliva', porciones: '2 latas de atún al agua, col/lechuga libre, 2 tomates, 1 cda sopera aceite oliva'),
     ],
     listaCompraMensual: [
-      ProductoCompra(id: 'h_std_1', categoria: 'Proteínas', nombre: 'Carne Magra y Pollo', cantidadMensual: '8 kg combinados'),
-      ProductoCompra(id: 'h_std_2', categoria: 'Proteínas', nombre: 'Maples de Huevos', cantidadMensual: '5 maples (150 u)'),
-      ProductoCompra(id: 'h_std_3', categoria: 'Carbohidratos', nombre: 'Arroz Integral Fino y Avena', cantidadMensual: '3 kg arroz, 2.5 kg avena'),
-      ProductoCompra(id: 'h_std_4', categoria: 'Grasas', nombre: 'Frutos Secos (Nueces/Almendras)', cantidadMensual: '1 kg mixto'),
+      ProductoCompra(id: 'h_std_1', categoria: 'Proteínas (Carnes)', nombre: 'Pechugas de pollo y Carne vacuna magra (nalga, cuadril)', cantidadMensual: '8 kg pollo, 4 kg vaca'),
+      ProductoCompra(id: 'h_std_2', categoria: 'Proteínas (Huevos/Lácteos)', nombre: 'Huevos grandes, Yogur natural descremado', cantidadMensual: '5 maples de 30 huevos, 20 potes yogur descremado'),
+      ProductoCompra(id: 'h_std_3', categoria: 'Carbohidratos', nombre: 'Avena instantánea, Arroz integral, Manzanas y Naranjas', cantidadMensual: '3 kg avena, 3 kg arroz, 30 manzanas, 40 naranjas'),
+      ProductoCompra(id: 'h_std_4', categoria: 'Vegetales/Fibras', nombre: 'Brócoli fresco, Tomates, Lechuga/Col, Atún natural', cantidadMensual: '5 atados brócoli, 3 kg tomates, lechuga libre, 15 latas atún'),
+      ProductoCompra(id: 'h_std_5', categoria: 'Grasas Saludables', nombre: 'Mix de Frutos Secos (Nueces/Almendras), Aceite de Oliva Extra Virgen', cantidadMensual: '1.5 kg mix, 1 botella de 500ml oliva'),
     ],
   ),
   DietaModel(
@@ -198,10 +199,11 @@ final List<DietaModel> dietasDefinicionHombre = [
       ComidaCronograma(horario: '09:00 PM', titulo: 'Cena', menu: 'Tacos fríos de Atún natural envueltos en lechuga capuchina o fajita ligera y palta', porciones: '2 latas atún escurrido, 1/2 palta grande, base hojas de lechuga dura'),
     ],
     listaCompraMensual: [
-      ProductoCompra(id: 'h_pesc_1', categoria: 'Proteínas', nombre: 'Pescado Blanco Congelado (Merluza/Tilapia/Abadejo)', cantidadMensual: '7 kg al freezer'),
-      ProductoCompra(id: 'h_pesc_2', categoria: 'Proteínas', nombre: 'Claras en envase pasteurizadas', cantidadMensual: '8 litros (Cajas grandes)'),
-      ProductoCompra(id: 'h_pesc_3', categoria: 'Carbohidratos', nombre: 'Quinoa en grano', cantidadMensual: '3 kg en paquete'),
-      ProductoCompra(id: 'h_pesc_4', categoria: 'Grasas', nombre: 'Paltas / Aguacates Extra', cantidadMensual: '15 unidades mensuales'),
+      ProductoCompra(id: 'h_pesc_1', categoria: 'Proteínas (Pescado)', nombre: 'Filetes de pescado blanco (Merluza/Tilapia) y Atún al natural', cantidadMensual: '8 kg pescado congelado, 30 latas de atún'),
+      ProductoCompra(id: 'h_pesc_2', categoria: 'Proteínas (Huevos/Lácteos)', nombre: 'Claras pasteurizadas en cartón, Yogur proteico / Skyr', cantidadMensual: '8 litros puras claras, 40 potes yogur proteico'),
+      ProductoCompra(id: 'h_pesc_3', categoria: 'Carbohidratos', nombre: 'Avena fina, Quinoa en grano, Arándanos/Frutos Rojos', cantidadMensual: '3 kg avena, 3 kg quinoa, 2 kg atados de frutos rojos fríos'),
+      ProductoCompra(id: 'h_pesc_4', categoria: 'Vegetales/Fibras', nombre: 'Zanahorias, Zapallo, Lechuga capuchina dura', cantidadMensual: '4 kg zanahorias, 4 kg zapallo/calabaza, hojas libres'),
+      ProductoCompra(id: 'h_pesc_5', categoria: 'Grasas Saludables', nombre: 'Semillas de chía/lino, Paltas (Aguacate)', cantidadMensual: '500g semillas, 15 paltas'),
     ],
   ),
   DietaModel(
@@ -219,10 +221,11 @@ final List<DietaModel> dietasDefinicionHombre = [
       ComidaCronograma(horario: '09:00 PM', titulo: 'Cena', menu: 'Pollo en tiras rápido crujientes estilo Wok con maní trozado crudo y vegetales colorados marinados en soja light', porciones: '200g pechuga dados, julianas de verduras, 30g polvo de maní crudo denso'),
     ],
     listaCompraMensual: [
-      ProductoCompra(id: 'h_slac_1', categoria: 'Lácteos Sustitutos', nombre: 'Bebida de almendras / maní sin azúcar', cantidadMensual: '10 cajas Brik grandes'),
-      ProductoCompra(id: 'h_slac_2', categoria: 'Proteínas', nombre: 'Proteína Polvo Isolate o Claras de Campo', cantidadMensual: '2 tarros 900g o 10 maples'),
-      ProductoCompra(id: 'h_slac_3', categoria: 'Grasas', nombre: 'Mantequilla de Maní Natural %100', cantidadMensual: '2 potes 500g sueltos alacena'),
-      ProductoCompra(id: 'h_slac_4', categoria: 'Carboidratos', nombre: 'Tostadas disco grandes de arroz liso', cantidadMensual: '5 tubos / bolsas largas'),
+      ProductoCompra(id: 'h_slac_1', categoria: 'Proteínas', nombre: 'Cerdo Magro (Solomillo), Pechuga de pollo cortada, Proteína Isolate o Claras', cantidadMensual: '6 kg cerdo, 6 kg pollo, 2 tarros whey proteín o 10 maples'),
+      ProductoCompra(id: 'h_slac_2', categoria: 'Sustitutos/Vegetal', nombre: 'Tofu firme (bloque), Bebida de almendras o maní sin azúcar', cantidadMensual: '4 kg tofu, 10 cajas de leche vegetal (litro)'),
+      ProductoCompra(id: 'h_slac_3', categoria: 'Carbohidratos', nombre: 'Papas para hervir, Galletas de arroz integrales extra grandes, Peras', cantidadMensual: '6 kg papas, 6 tubos galletas arroz, 20 peras'),
+      ProductoCompra(id: 'h_slac_4', categoria: 'Vegetales', nombre: 'Acelga o Espinaca fresca, Verduras para Wok (morrón, cebolla, zanahoria)', cantidadMensual: '6 atados espinaca y bolsitas libres p/wok'),
+      ProductoCompra(id: 'h_slac_5', categoria: 'Grasas Saludables', nombre: 'Mantequilla de mani natural (sin azúcar), Maní crudo, Coco/Chocolate amargo 70%+', cantidadMensual: '1 kg crema mani, 1 kg maní suelto, 5 tabletas chocolate'),
     ],
   ),
   DietaModel(
@@ -240,9 +243,11 @@ final List<DietaModel> dietasDefinicionHombre = [
       ComidaCronograma(horario: '09:00 PM', titulo: 'Cena', menu: 'Muslos o pata de pollo hervidos desgrasados con base profunda de lentejas escurridas.', porciones: '200g carne de ave sin piel, 80g legumbres secas hidratadas al dente.'),
     ],
     listaCompraMensual: [
-      ProductoCompra(id: 'h_eco_1', categoria: 'Proteínas Vaca/Ave', nombre: 'Carne de aguja/especial y Cajón patamuslo', cantidadMensual: '5 kg res fina, 8 kg cuartos de pollo'),
-      ProductoCompra(id: 'h_eco_2', categoria: 'Huevos y Fibras', nombre: 'Maples inmensos L y Lentejas', cantidadMensual: '7 maples (210 huevos), 5 kg lentejas'),
-      ProductoCompra(id: 'h_eco_3', categoria: 'Carbohidratos', nombre: 'Fideos simples y Avena granel', cantidadMensual: '5 kg pasta seca, 4 kg avena gruesa'),
+      ProductoCompra(id: 'h_eco_1', categoria: 'Proteínas', nombre: 'Carne picada de aguja (magra), Pata y Muslo de pollo económicos', cantidadMensual: '6 kg carne molida magra, 10 kg cuartos pollos'),
+      ProductoCompra(id: 'h_eco_2', categoria: 'Proteínas (Huevos)', nombre: 'Maples de cartón de Huevos grandes', cantidadMensual: '7 maples (210 huevos en total)'),
+      ProductoCompra(id: 'h_eco_3', categoria: 'Carbohidratos / Almidones', nombre: 'Avena común gruesa, Fideos tipo espagueti secos, Lentejas rubias', cantidadMensual: '4 kg avena granel, 5 kg fideos, 5 kg lentejas sueltas'),
+      ProductoCompra(id: 'h_eco_4', categoria: 'Frutas y Vegetales', nombre: 'Bananas medianas, Naranjas de jugo, Puré de tomate en caja', cantidadMensual: '25 bananas, 40 naranjas, 15 purés de tomate tetrabrik'),
+      ProductoCompra(id: 'h_eco_5', categoria: 'Grasas y Lácteos', nombre: 'Maní pelado suelto y Leche en sachet entera o descremada', cantidadMensual: '1.5 kg maní basto, 10 sachets leche'),
     ],
   ),
   DietaModel(
@@ -260,8 +265,11 @@ final List<DietaModel> dietasDefinicionHombre = [
       ComidaCronograma(horario: '09:00 PM', titulo: 'Cena', menu: 'Plancha oscura al rojo vivo secando bife filete magro + cama gigante al ajo vaporizada.', porciones: '200g rojo vacuno puro/pollo pechuguero plano grueso asado al limón sin aceites, colchones grandes verdes atados hervidor de espinaca ajillo sal sutil colador verdes hojas blandísimos digestivas planas pesados blandos al dormir regeneradores musculares fofas sutil purite colchona asadas estomgo panzs.'),
     ],
     listaCompraMensual: [
-      ProductoCompra(id: 'h_fib_1', categoria: 'Grasos Densos Semillas Puras', nombre: 'Chía y Girasol pelado', cantidadMensual: '1 kg chia, 1 kg maravilla pelada.'),
-      ProductoCompra(id: 'h_fib_2', categoria: 'Carbohidratos Densos', nombre: 'Garbanzos gruesos y Panes Negros Molde', cantidadMensual: '4 paquetes grandes masa negra de amasar u panaderos asados duros salvados fofos moldes gruesos de la pura bolsa, 3 kg soso de rústico soso rudo ambar garbazal.'),
+      ProductoCompra(id: 'h_fib_1', categoria: 'Proteínas', nombre: 'Filete magro pesado (lomo/cuadril) o Pechugas, Atún al agua y Puré de Garbanzo', cantidadMensual: '7 kg carne limpia (alternar pollo/vaca), 15 latas atún'),
+      ProductoCompra(id: 'h_fib_2', categoria: 'Fibras Densas', nombre: 'Garbanzos sueltos o enlatados', cantidadMensual: '5 kg garbanzos a granel'),
+      ProductoCompra(id: 'h_fib_3', categoria: 'Carbohidratos', nombre: 'Avena instantánea, Pan integral 100% de molde oscuro', cantidadMensual: '4 kg avena, 6 paquetes de pan salvado espeso'),
+      ProductoCompra(id: 'h_fib_4', categoria: 'Vegetales Base', nombre: 'Espinaca gigante, Rúcula, Zanahorias espesas, Apio y Pepinillos', cantidadMensual: '8 atados espinaca, 4 atados rúcula, 6 atados apio, 5 kg zanahoria'),
+      ProductoCompra(id: 'h_fib_5', categoria: 'Grasas / Adiciones', nombre: 'Semillas de Chía, Semillas maravilla blanca (Girasol pelado), Ricota magra', cantidadMensual: '1 kg chía, 1 kg girasol, 4 potes grandes ricota'),
     ],
   ),
 ];
