@@ -32,13 +32,9 @@ class DietasRecomendadasPage extends StatelessWidget {
             Center(
               child: Hero(
                 tag: 'hero-nutricion',
-                child: SvgPicture.asset(
-                  'assets/icons/nutricion_icon.svg',
+                child: Image.asset(
+                  'assets/images/good-food.gif',
                   height: 180,
-                  colorFilter: const ColorFilter.mode(
-                    AppTheme.goldAccent,
-                    BlendMode.srcIn,
-                  ),
                   fit: BoxFit.contain,
                 ),
               ),

@@ -227,7 +227,7 @@ class MainDashboard extends StatelessWidget {
             Glassmorphic3DShortcut(
               title: 'PLANES DE ALIMENTACIÓN',
               subtitle: 'Nutrición, Agua y Monitor de Peso',
-              imagePath: 'assets/icons/nutricion_icon.svg',
+              imagePath: 'assets/images/good-food.gif',
               heroTag: 'hero-nutricion',
               onTap: () => Navigator.push(
                 context,
