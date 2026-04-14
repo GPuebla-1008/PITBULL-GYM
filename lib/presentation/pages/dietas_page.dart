@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_theme.dart';
 import 'dieta_mujer_definicion_page.dart';
 import 'dieta_hombre_definicion_page.dart';
+import 'dieta_mujer_ganancia_page.dart';
 
 class DietasRecomendadasPage extends StatelessWidget {
   const DietasRecomendadasPage({super.key});
@@ -63,9 +64,7 @@ class DietasRecomendadasPage extends StatelessWidget {
               icon: Icons.fitness_center,
               color: Colors.lightGreen.shade400,
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Próximamente: Ganancia Mujeres')),
-                );
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const DietaMujerGananciaPage()));
               },
             ),
             const SizedBox(height: 16),
