@@ -16,6 +16,7 @@ import 'presentation/pages/routines_page.dart';
 import 'presentation/pages/dietas_page.dart';
 import 'presentation/pages/payment_info_page.dart';
 import 'presentation/pages/admin_dashboard_page.dart';
+import 'presentation/pages/supplementation_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -265,6 +266,35 @@ class MainDashboard extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (_) => const DietasRecomendadasPage(),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Card(
+              child: ListTile(
+                leading: Icon(
+                  Icons.biotech,
+                  color: AppTheme.goldAccent,
+                  size: 36,
+                ),
+                title: Text(
+                  'SUPLEMENTACIÓN RECOMENDADA',
+                  style: GoogleFonts.outfit(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: AppTheme.goldAccent,
+                  ),
+                ),
+                subtitle: const Text('Guía inteligente según tu objetivo'),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: AppTheme.goldAccent,
+                ),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const SupplementationPage(),
                   ),
                 ),
               ),
