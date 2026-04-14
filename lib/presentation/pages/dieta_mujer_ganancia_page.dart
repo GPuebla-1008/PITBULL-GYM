@@ -35,7 +35,7 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
           style: GoogleFonts.outfit(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: AppTheme.deepBlack,
-        iconTheme: const IconThemeData(color: Colors.greenAccent),
+        iconTheme: const IconThemeData(color: Colors.deepOrangeAccent),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -67,7 +67,7 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
                       onSelected: (selected) {
                         if (selected) setState(() => _dietaSeleccionada = index);
                       },
-                      selectedColor: Colors.greenAccent.shade700,
+                      selectedColor: Colors.deepOrangeAccent.shade700,
                       backgroundColor: AppTheme.warmGrey,
                       labelStyle: TextStyle(color: isSelected ? Colors.white : Colors.white70, fontWeight: FontWeight.bold),
                     ),
@@ -102,19 +102,19 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
                     return ExpansionTile(
                       leading: Checkbox(
                         value: isChecked,
-                        activeColor: Colors.greenAccent.shade700,
+                        activeColor: Colors.deepOrangeAccent.shade700,
                         checkColor: Colors.white,
                         onChanged: (val) => metrics.toggleMealCheck(dieta.id, comida.horario),
                       ),
                       title: Text(
                         '${comida.horario} - ${comida.titulo}',
                         style: TextStyle(
-                          color: isChecked ? Colors.white54 : Colors.greenAccent,
+                          color: isChecked ? Colors.white54 : Colors.deepOrangeAccent,
                           fontWeight: FontWeight.bold,
                           decoration: isChecked ? TextDecoration.lineThrough : null,
                         ),
                       ),
-                      iconColor: Colors.greenAccent,
+                      iconColor: Colors.deepOrangeAccent,
                       collapsedIconColor: Colors.white54,
                       childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                       expandedAlignment: Alignment.centerLeft,
@@ -144,7 +144,7 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
                 children: dieta.listaCompraMensual.map((prod) {
                   return CheckboxListTile(
                     value: metrics.isProductChecked(prod.id),
-                    activeColor: Colors.greenAccent.shade700,
+                    activeColor: Colors.deepOrangeAccent.shade700,
                     checkColor: Colors.white,
                     title: Text(prod.nombre, style: TextStyle(color: metrics.isProductChecked(prod.id) ? Colors.white54 : Colors.white, decoration: metrics.isProductChecked(prod.id) ? TextDecoration.lineThrough : null)),
                     subtitle: Text('${prod.categoria} • ${prod.cantidadMensual}', style: const TextStyle(color: Colors.white54, fontSize: 12)),
@@ -265,9 +265,9 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
                       labelText: 'Peso de hoy (kg)',
                       labelStyle: const TextStyle(color: Colors.white54),
                       enabledBorder: OutlineInputBorder(borderSide: const BorderSide(color: Colors.white24), borderRadius: BorderRadius.circular(8)),
-                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.greenAccent.shade400), borderRadius: BorderRadius.circular(8)),
+                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.deepOrangeAccent.shade400), borderRadius: BorderRadius.circular(8)),
                       suffixIcon: IconButton(
-                        icon: Icon(Icons.save, color: Colors.greenAccent.shade400),
+                        icon: Icon(Icons.save, color: Colors.deepOrangeAccent.shade400),
                         onPressed: () {
                           final p = double.tryParse(_weightController.text.replaceAll(',', '.'));
                           if (p != null) {
