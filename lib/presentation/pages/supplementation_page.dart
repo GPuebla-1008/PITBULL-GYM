@@ -104,7 +104,7 @@ class _SupplementationPageState extends State<SupplementationPage> {
               child: Hero(
                 tag: 'hero-suplementos',
                 child: Image.asset(
-                  'assets/images/tenor.gif',
+                  'assets/images/prodecopharma-prodeco.gif',
                   height: 120,
                   fit: BoxFit.contain,
                 ),

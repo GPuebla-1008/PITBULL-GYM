@@ -240,7 +240,7 @@ class MainDashboard extends StatelessWidget {
             Glassmorphic3DShortcut(
               title: 'SUPLEMENTACIÓN RECOMENDADA',
               subtitle: 'Guía inteligente según tu objetivo',
-              imagePath: 'assets/images/tenor.gif',
+              imagePath: 'assets/images/prodecopharma-prodeco.gif',
               heroTag: 'hero-suplementos',
               onTap: () => Navigator.push(
                 context,
