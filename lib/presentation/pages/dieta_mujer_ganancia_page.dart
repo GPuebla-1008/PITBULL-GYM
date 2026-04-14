@@ -95,13 +95,27 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _buildMacroStat('Proteína', dieta.proteinas, Colors.redAccent),
-                _buildMacroStat(
-                  'Carbs',
-                  dieta.carbohidratos,
-                  Colors.orangeAccent,
+                Expanded(
+                  child: _buildMacroStat(
+                    'Proteína',
+                    dieta.proteinas,
+                    Colors.redAccent,
+                  ),
                 ),
-                _buildMacroStat('Grasas', dieta.grasas, Colors.yellowAccent),
+                Expanded(
+                  child: _buildMacroStat(
+                    'Carbs',
+                    dieta.carbohidratos,
+                    Colors.orangeAccent,
+                  ),
+                ),
+                Expanded(
+                  child: _buildMacroStat(
+                    'Grasas',
+                    dieta.grasas,
+                    Colors.yellowAccent,
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 32),
@@ -247,21 +261,24 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
   }
 
   Widget _buildMacroStat(String label, String value, Color clr) {
-    return Column(
-      children: [
-        Text(
-          value,
-          style: GoogleFonts.outfit(
-            color: clr,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Column(
+        children: [
+          Text(
+            value,
+            style: GoogleFonts.outfit(
+              color: clr,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        Text(
-          label,
-          style: const TextStyle(color: Colors.white70, fontSize: 12),
-        ),
-      ],
+          Text(
+            label,
+            style: const TextStyle(color: Colors.white70, fontSize: 12),
+          ),
+        ],
+      ),
     );
   }
 
@@ -382,82 +399,112 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
               ),
             ),
             const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _weightController,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    style: const TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                      labelText: 'Peso de hoy (kg)',
-                      labelStyle: const TextStyle(color: Colors.white54),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.white24),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Colors.deepOrangeAccent.shade400,
-                        ),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          Icons.save,
-                          color: Colors.deepOrangeAccent.shade400,
-                        ),
-                        onPressed: () {
-                          final p = double.tryParse(
-                            _weightController.text.replaceAll(',', '.'),
-                          );
-                          if (p != null) {
-                            metrics.saveDailyWeight(p);
-                            _weightController.clear();
-                            FocusScope.of(context).unfocus();
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                if (curWeight != null) ...[
-                  const SizedBox(width: 24),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        '${curWeight.toStringAsFixed(1)} kg',
-                        style: GoogleFonts.outfit(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      if (curWeight != lstWeight)
-                        Row(
-                          children: [
-                            Icon(deltaIco, color: deltaClr, size: 16),
-                            const SizedBox(width: 4),
-                            Text(
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final isCompact = constraints.maxWidth < 280;
+                return isCompact
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          _buildWeightInput(metrics),
+                          const SizedBox(height: 16),
+                          if (curWeight != null)
+                            _buildWeightStats(
+                              curWeight,
+                              lstWeight,
+                              deltaIco,
+                              deltaClr,
                               deltaTxt,
-                              style: TextStyle(
-                                color: deltaClr,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            ),
+                        ],
+                      )
+                    : Row(
+                        children: [
+                          Expanded(child: _buildWeightInput(metrics)),
+                          if (curWeight != null) ...[
+                            const SizedBox(width: 24),
+                            _buildWeightStats(
+                              curWeight,
+                              lstWeight,
+                              deltaIco,
+                              deltaClr,
+                              deltaTxt,
                             ),
                           ],
-                        ),
-                    ],
-                  ),
-                ],
-              ],
+                        ],
+                      );
+              },
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildWeightInput(MetricsProvider metrics) {
+    return TextField(
+      controller: _weightController,
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      style: const TextStyle(color: Colors.white),
+      decoration: InputDecoration(
+        labelText: 'Peso de hoy (kg)',
+        labelStyle: const TextStyle(color: Colors.white54),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.white24),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.deepOrangeAccent.shade400),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        suffixIcon: IconButton(
+          icon: Icon(Icons.save, color: Colors.deepOrangeAccent.shade400),
+          onPressed: () {
+            final p = double.tryParse(
+              _weightController.text.replaceAll(',', '.'),
+            );
+            if (p != null) {
+              metrics.saveDailyWeight(p);
+              _weightController.clear();
+              FocusScope.of(context).unfocus();
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWeightStats(
+    double curWeight,
+    double? lstWeight,
+    IconData deltaIco,
+    Color deltaClr,
+    String deltaTxt,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          '${curWeight.toStringAsFixed(1)} kg',
+          style: GoogleFonts.outfit(
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        if (curWeight != lstWeight)
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(deltaIco, color: deltaClr, size: 16),
+              const SizedBox(width: 4),
+              Text(
+                deltaTxt,
+                style: TextStyle(color: deltaClr, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+      ],
     );
   }
 

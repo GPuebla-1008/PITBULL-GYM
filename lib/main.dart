@@ -134,24 +134,27 @@ class MainDashboard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Header usuario
-            Row(
-              children: [
-                CircleAvatar(
-                  radius: 24,
-                  backgroundColor: AppTheme.goldAccent,
-                  child: Text(
-                    inicial,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 24,
+                    backgroundColor: AppTheme.goldAccent,
+                    child: Text(
+                      inicial,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Column(
+                  const SizedBox(width: 14),
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         'Hola, $displayName 💪',
@@ -187,24 +190,22 @@ class MainDashboard extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(height: 32),
 
             _sectionHeader('SEGUIMIENTO DE CLASE'),
             const SizedBox(height: 16),
             Center(
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  final logoH = (MediaQuery.of(context).size.height * 0.28)
-                      .clamp(140.0, 280.0);
-                  return Image.asset(
-                    'assets/images/logo.png',
-                    height: logoH,
-                    fit: BoxFit.contain,
-                  );
-                },
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.25,
+                ),
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
             const SizedBox(height: 16),

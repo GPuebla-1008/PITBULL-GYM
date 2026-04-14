@@ -337,21 +337,27 @@ class _SupplementationPageState extends State<SupplementationPage> {
       children: [
         // Left - Time
         SizedBox(
-          width: 80,
+          width: MediaQuery.of(context).size.width < 340 ? 65 : 80,
           child: Column(
             children: [
-              Text(
-                absTime,
-                style: GoogleFonts.outfit(
-                  color: AppTheme.goldAccent,
-                  fontWeight: FontWeight.bold,
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  absTime,
+                  style: GoogleFonts.outfit(
+                    color: AppTheme.goldAccent,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const SizedBox(height: 4),
-              Text(
-                supp.relativeTiming,
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.white24, fontSize: 10),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  supp.relativeTiming,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(color: Colors.white24, fontSize: 10),
+                ),
               ),
             ],
           ),
