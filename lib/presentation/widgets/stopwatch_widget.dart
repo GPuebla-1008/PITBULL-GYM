@@ -39,7 +39,9 @@ class _StopwatchWidgetState extends State<StopwatchWidget> {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     final minutes = twoDigits(duration.inMinutes.remainder(60));
     final seconds = twoDigits(duration.inSeconds.remainder(60));
-    final milliseconds = twoDigits((duration.inMilliseconds.remainder(1000) ~/ 10));
+    final milliseconds = twoDigits(
+      (duration.inMilliseconds.remainder(1000) ~/ 10),
+    );
     return '$minutes:$seconds:$milliseconds';
   }
 
@@ -66,7 +68,10 @@ class _StopwatchWidgetState extends State<StopwatchWidget> {
       decoration: BoxDecoration(
         color: AppTheme.warmGrey,
         borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: AppTheme.goldAccent.withOpacity(0.3), width: 1),
+        border: Border.all(
+          color: AppTheme.goldAccent.withOpacity(0.3),
+          width: 1,
+        ),
         boxShadow: [
           BoxShadow(
             color: AppTheme.goldAccent.withOpacity(0.1),
@@ -106,7 +111,9 @@ class _StopwatchWidgetState extends State<StopwatchWidget> {
             children: [
               _buildButton(
                 icon: _stopwatch.isRunning ? Icons.pause : Icons.play_arrow,
-                color: _stopwatch.isRunning ? AppTheme.electricOrange : AppTheme.goldAccent,
+                color: _stopwatch.isRunning
+                    ? AppTheme.electricOrange
+                    : AppTheme.goldAccent,
                 onPressed: _startStopwatch,
                 size: buttonSize,
               ),

@@ -43,7 +43,10 @@ class _RegisterPageState extends State<RegisterPage>
   @override
   void initState() {
     super.initState();
-    _anim = AnimationController(vsync: this, duration: const Duration(milliseconds: 700));
+    _anim = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 700),
+    );
     _fadeIn = CurvedAnimation(parent: _anim, curve: Curves.easeOut);
     _anim.forward();
   }
@@ -80,10 +83,14 @@ class _RegisterPageState extends State<RegisterPage>
     if (ok) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('¡Cuenta creada! Revisa tu email (o carpeta de spam) para verificarla'),
+          content: const Text(
+            '¡Cuenta creada! Revisa tu email (o carpeta de spam) para verificarla',
+          ),
           backgroundColor: Colors.green.shade700,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           duration: const Duration(seconds: 6),
         ),
       );
@@ -94,7 +101,9 @@ class _RegisterPageState extends State<RegisterPage>
           content: Text(auth.errorMessage ?? 'Error al registrarse'),
           backgroundColor: Colors.redAccent,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       );
     }
@@ -133,9 +142,16 @@ class _RegisterPageState extends State<RegisterPage>
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: AppTheme.goldAccent.withOpacity(0.12),
-                        border: Border.all(color: AppTheme.goldAccent.withOpacity(0.3), width: 1.5),
+                        border: Border.all(
+                          color: AppTheme.goldAccent.withOpacity(0.3),
+                          width: 1.5,
+                        ),
                       ),
-                      child: Icon(Icons.fitness_center, color: AppTheme.goldAccent, size: 36),
+                      child: Icon(
+                        Icons.fitness_center,
+                        color: AppTheme.goldAccent,
+                        size: 36,
+                      ),
                     ),
                     const SizedBox(height: 20),
                     Text(
@@ -150,7 +166,10 @@ class _RegisterPageState extends State<RegisterPage>
                     const SizedBox(height: 6),
                     Text(
                       'Únete a PITBULL GYM hoy',
-                      style: GoogleFonts.inter(color: Colors.white54, fontSize: 13),
+                      style: GoogleFonts.inter(
+                        color: Colors.white54,
+                        fontSize: 13,
+                      ),
                     ),
                     const SizedBox(height: 32),
 
@@ -220,7 +239,10 @@ class _RegisterPageState extends State<RegisterPage>
                       value: _objetivo,
                       decoration: InputDecoration(
                         labelText: 'Objetivo en el gym',
-                        prefixIcon: Icon(Icons.track_changes, color: AppTheme.goldAccent),
+                        prefixIcon: Icon(
+                          Icons.track_changes,
+                          color: AppTheme.goldAccent,
+                        ),
                         filled: true,
                         fillColor: Colors.black26,
                         border: OutlineInputBorder(
@@ -229,15 +251,22 @@ class _RegisterPageState extends State<RegisterPage>
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14),
-                          borderSide: BorderSide(color: AppTheme.goldAccent, width: 2),
+                          borderSide: BorderSide(
+                            color: AppTheme.goldAccent,
+                            width: 2,
+                          ),
                         ),
-                        labelStyle: TextStyle(color: AppTheme.goldAccent.withOpacity(0.7)),
+                        labelStyle: TextStyle(
+                          color: AppTheme.goldAccent.withOpacity(0.7),
+                        ),
                       ),
                       dropdownColor: AppTheme.warmGrey,
                       style: const TextStyle(color: Colors.white),
                       iconEnabledColor: AppTheme.goldAccent,
                       items: _objetivos
-                          .map((o) => DropdownMenuItem(value: o, child: Text(o)))
+                          .map(
+                            (o) => DropdownMenuItem(value: o, child: Text(o)),
+                          )
                           .toList(),
                       onChanged: (v) => setState(() => _objetivo = v!),
                     ),
@@ -248,7 +277,10 @@ class _RegisterPageState extends State<RegisterPage>
                       value: _diaPago,
                       decoration: InputDecoration(
                         labelText: 'Día de Pago Fijo (Mes)',
-                        prefixIcon: Icon(Icons.calendar_month_outlined, color: AppTheme.goldAccent),
+                        prefixIcon: Icon(
+                          Icons.calendar_month_outlined,
+                          color: AppTheme.goldAccent,
+                        ),
                         filled: true,
                         fillColor: Colors.black26,
                         border: OutlineInputBorder(
@@ -257,15 +289,25 @@ class _RegisterPageState extends State<RegisterPage>
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(14),
-                          borderSide: BorderSide(color: AppTheme.goldAccent, width: 2),
+                          borderSide: BorderSide(
+                            color: AppTheme.goldAccent,
+                            width: 2,
+                          ),
                         ),
-                        labelStyle: TextStyle(color: AppTheme.goldAccent.withOpacity(0.7)),
+                        labelStyle: TextStyle(
+                          color: AppTheme.goldAccent.withOpacity(0.7),
+                        ),
                       ),
                       dropdownColor: AppTheme.warmGrey,
                       style: const TextStyle(color: Colors.white),
                       iconEnabledColor: AppTheme.goldAccent,
                       items: _diasPago
-                          .map((d) => DropdownMenuItem(value: d, child: Text('Día $d de cada mes')))
+                          .map(
+                            (d) => DropdownMenuItem(
+                              value: d,
+                              child: Text('Día $d de cada mes'),
+                            ),
+                          )
                           .toList(),
                       onChanged: (v) => setState(() => _diaPago = v!),
                     ),
@@ -285,7 +327,8 @@ class _RegisterPageState extends State<RegisterPage>
                         onPressed: () => setState(() => _obscure = !_obscure),
                       ),
                       validator: (v) {
-                        if (v == null || v.isEmpty) return 'Ingresá una contraseña';
+                        if (v == null || v.isEmpty)
+                          return 'Ingresá una contraseña';
                         if (v.length < 6) return 'Mínimo 6 caracteres';
                         return null;
                       },
@@ -300,14 +343,19 @@ class _RegisterPageState extends State<RegisterPage>
                       obscure: _obscureConfirm,
                       suffix: IconButton(
                         icon: Icon(
-                          _obscureConfirm ? Icons.visibility_off : Icons.visibility,
+                          _obscureConfirm
+                              ? Icons.visibility_off
+                              : Icons.visibility,
                           color: AppTheme.goldAccent.withOpacity(0.7),
                         ),
-                        onPressed: () => setState(() => _obscureConfirm = !_obscureConfirm),
+                        onPressed: () =>
+                            setState(() => _obscureConfirm = !_obscureConfirm),
                       ),
                       validator: (v) {
-                        if (v == null || v.isEmpty) return 'Confirmá la contraseña';
-                        if (v != _passCtrl.text) return 'Las contraseñas no coinciden';
+                        if (v == null || v.isEmpty)
+                          return 'Confirmá la contraseña';
+                        if (v != _passCtrl.text)
+                          return 'Las contraseñas no coinciden';
                         return null;
                       },
                     ),
@@ -322,14 +370,19 @@ class _RegisterPageState extends State<RegisterPage>
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppTheme.goldAccent,
                           foregroundColor: Colors.black,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
                           elevation: 8,
                         ),
                         child: _loading
                             ? const SizedBox(
                                 width: 22,
                                 height: 22,
-                                child: CircularProgressIndicator(strokeWidth: 2.5, color: Colors.black),
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.5,
+                                  color: Colors.black,
+                                ),
                               )
                             : Text(
                                 'CREAR CUENTA',
@@ -347,7 +400,10 @@ class _RegisterPageState extends State<RegisterPage>
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('¿Ya tenés cuenta? ', style: GoogleFonts.inter(color: Colors.white54)),
+                        Text(
+                          '¿Ya tenés cuenta? ',
+                          style: GoogleFonts.inter(color: Colors.white54),
+                        ),
                         GestureDetector(
                           onTap: () => Navigator.pop(context),
                           child: Text(
@@ -393,7 +449,10 @@ class _RegisterPageState extends State<RegisterPage>
         suffixIcon: suffix,
         filled: true,
         fillColor: Colors.black26,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(14), borderSide: BorderSide.none),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(14),
+          borderSide: BorderSide.none,
+        ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: BorderSide(color: AppTheme.goldAccent, width: 2),

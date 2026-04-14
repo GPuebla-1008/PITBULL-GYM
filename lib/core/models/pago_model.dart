@@ -30,10 +30,10 @@ class PagoModel {
   }
 
   Map<String, dynamic> toFirestore() => {
-        'id_socio': idSocio,
-        'mes': mes,
-        'anio': anio,
-        'monto': monto,
-        'fecha_pago': Timestamp.fromDate(fechaPago),
-      };
+    'id_socio': idSocio,
+    'mes': mes,
+    'anio': anio,
+    'monto': monto,
+    'fecha_pago': Timestamp.fromDate(fechaPago),
+  };
 }

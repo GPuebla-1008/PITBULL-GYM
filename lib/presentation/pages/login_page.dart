@@ -24,7 +24,10 @@ class _LoginPageState extends State<LoginPage>
   @override
   void initState() {
     super.initState();
-    _anim = AnimationController(vsync: this, duration: const Duration(milliseconds: 800));
+    _anim = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
     _fadeIn = CurvedAnimation(parent: _anim, curve: Curves.easeOut);
     _anim.forward();
   }
@@ -52,7 +55,9 @@ class _LoginPageState extends State<LoginPage>
           content: Text(auth.errorMessage ?? 'Error al iniciar sesión'),
           backgroundColor: Colors.redAccent,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       );
     }
@@ -81,7 +86,11 @@ class _LoginPageState extends State<LoginPage>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Logo
-                    Image.asset('assets/images/logo.png', height: logoH, fit: BoxFit.contain),
+                    Image.asset(
+                      'assets/images/logo.png',
+                      height: logoH,
+                      fit: BoxFit.contain,
+                    ),
                     const SizedBox(height: 32),
 
                     // Título
@@ -97,7 +106,10 @@ class _LoginPageState extends State<LoginPage>
                     const SizedBox(height: 8),
                     Text(
                       'Accedé a tu panel de entrenamiento',
-                      style: GoogleFonts.inter(color: Colors.white54, fontSize: 13),
+                      style: GoogleFonts.inter(
+                        color: Colors.white54,
+                        fontSize: 13,
+                      ),
                     ),
                     const SizedBox(height: 36),
 
@@ -129,7 +141,8 @@ class _LoginPageState extends State<LoginPage>
                         onPressed: () => setState(() => _obscure = !_obscure),
                       ),
                       validator: (v) {
-                        if (v == null || v.isEmpty) return 'Ingresá tu contraseña';
+                        if (v == null || v.isEmpty)
+                          return 'Ingresá tu contraseña';
                         if (v.length < 6) return 'Mínimo 6 caracteres';
                         return null;
                       },
@@ -145,7 +158,9 @@ class _LoginPageState extends State<LoginPage>
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppTheme.goldAccent,
                           foregroundColor: Colors.black,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
                           elevation: 8,
                         ),
                         child: _loading
@@ -172,12 +187,22 @@ class _LoginPageState extends State<LoginPage>
                     // Separador
                     Row(
                       children: [
-                        Expanded(child: Divider(color: Colors.white24, thickness: 1)),
+                        Expanded(
+                          child: Divider(color: Colors.white24, thickness: 1),
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
-                          child: Text('O', style: GoogleFonts.inter(color: Colors.white54, fontSize: 13)),
+                          child: Text(
+                            'O',
+                            style: GoogleFonts.inter(
+                              color: Colors.white54,
+                              fontSize: 13,
+                            ),
+                          ),
                         ),
-                        Expanded(child: Divider(color: Colors.white24, thickness: 1)),
+                        Expanded(
+                          child: Divider(color: Colors.white24, thickness: 1),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 24),
@@ -189,11 +214,18 @@ class _LoginPageState extends State<LoginPage>
                       child: OutlinedButton(
                         onPressed: () => Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => const RegisterPage()),
+                          MaterialPageRoute(
+                            builder: (_) => const RegisterPage(),
+                          ),
                         ),
                         style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: AppTheme.goldAccent, width: 2),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                          side: BorderSide(
+                            color: AppTheme.goldAccent,
+                            width: 2,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
                         ),
                         child: Text(
                           'CREAR CUENTA',

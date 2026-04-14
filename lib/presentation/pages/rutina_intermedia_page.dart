@@ -12,7 +12,8 @@ class RutinaIntermediaPage extends StatefulWidget {
   State<RutinaIntermediaPage> createState() => _RutinaIntermediaPageState();
 }
 
-class _RutinaIntermediaPageState extends State<RutinaIntermediaPage> with TickerProviderStateMixin {
+class _RutinaIntermediaPageState extends State<RutinaIntermediaPage>
+    with TickerProviderStateMixin {
   String _varianteSeleccionada = '3 Días';
   late TabController _tabController;
 
@@ -48,17 +49,22 @@ class _RutinaIntermediaPageState extends State<RutinaIntermediaPage> with Ticker
     if (workout.loading) {
       return Scaffold(
         backgroundColor: AppTheme.charcoalBackground,
-        body: const Center(child: CircularProgressIndicator(color: AppTheme.goldAccent)),
+        body: const Center(
+          child: CircularProgressIndicator(color: AppTheme.goldAccent),
+        ),
       );
     }
 
-    final rutinasIntermedias = workout.todasLasRutinas.where((r) => r.id.startsWith('intermedio_')).toList();
+    final rutinasIntermedias = workout.todasLasRutinas
+        .where((r) => r.id.startsWith('intermedio_'))
+        .toList();
 
     final rutinaData = rutinasIntermedias.firstWhere(
       (r) => r.variante == _varianteSeleccionada,
-      orElse: () => RutinaAdaptacion(id: '', variante: _varianteSeleccionada, dias: []),
+      orElse: () =>
+          RutinaAdaptacion(id: '', variante: _varianteSeleccionada, dias: []),
     );
-    
+
     _actualizarTabs(rutinaData.dias.length);
 
     return Scaffold(
@@ -77,7 +83,9 @@ class _RutinaIntermediaPageState extends State<RutinaIntermediaPage> with Ticker
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: isSmall ? 14 : 18,
-                    shadows: [const Shadow(color: Colors.black54, blurRadius: 4)],
+                    shadows: [
+                      const Shadow(color: Colors.black54, blurRadius: 4),
+                    ],
                   ),
                 ),
                 background: Stack(
@@ -96,12 +104,15 @@ class _RutinaIntermediaPageState extends State<RutinaIntermediaPage> with Ticker
                           end: Alignment.bottomCenter,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
               leading: IconButton(
-                icon: const Icon(Icons.arrow_back_ios, color: AppTheme.goldAccent),
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: AppTheme.goldAccent,
+                ),
                 onPressed: () => Navigator.pop(context),
               ),
             ),
@@ -115,15 +126,24 @@ class _RutinaIntermediaPageState extends State<RutinaIntermediaPage> with Ticker
                   children: [
                     Text(
                       'Configura tu split semanal',
-                      style: TextStyle(color: Colors.white70, fontSize: isSmall ? 13 : 16),
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: isSmall ? 13 : 16,
+                      ),
                     ),
                     const SizedBox(height: 12),
                     FittedBox(
                       fit: BoxFit.scaleDown,
                       child: SegmentedButton<String>(
                         segments: const [
-                          ButtonSegment(value: '3 Días', label: Text('3 DÍAS (FULL BODY)')),
-                          ButtonSegment(value: '5 Días', label: Text('5 DÍAS (PPL + T/P)')),
+                          ButtonSegment(
+                            value: '3 Días',
+                            label: Text('3 DÍAS (FULL BODY)'),
+                          ),
+                          ButtonSegment(
+                            value: '5 Días',
+                            label: Text('5 DÍAS (PPL + T/P)'),
+                          ),
                         ],
                         selected: {_varianteSeleccionada},
                         onSelectionChanged: (Set<String> newSelection) {
@@ -154,14 +174,22 @@ class _RutinaIntermediaPageState extends State<RutinaIntermediaPage> with Ticker
                     unselectedLabelColor: Colors.white54,
                     indicatorColor: AppTheme.goldAccent,
                     labelStyle: TextStyle(fontSize: isSmall ? 12 : 14),
-                    tabs: rutinaData.dias.map((d) => Tab(text: d.nombreDia)).toList(),
+                    tabs: rutinaData.dias
+                        .map((d) => Tab(text: d.nombreDia))
+                        .toList(),
                   ),
                 ),
               ),
           ];
         },
         body: rutinaData.dias.isEmpty
-            ? Center(child: Text("Rutina no disponible. Ingresa como Admin y repobla la base de datos.", style: TextStyle(color: Colors.white54), textAlign: TextAlign.center))
+            ? Center(
+                child: Text(
+                  "Rutina no disponible. Ingresa como Admin y repobla la base de datos.",
+                  style: TextStyle(color: Colors.white54),
+                  textAlign: TextAlign.center,
+                ),
+              )
             : TabBarView(
                 key: ValueKey(rutinaData.dias.length),
                 controller: _tabController,
@@ -172,11 +200,20 @@ class _RutinaIntermediaPageState extends State<RutinaIntermediaPage> with Ticker
                         padding: EdgeInsets.all(isSmall ? 10 : 16),
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            context.read<WorkoutProvider>().iniciarSesion(dia, _varianteSeleccionada);
-                            Navigator.popUntil(context, (route) => route.isFirst);
+                            context.read<WorkoutProvider>().iniciarSesion(
+                              dia,
+                              _varianteSeleccionada,
+                            );
+                            Navigator.popUntil(
+                              context,
+                              (route) => route.isFirst,
+                            );
                           },
                           icon: const Icon(Icons.play_arrow_rounded, size: 28),
-                          label: Text('COMENZAR ESTE DÍA', style: TextStyle(fontSize: isSmall ? 13 : 15)),
+                          label: Text(
+                            'COMENZAR ESTE DÍA',
+                            style: TextStyle(fontSize: isSmall ? 13 : 15),
+                          ),
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 50),
                             backgroundColor: AppTheme.goldAccent,
@@ -186,7 +223,9 @@ class _RutinaIntermediaPageState extends State<RutinaIntermediaPage> with Ticker
                       ),
                       Expanded(
                         child: ListView.builder(
-                          padding: EdgeInsets.symmetric(horizontal: isSmall ? 10 : 16),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: isSmall ? 10 : 16,
+                          ),
                           itemCount: dia.ejercicios.length,
                           itemBuilder: (ctx, i) {
                             final ej = dia.ejercicios[i];
@@ -226,8 +265,11 @@ class _RutinaIntermediaPageState extends State<RutinaIntermediaPage> with Ticker
               child: Image.asset(
                 ej.urlGif,
                 fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) => 
-                    const Icon(Icons.fitness_center, size: 50, color: Colors.black26),
+                errorBuilder: (context, error, stackTrace) => const Icon(
+                  Icons.fitness_center,
+                  size: 50,
+                  color: Colors.black26,
+                ),
               ),
             ),
           ),
@@ -238,7 +280,11 @@ class _RutinaIntermediaPageState extends State<RutinaIntermediaPage> with Ticker
               children: [
                 Text(
                   ej.nombre,
-                  style: GoogleFonts.outfit(fontSize: isSmall ? 16 : 20, fontWeight: FontWeight.bold, color: Colors.white),
+                  style: GoogleFonts.outfit(
+                    fontSize: isSmall ? 16 : 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
                 const SizedBox(height: 12),
                 Wrap(
@@ -247,26 +293,48 @@ class _RutinaIntermediaPageState extends State<RutinaIntermediaPage> with Ticker
                   children: [
                     if (ej.musculoObjetivo != null)
                       Chip(
-                        label: Text(ej.musculoObjetivo!, style: const TextStyle(fontSize: 11, color: Colors.white)),
+                        label: Text(
+                          ej.musculoObjetivo!,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: Colors.white,
+                          ),
+                        ),
                         backgroundColor: AppTheme.deepBlack,
                         side: const BorderSide(color: Colors.white24),
                         visualDensity: VisualDensity.compact,
                       ),
                     Chip(
-                      label: Text(ej.tipoDeEquipo ?? ej.tipo, style: const TextStyle(fontSize: 11)),
+                      label: Text(
+                        ej.tipoDeEquipo ?? ej.tipo,
+                        style: const TextStyle(fontSize: 11),
+                      ),
                       backgroundColor: Colors.black38,
                       side: BorderSide(color: AppTheme.electricOrange),
                       visualDensity: VisualDensity.compact,
                     ),
                     Chip(
-                      label: Text(seriesRepsText, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+                      label: Text(
+                        seriesRepsText,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       backgroundColor: AppTheme.goldAccent.withOpacity(0.2),
                       side: BorderSide(color: AppTheme.goldAccent),
                       visualDensity: VisualDensity.compact,
                     ),
                     Chip(
-                      avatar: const Icon(Icons.timer, size: 14, color: Colors.white),
-                      label: Text(ej.descanso, style: const TextStyle(fontSize: 11)),
+                      avatar: const Icon(
+                        Icons.timer,
+                        size: 14,
+                        color: Colors.white,
+                      ),
+                      label: Text(
+                        ej.descanso,
+                        style: const TextStyle(fontSize: 11),
+                      ),
                       backgroundColor: Colors.black38,
                       side: BorderSide.none,
                       visualDensity: VisualDensity.compact,
@@ -277,12 +345,16 @@ class _RutinaIntermediaPageState extends State<RutinaIntermediaPage> with Ticker
                   const SizedBox(height: 8),
                   Text(
                     ej.instruccion,
-                    style: TextStyle(color: Colors.white70, fontSize: 13, fontStyle: FontStyle.italic),
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 13,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
                 ],
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -300,15 +372,17 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => _tabBar.preferredSize.height;
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      color: AppTheme.charcoalBackground,
-      child: _tabBar,
-    );
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return Container(color: AppTheme.charcoalBackground, child: _tabBar);
   }
 
   @override
   bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return _tabBar != oldDelegate._tabBar || _tabBar.controller != oldDelegate._tabBar.controller;
+    return _tabBar != oldDelegate._tabBar ||
+        _tabBar.controller != oldDelegate._tabBar.controller;
   }
 }

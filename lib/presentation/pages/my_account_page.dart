@@ -11,7 +11,7 @@ class MyAccountPage extends StatefulWidget {
 
 class _MyAccountPageState extends State<MyAccountPage> {
   final _formKey = GlobalKey<FormState>();
-  
+
   TextEditingController? _nameController;
   TextEditingController? _phoneController;
   TextEditingController? _emergencyPhoneController;
@@ -32,22 +32,40 @@ class _MyAccountPageState extends State<MyAccountPage> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppTheme.warmGrey,
-        title: Text('Recuperar Contraseña', style: TextStyle(color: AppTheme.goldAccent)),
-        content: Text('Elige cómo deseas recibir el código o enlace de recuperación.', style: TextStyle(color: Colors.white)),
+        title: Text(
+          'Recuperar Contraseña',
+          style: TextStyle(color: AppTheme.goldAccent),
+        ),
+        content: Text(
+          'Elige cómo deseas recibir el código o enlace de recuperación.',
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.pop(ctx);
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Correo de recuperación enviado.')));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Correo de recuperación enviado.')),
+              );
             },
-            child: Text('VÍA CORREO', style: TextStyle(color: AppTheme.goldAccent)),
+            child: Text(
+              'VÍA CORREO',
+              style: TextStyle(color: AppTheme.goldAccent),
+            ),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(ctx);
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('SMS de recuperación enviado al teléfono.')));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('SMS de recuperación enviado al teléfono.'),
+                ),
+              );
             },
-            child: Text('VÍA SMS', style: TextStyle(color: AppTheme.goldAccent)),
+            child: Text(
+              'VÍA SMS',
+              style: TextStyle(color: AppTheme.goldAccent),
+            ),
           ),
         ],
       ),
@@ -57,7 +75,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
   Future<void> _saveChanges() async {
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
-      
+
       final auth = Provider.of<AuthProvider>(context, listen: false);
       final success = await auth.updateProfile(
         nombre: _nameController?.text ?? '',
@@ -79,7 +97,9 @@ class _MyAccountPageState extends State<MyAccountPage> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(auth.errorMessage ?? 'Error al guardar los cambios.'),
+              content: Text(
+                auth.errorMessage ?? 'Error al guardar los cambios.',
+              ),
               backgroundColor: Colors.redAccent,
             ),
           );
@@ -97,99 +117,117 @@ class _MyAccountPageState extends State<MyAccountPage> {
     _nameController ??= TextEditingController(text: perfil?.nombre ?? '');
     _emailController ??= TextEditingController(text: perfil?.email ?? '');
     _phoneController ??= TextEditingController(text: perfil?.telefono ?? '');
-    _emergencyPhoneController ??= TextEditingController(text: perfil?.telefonoEmergencia ?? '');
+    _emergencyPhoneController ??= TextEditingController(
+      text: perfil?.telefonoEmergencia ?? '',
+    );
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('MI CUENTA'),
-      ),
-      body: _isLoading 
-        ? Center(child: CircularProgressIndicator(color: AppTheme.goldAccent))
-        : SingleChildScrollView(
-        padding: EdgeInsets.all(24),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              _buildProfileImage(perfil?.nombre.isNotEmpty == true ? perfil!.nombre[0] : 'U'),
-              SizedBox(height: 32),
-              
-              // Warning Banner
-              Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: Colors.orangeAccent.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.orangeAccent.withOpacity(0.5)),
-                ),
-                child: Row(
+      appBar: AppBar(title: Text('MI CUENTA')),
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator(color: AppTheme.goldAccent))
+          : SingleChildScrollView(
+              padding: EdgeInsets.all(24),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(Icons.warning_amber_rounded, color: Colors.orangeAccent),
-                    SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        'IMPORTANTE: Asegurate de que tus datos sean reales ante cualquier emergencia médica.',
-                        style: TextStyle(color: Colors.white, fontSize: 11),
+                    _buildProfileImage(
+                      perfil?.nombre.isNotEmpty == true
+                          ? perfil!.nombre[0]
+                          : 'U',
+                    ),
+                    SizedBox(height: 32),
+
+                    // Warning Banner
+                    Container(
+                      padding: EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.orangeAccent.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: Colors.orangeAccent.withOpacity(0.5),
+                        ),
                       ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.warning_amber_rounded,
+                            color: Colors.orangeAccent,
+                          ),
+                          SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              'IMPORTANTE: Asegurate de que tus datos sean reales ante cualquier emergencia médica.',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 24),
+
+                    _buildTextField(
+                      controller: _nameController!,
+                      label: 'Nombre y Apellido',
+                      icon: Icons.person_outline,
+                    ),
+                    SizedBox(height: 16),
+                    _buildTextField(
+                      controller: _emailController!,
+                      label: 'Correo Electrónico',
+                      icon: Icons.email_outlined,
+                      keyboardType: TextInputType.emailAddress,
+                    ),
+                    SizedBox(height: 16),
+                    _buildTextField(
+                      controller: _phoneController!,
+                      label: 'Teléfono Particular',
+                      icon: Icons.phone_outlined,
+                      keyboardType: TextInputType.phone,
+                    ),
+                    SizedBox(height: 16),
+                    _buildTextField(
+                      controller: _emergencyPhoneController!,
+                      label: 'Teléfono de Emergencia',
+                      icon: Icons.contact_emergency_outlined,
+                      keyboardType: TextInputType.phone,
+                    ),
+                    SizedBox(height: 32),
+
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextButton.icon(
+                        onPressed: _showPasswordRecovery,
+                        icon: Icon(
+                          Icons.lock_reset,
+                          color: AppTheme.electricOrange,
+                        ),
+                        label: Text(
+                          'Recuperar / Cambiar Contraseña',
+                          style: TextStyle(
+                            color: AppTheme.electricOrange,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 32),
+
+                    ElevatedButton(
+                      onPressed: _saveChanges,
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: Size(double.infinity, 50),
+                      ),
+                      child: Text('GUARDAR CAMBIOS'),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: 24),
-
-              _buildTextField(
-                controller: _nameController!,
-                label: 'Nombre y Apellido',
-                icon: Icons.person_outline,
-              ),
-              SizedBox(height: 16),
-              _buildTextField(
-                controller: _emailController!,
-                label: 'Correo Electrónico',
-                icon: Icons.email_outlined,
-                keyboardType: TextInputType.emailAddress,
-              ),
-              SizedBox(height: 16),
-              _buildTextField(
-                controller: _phoneController!,
-                label: 'Teléfono Particular',
-                icon: Icons.phone_outlined,
-                keyboardType: TextInputType.phone,
-              ),
-              SizedBox(height: 16),
-              _buildTextField(
-                controller: _emergencyPhoneController!,
-                label: 'Teléfono de Emergencia',
-                icon: Icons.contact_emergency_outlined,
-                keyboardType: TextInputType.phone,
-              ),
-              SizedBox(height: 32),
-              
-              Align(
-                alignment: Alignment.centerLeft,
-                child: TextButton.icon(
-                  onPressed: _showPasswordRecovery,
-                  icon: Icon(Icons.lock_reset, color: AppTheme.electricOrange),
-                  label: Text(
-                    'Recuperar / Cambiar Contraseña',
-                    style: TextStyle(color: AppTheme.electricOrange, decoration: TextDecoration.underline),
-                  ),
-                ),
-              ),
-              SizedBox(height: 32),
-              
-              ElevatedButton(
-                onPressed: _saveChanges,
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
-                ),
-                child: Text('GUARDAR CAMBIOS'),
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 
@@ -202,7 +240,11 @@ class _MyAccountPageState extends State<MyAccountPage> {
           backgroundColor: AppTheme.goldAccent,
           child: Text(
             initial.toUpperCase(),
-            style: TextStyle(fontSize: 40, color: Colors.black, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 40,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         Container(
@@ -215,7 +257,11 @@ class _MyAccountPageState extends State<MyAccountPage> {
             icon: Icon(Icons.camera_alt, color: AppTheme.goldAccent, size: 20),
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Selector de imágenes no implementado en este demo.')),
+                SnackBar(
+                  content: Text(
+                    'Selector de imágenes no implementado en este demo.',
+                  ),
+                ),
               );
             },
           ),

@@ -6,11 +6,11 @@ import 'package:intl/intl.dart';
 
 class MetricsProvider with ChangeNotifier {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  
+
   // Agua
   int _waterGlasses = 0;
   String _lastWaterDate = '';
-  
+
   // Peso
   double? _currentWeight;
   double? _lastWeight;
@@ -90,7 +90,7 @@ class MetricsProvider with ChangeNotifier {
   Future<void> _updateWaterInFirestore(int count) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
-    
+
     final today = _getTodayDateStr();
     await _db
         .collection('user_metrics')
@@ -98,9 +98,9 @@ class MetricsProvider with ChangeNotifier {
         .collection('water_log')
         .doc(today)
         .set({
-      'count': count,
-      'timestamp': FieldValue.serverTimestamp(),
-    }, SetOptions(merge: true));
+          'count': count,
+          'timestamp': FieldValue.serverTimestamp(),
+        }, SetOptions(merge: true));
   }
 
   // --- PESO ---
@@ -132,7 +132,8 @@ class MetricsProvider with ChangeNotifier {
   }
 
   Future<void> saveDailyWeight(double weight) async {
-    if (weight < 40 || weight > 200) return; // Validación límite para ambos géneros
+    if (weight < 40 || weight > 200)
+      return; // Validación límite para ambos géneros
 
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
@@ -142,10 +143,7 @@ class MetricsProvider with ChangeNotifier {
           .collection('user_metrics')
           .doc(user.uid)
           .collection('weight_history')
-          .add({
-        'weight': weight,
-        'timestamp': FieldValue.serverTimestamp(),
-      });
+          .add({'weight': weight, 'timestamp': FieldValue.serverTimestamp()});
 
       // Actualizar variables en memoria
       _lastWeight = _currentWeight ?? weight;
@@ -183,12 +181,12 @@ class MetricsProvider with ChangeNotifier {
     final today = _getTodayDateStr();
     final key = 'meal_${today}_${dietaId}_$horario';
     final current = isMealChecked(dietaId, horario);
-    
+
     _supermarketChecks[key] = !current;
-    
+
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(key, !current);
-    
+
     notifyListeners();
   }
 
@@ -199,12 +197,12 @@ class MetricsProvider with ChangeNotifier {
   Future<void> toggleProductCheck(String productId) async {
     final key = 'producto_$productId';
     final current = isProductChecked(productId);
-    
+
     _supermarketChecks[key] = !current;
-    
+
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(key, !current);
-    
+
     notifyListeners();
   }
 }

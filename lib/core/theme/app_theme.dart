@@ -25,9 +25,7 @@ class AppTheme {
         fontWeight: FontWeight.bold,
         color: Colors.white,
       ),
-      bodyLarge: GoogleFonts.inter(
-        color: Colors.white70,
-      ),
+      bodyLarge: GoogleFonts.inter(color: Colors.white70),
     ),
     appBarTheme: AppBarTheme(
       backgroundColor: deepBlack,

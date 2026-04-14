@@ -9,7 +9,8 @@ class Ejercicio {
   final String instruccion; // Instrucción técnica breve
   final String? series;
   final String? repeticiones;
-  final String? tipoDeEquipo; // Enum/String: barbell, dumbbell, machine, bodyweight
+  final String?
+  tipoDeEquipo; // Enum/String: barbell, dumbbell, machine, bodyweight
   final String? musculoObjetivo;
   final bool isSuperset;
   final int? supersetGroupId;
@@ -99,7 +100,8 @@ class DiaRutina {
   factory DiaRutina.fromMap(Map<String, dynamic> map) {
     return DiaRutina(
       nombreDia: map['nombre_dia'] ?? '',
-      ejercicios: (map['ejercicios'] as List<dynamic>?)
+      ejercicios:
+          (map['ejercicios'] as List<dynamic>?)
               ?.map((e) => Ejercicio.fromMap(e))
               .toList() ??
           [],
@@ -122,8 +124,8 @@ class RutinaAdaptacion {
   final List<String>? tags;
 
   RutinaAdaptacion({
-    required this.id, 
-    required this.variante, 
+    required this.id,
+    required this.variante,
     required this.dias,
     this.level,
     this.tags,
@@ -136,7 +138,8 @@ class RutinaAdaptacion {
       variante: d['variante'] ?? '',
       level: d['level'],
       tags: (d['tags'] as List<dynamic>?)?.map((e) => e.toString()).toList(),
-      dias: (d['dias'] as List<dynamic>?)
+      dias:
+          (d['dias'] as List<dynamic>?)
               ?.map((e) => DiaRutina.fromMap(e))
               .toList() ??
           [],

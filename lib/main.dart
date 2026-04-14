@@ -101,7 +101,8 @@ class MainDashboard extends StatelessWidget {
     // Protección extra: si no hay sesión, mandar al login
     if (firebaseUser == null) return const LoginPage();
 
-    final displayName = perfil?.nombre ?? firebaseUser.email?.split('@').first ?? 'Atleta';
+    final displayName =
+        perfil?.nombre ?? firebaseUser.email?.split('@').first ?? 'Atleta';
     final inicial = displayName[0].toUpperCase();
 
     return Scaffold(
@@ -110,13 +111,15 @@ class MainDashboard extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.brightness_6),
-            onPressed: () => Provider.of<ThemeProvider>(context, listen: false).toggleMode(),
+            onPressed: () =>
+                Provider.of<ThemeProvider>(context, listen: false).toggleMode(),
           ),
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () async {
               await authProvider.logout();
-              if (context.mounted) Navigator.of(context).pushReplacementNamed('/login');
+              if (context.mounted)
+                Navigator.of(context).pushReplacementNamed('/login');
             },
           ),
         ],
@@ -137,7 +140,11 @@ class MainDashboard extends StatelessWidget {
                   backgroundColor: AppTheme.goldAccent,
                   child: Text(
                     inicial,
-                    style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 14),
@@ -147,17 +154,26 @@ class MainDashboard extends StatelessWidget {
                     children: [
                       Text(
                         'Hola, $displayName 💪',
-                        style: GoogleFonts.outfit(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                        style: GoogleFonts.outfit(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                       if (perfil != null)
                         Text(
                           'Objetivo: ${perfil.objetivo}',
-                          style: GoogleFonts.inter(fontSize: 12, color: Colors.white54),
+                          style: GoogleFonts.inter(
+                            fontSize: 12,
+                            color: Colors.white54,
+                          ),
                         ),
                       const SizedBox(height: 4),
                       InkWell(
                         onTap: () => Navigator.push(
-                          context, MaterialPageRoute(builder: (_) => MyAccountPage())),
+                          context,
+                          MaterialPageRoute(builder: (_) => MyAccountPage()),
+                        ),
                         child: Text(
                           'Mi Cuenta',
                           style: GoogleFonts.inter(
@@ -180,8 +196,13 @@ class MainDashboard extends StatelessWidget {
             Center(
               child: LayoutBuilder(
                 builder: (context, constraints) {
-                  final logoH = (MediaQuery.of(context).size.height * 0.28).clamp(140.0, 280.0);
-                  return Image.asset('assets/images/logo.png', height: logoH, fit: BoxFit.contain);
+                  final logoH = (MediaQuery.of(context).size.height * 0.28)
+                      .clamp(140.0, 280.0);
+                  return Image.asset(
+                    'assets/images/logo.png',
+                    height: logoH,
+                    fit: BoxFit.contain,
+                  );
                 },
               ),
             ),
@@ -195,21 +216,57 @@ class MainDashboard extends StatelessWidget {
             const SizedBox(height: 16),
             Card(
               child: ListTile(
-                leading: Icon(Icons.fitness_center, color: AppTheme.goldAccent, size: 36),
-                title: Text('MIS RUTINAS', style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 18)),
+                leading: Icon(
+                  Icons.fitness_center,
+                  color: AppTheme.goldAccent,
+                  size: 36,
+                ),
+                title: Text(
+                  'MIS RUTINAS',
+                  style: GoogleFonts.outfit(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
                 subtitle: const Text('Principiante, Intermedio y Avanzado'),
-                trailing: Icon(Icons.arrow_forward_ios, color: AppTheme.goldAccent),
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => RoutinesPage())),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: AppTheme.goldAccent,
+                ),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => RoutinesPage()),
+                ),
               ),
             ),
             const SizedBox(height: 16),
             Card(
               child: ListTile(
-                leading: Image.asset('assets/images/dietas_logo.png', width: 36, height: 36, fit: BoxFit.contain),
-                title: Text('PLANES DE ALIMENTACIÓN Y SEGUIMIENTO', style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 16, color: AppTheme.goldAccent)),
+                leading: Image.asset(
+                  'assets/images/dietas_logo.png',
+                  width: 36,
+                  height: 36,
+                  fit: BoxFit.contain,
+                ),
+                title: Text(
+                  'PLANES DE ALIMENTACIÓN Y SEGUIMIENTO',
+                  style: GoogleFonts.outfit(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: AppTheme.goldAccent,
+                  ),
+                ),
                 subtitle: const Text('Nutrición, Agua y Monitor de Peso'),
-                trailing: Icon(Icons.arrow_forward_ios, color: AppTheme.goldAccent),
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const DietasRecomendadasPage())),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: AppTheme.goldAccent,
+                ),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const DietasRecomendadasPage(),
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 48),
@@ -218,18 +275,38 @@ class MainDashboard extends StatelessWidget {
             const SizedBox(height: 16),
             Card(
               child: ListTile(
-                leading: Icon(Icons.payment, color: AppTheme.goldAccent, size: 36),
-                title: Text('PAGAR CUOTA', style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 18)),
+                leading: Icon(
+                  Icons.payment,
+                  color: AppTheme.goldAccent,
+                  size: 36,
+                ),
+                title: Text(
+                  'PAGAR CUOTA',
+                  style: GoogleFonts.outfit(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
                 subtitle: const Text('Realizar transferencia (Alias)'),
-                trailing: Icon(Icons.arrow_forward_ios, color: AppTheme.goldAccent),
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PaymentInfoPage())),
+                trailing: Icon(
+                  Icons.arrow_forward_ios,
+                  color: AppTheme.goldAccent,
+                ),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const PaymentInfoPage()),
+                ),
               ),
             ),
             const SizedBox(height: 48),
 
             _sectionHeader('CONTACTOS'),
             const SizedBox(height: 16),
-            Image.asset('assets/images/contacts.png', width: double.infinity, fit: BoxFit.contain),
+            Image.asset(
+              'assets/images/contacts.png',
+              width: double.infinity,
+              fit: BoxFit.contain,
+            ),
             const SizedBox(height: 48),
 
             if (perfil != null && perfil.rol == 'admin') ...[
@@ -242,11 +319,33 @@ class MainDashboard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: ListTile(
-                  leading: const Icon(Icons.admin_panel_settings, color: Colors.redAccent, size: 36),
-                  title: Text('GESTOR DE SOCIOS', style: GoogleFonts.outfit(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white)),
-                  subtitle: const Text('Control de pagos y deudores', style: TextStyle(color: Colors.white70)),
-                  trailing: const Icon(Icons.arrow_forward_ios, color: Colors.redAccent),
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AdminDashboardPage())),
+                  leading: const Icon(
+                    Icons.admin_panel_settings,
+                    color: Colors.redAccent,
+                    size: 36,
+                  ),
+                  title: Text(
+                    'GESTOR DE SOCIOS',
+                    style: GoogleFonts.outfit(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.white,
+                    ),
+                  ),
+                  subtitle: const Text(
+                    'Control de pagos y deudores',
+                    style: TextStyle(color: Colors.white70),
+                  ),
+                  trailing: const Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.redAccent,
+                  ),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const AdminDashboardPage(),
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 48),
@@ -260,7 +359,7 @@ class MainDashboard extends StatelessWidget {
   Widget _buildRutinaActiva(BuildContext context) {
     final workout = Provider.of<WorkoutProvider>(context);
     final rutina = workout.rutinaActiva;
-    
+
     if (rutina == null) return const SizedBox.shrink();
 
     return Column(
@@ -269,7 +368,12 @@ class MainDashboard extends StatelessWidget {
         Center(
           child: Text(
             'RUTINA ACTIVA: ${rutina.nombreDia.toUpperCase()}',
-            style: GoogleFonts.outfit(color: AppTheme.electricOrange, fontWeight: FontWeight.bold, fontSize: 16, letterSpacing: 1),
+            style: GoogleFonts.outfit(
+              color: AppTheme.electricOrange,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+              letterSpacing: 1,
+            ),
           ),
         ),
         const SizedBox(height: 16),
@@ -277,8 +381,11 @@ class MainDashboard extends StatelessWidget {
           builder: (context, constraints) {
             final screenW = MediaQuery.of(context).size.width;
             final cardW = (screenW * 0.60).clamp(160.0, 220.0);
-            final carouselH = (MediaQuery.of(context).size.height * 0.30).clamp(200.0, 280.0);
-            
+            final carouselH = (MediaQuery.of(context).size.height * 0.30).clamp(
+              200.0,
+              280.0,
+            );
+
             return SizedBox(
               height: carouselH,
               child: ListView.builder(
@@ -290,13 +397,17 @@ class MainDashboard extends StatelessWidget {
                     width: cardW,
                     margin: const EdgeInsets.only(right: 12),
                     child: Card(
-                      color: ej.isCompleted ? Colors.green.withOpacity(0.1) : AppTheme.warmGrey,
+                      color: ej.isCompleted
+                          ? Colors.green.withOpacity(0.1)
+                          : AppTheme.warmGrey,
                       shape: RoundedRectangleBorder(
                         side: BorderSide(
-                          color: ej.isCompleted ? Colors.green : AppTheme.electricOrange.withOpacity(0.5), 
-                          width: ej.isCompleted ? 2 : 1
+                          color: ej.isCompleted
+                              ? Colors.green
+                              : AppTheme.electricOrange.withOpacity(0.5),
+                          width: ej.isCompleted ? 2 : 1,
                         ),
-                        borderRadius: BorderRadius.circular(16)
+                        borderRadius: BorderRadius.circular(16),
                       ),
                       child: InkWell(
                         onTap: () => workout.toggleEjercicio(i),
@@ -306,7 +417,9 @@ class MainDashboard extends StatelessWidget {
                           children: [
                             Expanded(
                               child: ClipRRect(
-                                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                                borderRadius: const BorderRadius.vertical(
+                                  top: Radius.circular(16),
+                                ),
                                 child: Container(
                                   color: Colors.white,
                                   child: Stack(
@@ -315,13 +428,21 @@ class MainDashboard extends StatelessWidget {
                                       Image.asset(
                                         ej.urlGif,
                                         fit: BoxFit.contain,
-                                        errorBuilder: (c,e,s) => const Icon(Icons.fitness_center, color: Colors.grey, size: 40),
+                                        errorBuilder: (c, e, s) => const Icon(
+                                          Icons.fitness_center,
+                                          color: Colors.grey,
+                                          size: 40,
+                                        ),
                                       ),
                                       if (ej.isCompleted)
                                         Container(
                                           color: Colors.green.withOpacity(0.4),
-                                          child: const Icon(Icons.check_circle, color: Colors.white, size: 60),
-                                        )
+                                          child: const Icon(
+                                            Icons.check_circle,
+                                            color: Colors.white,
+                                            size: 60,
+                                          ),
+                                        ),
                                     ],
                                   ),
                                 ),
@@ -332,12 +453,27 @@ class MainDashboard extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(ej.nombre, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 13), maxLines: 1, overflow: TextOverflow.ellipsis),
+                                  Text(
+                                    ej.nombre,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                      fontSize: 13,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                   const SizedBox(height: 3),
-                                  Text('${ej.seriesReps} • Descanso: ${ej.descanso}', style: const TextStyle(color: Colors.white70, fontSize: 10)),
+                                  Text(
+                                    '${ej.seriesReps} • Descanso: ${ej.descanso}',
+                                    style: const TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 10,
+                                    ),
+                                  ),
                                 ],
                               ),
-                            )
+                            ),
                           ],
                         ),
                       ),
@@ -351,7 +487,10 @@ class MainDashboard extends StatelessWidget {
         const SizedBox(height: 16),
         ElevatedButton(
           onPressed: () => workout.finalizarSesion(),
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent, foregroundColor: Colors.white),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.redAccent,
+            foregroundColor: Colors.white,
+          ),
           child: const Text('FINALIZAR ENTRENAMIENTO'),
         ),
       ],
@@ -359,14 +498,14 @@ class MainDashboard extends StatelessWidget {
   }
 
   Widget _sectionHeader(String title) => Text(
-        title,
-        style: GoogleFonts.outfit(
-          fontSize: 13,
-          fontWeight: FontWeight.bold,
-          color: AppTheme.goldAccent.withOpacity(0.85),
-          letterSpacing: 2.5,
-        ),
-      );
+    title,
+    style: GoogleFonts.outfit(
+      fontSize: 13,
+      fontWeight: FontWeight.bold,
+      color: AppTheme.goldAccent.withOpacity(0.85),
+      letterSpacing: 2.5,
+    ),
+  );
 }
 
 // ── Theme Provider ────────────────────────────────────────────────────────────

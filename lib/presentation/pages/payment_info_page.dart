@@ -15,7 +15,9 @@ class PaymentInfoPage extends StatelessWidget {
           content: const Text('¡Alias copiado al portapapeles!'),
           backgroundColor: Colors.green.shade700,
           behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           duration: const Duration(seconds: 2),
         ),
       );
@@ -48,9 +50,16 @@ class PaymentInfoPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: AppTheme.goldAccent.withOpacity(0.12),
-                    border: Border.all(color: AppTheme.goldAccent.withOpacity(0.3), width: 1.5),
+                    border: Border.all(
+                      color: AppTheme.goldAccent.withOpacity(0.3),
+                      width: 1.5,
+                    ),
                   ),
-                  child: Icon(Icons.account_balance_wallet_outlined, color: AppTheme.goldAccent, size: 48),
+                  child: Icon(
+                    Icons.account_balance_wallet_outlined,
+                    color: AppTheme.goldAccent,
+                    size: 48,
+                  ),
                 ),
                 const SizedBox(height: 24),
                 Text(
@@ -70,7 +79,10 @@ class PaymentInfoPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 32),
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: 24,
+                  ),
                   decoration: BoxDecoration(
                     color: AppTheme.warmGrey,
                     borderRadius: BorderRadius.circular(16),
@@ -108,9 +120,17 @@ class PaymentInfoPage extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppTheme.goldAccent,
                           foregroundColor: Colors.black,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                          textStyle: GoogleFonts.outfit(fontWeight: FontWeight.bold, letterSpacing: 1),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 12,
+                          ),
+                          textStyle: GoogleFonts.outfit(
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 1,
+                          ),
                         ),
                       ),
                     ],

@@ -67,21 +67,22 @@ class UsuarioModel {
       telefonoEmergencia: d['telefono_emergencia'] ?? '',
       rutinasAsignadas: List<String>.from(d['rutinas_asignadas'] ?? []),
       rol: d['rol'] ?? 'miembro',
-      fechaRegistro: (d['fecha_registro'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      fechaRegistro:
+          (d['fecha_registro'] as Timestamp?)?.toDate() ?? DateTime.now(),
       diaPagoFijo: d['dia_pago_fijo'] ?? 10,
     );
   }
 
   Map<String, dynamic> toFirestore() => {
-        'nombre': nombre,
-        'email': email,
-        'documento': documento,
-        'objetivo': objetivo,
-        'telefono': telefono,
-        'telefono_emergencia': telefonoEmergencia,
-        'rutinas_asignadas': rutinasAsignadas,
-        'rol': rol,
-        'fecha_registro': Timestamp.fromDate(fechaRegistro),
-        'dia_pago_fijo': diaPagoFijo,
-      };
+    'nombre': nombre,
+    'email': email,
+    'documento': documento,
+    'objetivo': objetivo,
+    'telefono': telefono,
+    'telefono_emergencia': telefonoEmergencia,
+    'rutinas_asignadas': rutinasAsignadas,
+    'rol': rol,
+    'fecha_registro': Timestamp.fromDate(fechaRegistro),
+    'dia_pago_fijo': diaPagoFijo,
+  };
 }

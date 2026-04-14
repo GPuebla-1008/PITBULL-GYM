@@ -22,7 +22,9 @@ class WorkoutProvider with ChangeNotifier {
     notifyListeners();
     try {
       final snap = await _db.collection('rutinas_adaptacion').get();
-      _todasLasRutinas = snap.docs.map((d) => RutinaAdaptacion.fromFirestore(d)).toList();
+      _todasLasRutinas = snap.docs
+          .map((d) => RutinaAdaptacion.fromFirestore(d))
+          .toList();
     } catch (e) {
       debugPrint("Error fetching rutinas: \$e");
     } finally {
@@ -36,7 +38,9 @@ class WorkoutProvider with ChangeNotifier {
     // Clonamos el día para que cada vez empiece fresco
     _rutinaActiva = DiaRutina(
       nombreDia: dia.nombreDia,
-      ejercicios: dia.ejercicios.map((e) => e.copyWith(isCompleted: false)).toList(),
+      ejercicios: dia.ejercicios
+          .map((e) => e.copyWith(isCompleted: false))
+          .toList(),
     );
     _varianteActiva = variante;
     notifyListeners();
@@ -45,9 +49,11 @@ class WorkoutProvider with ChangeNotifier {
   // Tacha/Destacha un ejercicio
   void toggleEjercicio(int index) {
     if (_rutinaActiva == null) return;
-    
+
     final ej = _rutinaActiva!.ejercicios[index];
-    _rutinaActiva!.ejercicios[index] = ej.copyWith(isCompleted: !ej.isCompleted);
+    _rutinaActiva!.ejercicios[index] = ej.copyWith(
+      isCompleted: !ej.isCompleted,
+    );
     notifyListeners();
   }
 

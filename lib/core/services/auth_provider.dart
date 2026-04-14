@@ -57,7 +57,8 @@ class AuthProvider with ChangeNotifier {
         password: password,
       );
       if (credential.user != null && !credential.user!.emailVerified) {
-        _errorMessage = 'Debes verificar tu email antes de entrar. Revisa tu bandeja de entrada o correo no deseado.';
+        _errorMessage =
+            'Debes verificar tu email antes de entrar. Revisa tu bandeja de entrada o correo no deseado.';
         await _auth.signOut();
         notifyListeners();
         return false;
@@ -106,7 +107,7 @@ class AuthProvider with ChangeNotifier {
         fechaRegistro: DateTime.now(),
       );
       await _db.collection('usuarios').doc(user.uid).set(perfil.toFirestore());
-      
+
       // Enviar email de verificación y cerrar sesión temporalmente
       await user.sendEmailVerification();
       await _auth.signOut();
@@ -145,7 +146,7 @@ class AuthProvider with ChangeNotifier {
       // NOTA: Esto puede requerir re-autenticación reciente.
       if (email.trim() != user.email) {
         await user.verifyBeforeUpdateEmail(email.trim());
-        // Nota: En algunas versiones de Firebase se usa updateEmail, 
+        // Nota: En algunas versiones de Firebase se usa updateEmail,
         // pero verifyBeforeUpdateEmail es más seguro actualmente.
       }
 
@@ -157,15 +158,19 @@ class AuthProvider with ChangeNotifier {
         telefonoEmergencia: telefonoEmergencia,
       );
 
-      await _db.collection('usuarios').doc(user.uid).update(updatedPerfil.toFirestore());
+      await _db
+          .collection('usuarios')
+          .doc(user.uid)
+          .update(updatedPerfil.toFirestore());
       _perfil = updatedPerfil;
-      
+
       notifyListeners();
       return true;
     } on FirebaseAuthException catch (e) {
       _errorMessage = _traducirError(e.code);
       if (e.code == 'requires-recent-login') {
-        _errorMessage = 'Para cambiar el email, debes haber iniciado sesión recientemente. Por favor, salí y volvé a entrar.';
+        _errorMessage =
+            'Para cambiar el email, debes haber iniciado sesión recientemente. Por favor, salí y volvé a entrar.';
       }
       notifyListeners();
       return false;

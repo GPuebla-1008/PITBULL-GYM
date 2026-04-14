@@ -5,6 +5,7 @@ import 'dieta_mujer_definicion_page.dart';
 import 'dieta_hombre_definicion_page.dart';
 import 'dieta_mujer_ganancia_page.dart';
 import 'dieta_hombre_ganancia_page.dart';
+import 'supplementation_page.dart';
 
 class DietasRecomendadasPage extends StatelessWidget {
   const DietasRecomendadasPage({super.key});
@@ -43,7 +44,12 @@ class DietasRecomendadasPage extends StatelessWidget {
               icon: Icons.local_fire_department,
               color: Colors.greenAccent.shade400,
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => const DietaMujerDefinicionPage()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const DietaMujerDefinicionPage(),
+                  ),
+                );
               },
             ),
             const SizedBox(height: 16),
@@ -54,7 +60,12 @@ class DietasRecomendadasPage extends StatelessWidget {
               icon: Icons.whatshot,
               color: Colors.greenAccent.shade700,
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => const DietaHombreDefinicionPage()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const DietaHombreDefinicionPage(),
+                  ),
+                );
               },
             ),
             const SizedBox(height: 16),
@@ -65,7 +76,12 @@ class DietasRecomendadasPage extends StatelessWidget {
               icon: Icons.fitness_center,
               color: Colors.lightGreen.shade400,
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => const DietaMujerGananciaPage()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const DietaMujerGananciaPage(),
+                  ),
+                );
               },
             ),
             const SizedBox(height: 16),
@@ -76,16 +92,53 @@ class DietasRecomendadasPage extends StatelessWidget {
               icon: Icons.sports_gymnastics,
               color: Colors.lightGreen.shade700,
               onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => const DietaHombreGananciaPage()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const DietaHombreGananciaPage(),
+                  ),
+                );
               },
             ),
+            const SizedBox(height: 48),
+
+            // --- SECCION SUPLEMENTACION ---
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'Suplementación Recomendada',
+                style: GoogleFonts.outfit(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            _buildDietaShortcut(
+              context,
+              title: 'Suplementación Inteligente',
+              subtitle: 'Basada en tus objetivos y horarios',
+              icon: Icons.biotech,
+              color: AppTheme.goldAccent,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const SupplementationPage(),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 40),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildDietaShortcut(BuildContext context, {
+  Widget _buildDietaShortcut(
+    BuildContext context, {
     required String title,
     required String subtitle,
     required IconData icon,

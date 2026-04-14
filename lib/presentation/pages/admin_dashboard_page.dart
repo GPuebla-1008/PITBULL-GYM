@@ -28,11 +28,17 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: AppTheme.charcoalBackground,
-        title: Text('Registrar Pago', style: GoogleFonts.outfit(color: AppTheme.goldAccent)),
+        title: Text(
+          'Registrar Pago',
+          style: GoogleFonts.outfit(color: AppTheme.goldAccent),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Socio: ${socio.nombre}', style: const TextStyle(color: Colors.white70)),
+            Text(
+              'Socio: ${socio.nombre}',
+              style: const TextStyle(color: Colors.white70),
+            ),
             const SizedBox(height: 16),
             TextField(
               controller: montoCtrl,
@@ -41,7 +47,9 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
               decoration: InputDecoration(
                 labelText: 'Monto a pagar',
                 labelStyle: TextStyle(color: AppTheme.goldAccent),
-                focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: AppTheme.goldAccent)),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: AppTheme.goldAccent),
+                ),
               ),
             ),
           ],
@@ -49,30 +57,44 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancelar', style: TextStyle(color: Colors.white54)),
+            child: const Text(
+              'Cancelar',
+              style: TextStyle(color: Colors.white54),
+            ),
           ),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: AppTheme.goldAccent),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.goldAccent,
+            ),
             onPressed: () async {
               final montoStr = montoCtrl.text.trim();
               if (montoStr.isEmpty) return;
               final monto = double.tryParse(montoStr) ?? 0;
-              
+
               Navigator.pop(ctx); // Cerrar modal
-              
+
               final admin = context.read<AdminProvider>();
-              final success = await admin.registrarPagoMesActual(socio.uid, monto);
-              
+              final success = await admin.registrarPagoMesActual(
+                socio.uid,
+                monto,
+              );
+
               if (success && mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: const Text('Pago registrado correctamente'),
                     backgroundColor: Colors.green.shade700,
-                  )
+                  ),
                 );
               }
             },
-            child: const Text('CONFIRMAR', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+            child: const Text(
+              'CONFIRMAR',
+              style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ],
       ),
@@ -97,51 +119,85 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
         ],
       ),
       body: admin.loading
-          ? const Center(child: CircularProgressIndicator(color: AppTheme.goldAccent))
+          ? const Center(
+              child: CircularProgressIndicator(color: AppTheme.goldAccent),
+            )
           : admin.errorMessage != null
-              ? Center(child: Text(admin.errorMessage!, style: const TextStyle(color: Colors.redAccent)))
-              : ListView.builder(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: admin.socios.length,
-                  itemBuilder: (ctx, i) {
-                    final socio = admin.socios[i];
-                    final estado = admin.getEstadoSocio(socio);
-                    final color = admin.getColorEstado(estado);
+          ? Center(
+              child: Text(
+                admin.errorMessage!,
+                style: const TextStyle(color: Colors.redAccent),
+              ),
+            )
+          : ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: admin.socios.length,
+              itemBuilder: (ctx, i) {
+                final socio = admin.socios[i];
+                final estado = admin.getEstadoSocio(socio);
+                final color = admin.getColorEstado(estado);
 
-                    return Card(
-                      color: AppTheme.warmGrey,
-                      margin: const EdgeInsets.only(bottom: 12),
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(color: color.withOpacity(0.5), width: 2),
-                        borderRadius: BorderRadius.circular(12),
+                return Card(
+                  color: AppTheme.warmGrey,
+                  margin: const EdgeInsets.only(bottom: 12),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: color.withOpacity(0.5), width: 2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    title: Text(
+                      socio.nombre,
+                      style: GoogleFonts.outfit(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontSize: 18,
                       ),
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                        title: Text(socio.nombre, style: GoogleFonts.outfit(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18)),
-                        subtitle: Text('Día de pago: ${socio.diaPagoFijo}  •  Rol: ${socio.rol}', 
-                                      style: const TextStyle(color: Colors.white70, fontSize: 12)),
-                        trailing: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: color.withOpacity(0.15),
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: color.withOpacity(0.5)),
-                          ),
-                          child: Text(estado, style: GoogleFonts.inter(color: color, fontWeight: FontWeight.bold, fontSize: 11)),
+                    ),
+                    subtitle: Text(
+                      'Día de pago: ${socio.diaPagoFijo}  •  Rol: ${socio.rol}',
+                      style: const TextStyle(
+                        color: Colors.white70,
+                        fontSize: 12,
+                      ),
+                    ),
+                    trailing: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: color.withOpacity(0.15),
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: color.withOpacity(0.5)),
+                      ),
+                      child: Text(
+                        estado,
+                        style: GoogleFonts.inter(
+                          color: color,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 11,
                         ),
-                        onTap: () {
-                          if (estado != 'AL DÍA') {
-                            _registrarPago(context, socio);
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Este socio ya pagó este mes'))
-                            );
-                          }
-                        },
                       ),
-                    );
-                  },
-                ),
+                    ),
+                    onTap: () {
+                      if (estado != 'AL DÍA') {
+                        _registrarPago(context, socio);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Este socio ya pagó este mes'),
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                );
+              },
+            ),
     );
   }
 }

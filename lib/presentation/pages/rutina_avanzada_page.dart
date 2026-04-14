@@ -12,8 +12,10 @@ class RutinaAvanzadaPage extends StatefulWidget {
   State<RutinaAvanzadaPage> createState() => _RutinaAvanzadaPageState();
 }
 
-class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage> with TickerProviderStateMixin {
-  final String _varianteSeleccionada = '6 Días - Arnold'; // Only one variant for now
+class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
+    with TickerProviderStateMixin {
+  final String _varianteSeleccionada =
+      '6 Días - Arnold'; // Only one variant for now
   late TabController _tabController;
 
   @override
@@ -48,17 +50,21 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage> with TickerProv
     if (workout.loading) {
       return Scaffold(
         backgroundColor: AppTheme.charcoalBackground,
-        body: const Center(child: CircularProgressIndicator(color: AppTheme.goldAccent)),
+        body: const Center(
+          child: CircularProgressIndicator(color: AppTheme.goldAccent),
+        ),
       );
     }
 
     // Filter to find the Arnold Split ID
-    final rutinasAvanzadas = workout.todasLasRutinas.where((r) => r.id == 'arnold_split_advanced').toList();
+    final rutinasAvanzadas = workout.todasLasRutinas
+        .where((r) => r.id == 'arnold_split_advanced')
+        .toList();
 
-    final rutinaData = rutinasAvanzadas.isNotEmpty 
-      ? rutinasAvanzadas.first 
-      : RutinaAdaptacion(id: '', variante: _varianteSeleccionada, dias: []);
-    
+    final rutinaData = rutinasAvanzadas.isNotEmpty
+        ? rutinasAvanzadas.first
+        : RutinaAdaptacion(id: '', variante: _varianteSeleccionada, dias: []);
+
     _actualizarTabs(rutinaData.dias.length);
 
     return Scaffold(
@@ -77,7 +83,9 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage> with TickerProv
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: isSmall ? 14 : 18,
-                    shadows: [const Shadow(color: Colors.black54, blurRadius: 4)],
+                    shadows: [
+                      const Shadow(color: Colors.black54, blurRadius: 4),
+                    ],
                   ),
                 ),
                 background: Stack(
@@ -96,12 +104,15 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage> with TickerProv
                           end: Alignment.bottomCenter,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
               leading: IconButton(
-                icon: const Icon(Icons.arrow_back_ios, color: AppTheme.goldAccent),
+                icon: const Icon(
+                  Icons.arrow_back_ios,
+                  color: AppTheme.goldAccent,
+                ),
                 onPressed: () => Navigator.pop(context),
               ),
             ),
@@ -116,14 +127,22 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage> with TickerProv
                     unselectedLabelColor: Colors.white54,
                     indicatorColor: AppTheme.goldAccent,
                     labelStyle: TextStyle(fontSize: isSmall ? 12 : 14),
-                    tabs: rutinaData.dias.map((d) => Tab(text: d.nombreDia)).toList(),
+                    tabs: rutinaData.dias
+                        .map((d) => Tab(text: d.nombreDia))
+                        .toList(),
                   ),
                 ),
               ),
           ];
         },
         body: rutinaData.dias.isEmpty
-            ? const Center(child: Text("Rutina Arnold no disponible. Ingresa como Admin e inyecta la base de datos.", style: TextStyle(color: Colors.white54), textAlign: TextAlign.center))
+            ? const Center(
+                child: Text(
+                  "Rutina Arnold no disponible. Ingresa como Admin e inyecta la base de datos.",
+                  style: TextStyle(color: Colors.white54),
+                  textAlign: TextAlign.center,
+                ),
+              )
             : TabBarView(
                 key: ValueKey(rutinaData.dias.length),
                 controller: _tabController,
@@ -134,11 +153,23 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage> with TickerProv
                         padding: EdgeInsets.all(isSmall ? 10 : 16),
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            context.read<WorkoutProvider>().iniciarSesion(dia, _varianteSeleccionada);
-                            Navigator.popUntil(context, (route) => route.isFirst);
+                            context.read<WorkoutProvider>().iniciarSesion(
+                              dia,
+                              _varianteSeleccionada,
+                            );
+                            Navigator.popUntil(
+                              context,
+                              (route) => route.isFirst,
+                            );
                           },
                           icon: const Icon(Icons.flash_on, size: 28),
-                          label: Text('INICIAR SESIÓN HIPERTROFIA', style: TextStyle(fontSize: isSmall ? 13 : 15, fontWeight: FontWeight.bold)),
+                          label: Text(
+                            'INICIAR SESIÓN HIPERTROFIA',
+                            style: TextStyle(
+                              fontSize: isSmall ? 13 : 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 50),
                             backgroundColor: AppTheme.electricOrange,
@@ -148,7 +179,9 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage> with TickerProv
                       ),
                       Expanded(
                         child: ListView.builder(
-                          padding: EdgeInsets.symmetric(horizontal: isSmall ? 10 : 16),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: isSmall ? 10 : 16,
+                          ),
                           itemCount: dia.ejercicios.length,
                           itemBuilder: (ctx, i) {
                             final ej = dia.ejercicios[i];
@@ -177,7 +210,9 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage> with TickerProv
       color: AppTheme.warmGrey,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        side: ej.isSuperset ? const BorderSide(color: Colors.redAccent, width: 2) : BorderSide.none,
+        side: ej.isSuperset
+            ? const BorderSide(color: Colors.redAccent, width: 2)
+            : BorderSide.none,
       ),
       margin: EdgeInsets.only(bottom: isSmall ? 12 : 16),
       child: Column(
@@ -186,7 +221,9 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage> with TickerProv
           Stack(
             children: [
               ClipRRect(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(14),
+                ),
                 child: Container(
                   color: Colors.white,
                   height: imgH,
@@ -194,8 +231,11 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage> with TickerProv
                   child: Image.asset(
                     ej.urlGif,
                     fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) => 
-                        const Icon(Icons.fitness_center, size: 50, color: Colors.black26),
+                    errorBuilder: (context, error, stackTrace) => const Icon(
+                      Icons.fitness_center,
+                      size: 50,
+                      color: Colors.black26,
+                    ),
                   ),
                 ),
               ),
@@ -204,14 +244,21 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage> with TickerProv
                   top: 8,
                   right: 8,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.redAccent,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
                       '🔄 SUPERSERIE G${ej.supersetGroupId ?? 1}',
-                      style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -224,7 +271,11 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage> with TickerProv
               children: [
                 Text(
                   ej.nombre,
-                  style: GoogleFonts.outfit(fontSize: isSmall ? 16 : 20, fontWeight: FontWeight.bold, color: Colors.white),
+                  style: GoogleFonts.outfit(
+                    fontSize: isSmall ? 16 : 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
                 const SizedBox(height: 12),
                 Wrap(
@@ -233,35 +284,68 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage> with TickerProv
                   children: [
                     if (ej.intensityTechnique != null)
                       Chip(
-                        avatar: const Icon(Icons.local_fire_department, color: Colors.yellowAccent, size: 16),
-                        label: Text('${ej.intensityTechnique}', style: const TextStyle(fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold)),
+                        avatar: const Icon(
+                          Icons.local_fire_department,
+                          color: Colors.yellowAccent,
+                          size: 16,
+                        ),
+                        label: Text(
+                          '${ej.intensityTechnique}',
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         backgroundColor: Colors.red.shade900,
                         side: const BorderSide(color: Colors.redAccent),
                         visualDensity: VisualDensity.compact,
                       ),
                     if (ej.musculoObjetivo != null)
                       Chip(
-                        label: Text(ej.musculoObjetivo!, style: const TextStyle(fontSize: 11, color: Colors.white)),
+                        label: Text(
+                          ej.musculoObjetivo!,
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: Colors.white,
+                          ),
+                        ),
                         backgroundColor: AppTheme.deepBlack,
                         side: const BorderSide(color: Colors.white24),
                         visualDensity: VisualDensity.compact,
                       ),
                     Chip(
-                      label: Text(ej.tipoDeEquipo ?? ej.tipo, style: const TextStyle(fontSize: 11)),
+                      label: Text(
+                        ej.tipoDeEquipo ?? ej.tipo,
+                        style: const TextStyle(fontSize: 11),
+                      ),
                       backgroundColor: Colors.black38,
                       side: BorderSide(color: AppTheme.electricOrange),
                       visualDensity: VisualDensity.compact,
                     ),
                     Chip(
-                      label: Text(seriesRepsText, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+                      label: Text(
+                        seriesRepsText,
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       backgroundColor: AppTheme.goldAccent.withOpacity(0.2),
                       side: BorderSide(color: AppTheme.goldAccent),
                       visualDensity: VisualDensity.compact,
                     ),
                     if (!ej.isSuperset || ej.descanso != '0 seg')
                       Chip(
-                        avatar: const Icon(Icons.timer, size: 14, color: Colors.white),
-                        label: Text(ej.descanso, style: const TextStyle(fontSize: 11)),
+                        avatar: const Icon(
+                          Icons.timer,
+                          size: 14,
+                          color: Colors.white,
+                        ),
+                        label: Text(
+                          ej.descanso,
+                          style: const TextStyle(fontSize: 11),
+                        ),
                         backgroundColor: Colors.black38,
                         side: BorderSide.none,
                         visualDensity: VisualDensity.compact,
@@ -272,12 +356,16 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage> with TickerProv
                   const SizedBox(height: 8),
                   Text(
                     ej.instruccion,
-                    style: TextStyle(color: Colors.white70, fontSize: 13, fontStyle: FontStyle.italic),
+                    style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 13,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
                 ],
               ],
             ),
-          )
+          ),
         ],
       ),
     );
@@ -295,15 +383,17 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   double get maxExtent => _tabBar.preferredSize.height;
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
-      color: AppTheme.charcoalBackground,
-      child: _tabBar,
-    );
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return Container(color: AppTheme.charcoalBackground, child: _tabBar);
   }
 
   @override
   bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return _tabBar != oldDelegate._tabBar || _tabBar.controller != oldDelegate._tabBar.controller;
+    return _tabBar != oldDelegate._tabBar ||
+        _tabBar.controller != oldDelegate._tabBar.controller;
   }
 }
