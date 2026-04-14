@@ -135,7 +135,7 @@ class _DietaHombreDefinicionPageState extends State<DietaHombreDefinicionPage> {
             const SizedBox(height: 32),
 
             // --- LISTA DE COMPRA ---
-            Text('Mercado (Dosis Hombres)', style: GoogleFonts.outfit(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+            Text('Lista del Supermercado (Estándar de 30 Días)', style: GoogleFonts.outfit(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
             Card(
               color: AppTheme.warmGrey,
