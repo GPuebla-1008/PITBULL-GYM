@@ -216,88 +216,38 @@ class MainDashboard extends StatelessWidget {
 
             _sectionHeader('ENTRENAMIENTO'),
             const SizedBox(height: 16),
-            Card(
-              child: ListTile(
-                leading: Icon(
-                  Icons.fitness_center,
-                  color: AppTheme.goldAccent,
-                  size: 36,
-                ),
-                title: Text(
-                  'MIS RUTINAS',
-                  style: GoogleFonts.outfit(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                subtitle: const Text('Principiante, Intermedio y Avanzado'),
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  color: AppTheme.goldAccent,
-                ),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => RoutinesPage()),
+            Glassmorphic3DShortcut(
+              title: 'MIS RUTINAS',
+              subtitle: 'Principiante, Intermedio y Avanzado',
+              imagePath: 'assets/images/rutinas_3d.png',
+              heroTag: 'hero-rutinas',
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => RoutinesPage()),
+              ),
+            ),
+            const SizedBox(height: 16),
+            Glassmorphic3DShortcut(
+              title: 'PLANES DE ALIMENTACIÓN',
+              subtitle: 'Nutrición, Agua y Monitor de Peso',
+              imagePath: 'assets/images/alimentacion_3d.png',
+              heroTag: 'hero-nutricion',
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const DietasRecomendadasPage(),
                 ),
               ),
             ),
             const SizedBox(height: 16),
-            Card(
-              child: ListTile(
-                leading: Image.asset(
-                  'assets/images/dietas_logo.png',
-                  width: 36,
-                  height: 36,
-                  fit: BoxFit.contain,
-                ),
-                title: Text(
-                  'PLANES DE ALIMENTACIÓN Y SEGUIMIENTO',
-                  style: GoogleFonts.outfit(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: AppTheme.goldAccent,
-                  ),
-                ),
-                subtitle: const Text('Nutrición, Agua y Monitor de Peso'),
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  color: AppTheme.goldAccent,
-                ),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const DietasRecomendadasPage(),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            Card(
-              child: ListTile(
-                leading: Icon(
-                  Icons.biotech,
-                  color: AppTheme.goldAccent,
-                  size: 36,
-                ),
-                title: Text(
-                  'SUPLEMENTACIÓN RECOMENDADA',
-                  style: GoogleFonts.outfit(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: AppTheme.goldAccent,
-                  ),
-                ),
-                subtitle: const Text('Guía inteligente según tu objetivo'),
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  color: AppTheme.goldAccent,
-                ),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const SupplementationPage(),
-                  ),
-                ),
+            Glassmorphic3DShortcut(
+              title: 'SUPLEMENTACIÓN RECOMENDADA',
+              subtitle: 'Guía inteligente según tu objetivo',
+              imagePath: 'assets/images/suplementos_3d.png',
+              heroTag: 'hero-suplementos',
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SupplementationPage()),
               ),
             ),
             const SizedBox(height: 48),
@@ -537,6 +487,108 @@ class MainDashboard extends StatelessWidget {
       letterSpacing: 2.5,
     ),
   );
+}
+
+class Glassmorphic3DShortcut extends StatefulWidget {
+  final String title;
+  final String subtitle;
+  final String imagePath;
+  final String heroTag;
+  final VoidCallback onTap;
+
+  const Glassmorphic3DShortcut({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.imagePath,
+    required this.heroTag,
+    required this.onTap,
+  });
+
+  @override
+  State<Glassmorphic3DShortcut> createState() => _Glassmorphic3DShortcutState();
+}
+
+class _Glassmorphic3DShortcutState extends State<Glassmorphic3DShortcut> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final glowColor = theme.primaryColor.withOpacity(0.25);
+
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: GestureDetector(
+        onTapDown: (_) => setState(() => _isHovered = true),
+        onTapUp: (_) => setState(() => _isHovered = false),
+        onTapCancel: () => setState(() => _isHovered = false),
+        onTap: widget.onTap,
+        child: AnimatedScale(
+          scale: _isHovered ? 1.03 : 1.0,
+          duration: const Duration(milliseconds: 200),
+          child: Card(
+            elevation: _isHovered ? 12 : 4,
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 8,
+              ),
+              leading: Hero(
+                tag: widget.heroTag,
+                child: TweenAnimationBuilder<double>(
+                  tween: Tween<double>(begin: 0, end: _isHovered ? 0.15 : 0),
+                  duration: const Duration(milliseconds: 400),
+                  builder: (context, rotation, child) {
+                    return Transform.rotate(
+                      angle: rotation,
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: glowColor,
+                              blurRadius: 15,
+                              spreadRadius: 2,
+                            ),
+                          ],
+                        ),
+                        child: Image.asset(
+                          widget.imagePath,
+                          width: 48,
+                          height: 48,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              title: Text(
+                widget.title,
+                style: GoogleFonts.outfit(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 17,
+                  color: AppTheme.goldAccent,
+                ),
+              ),
+              subtitle: Text(
+                widget.subtitle,
+                style: const TextStyle(fontSize: 12),
+              ),
+              trailing: const Icon(
+                Icons.arrow_forward_ios,
+                color: AppTheme.goldAccent,
+                size: 16,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 // ── Theme Provider ────────────────────────────────────────────────────────────

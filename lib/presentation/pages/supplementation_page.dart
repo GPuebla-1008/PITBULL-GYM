@@ -97,7 +97,19 @@ class _SupplementationPageState extends State<SupplementationPage> {
           children: [
             // Disclaimer
             _buildDisclaimer(),
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
+
+            Center(
+              child: Hero(
+                tag: 'hero-suplementos',
+                child: Image.asset(
+                  'assets/images/suplementos_3d.png',
+                  height: 120,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
 
             // Selectores
             _buildSelectors(),

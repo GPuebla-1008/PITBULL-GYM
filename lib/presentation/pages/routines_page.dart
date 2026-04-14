@@ -97,6 +97,16 @@ class _RoutinesPageState extends State<RoutinesPage>
 
     return Scaffold(
       appBar: AppBar(
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Hero(
+            tag: 'hero-rutinas',
+            child: Image.asset(
+              'assets/images/rutinas_3d.png',
+              fit: BoxFit.contain,
+            ),
+          ),
+        ),
         title: Text(
           'RUTINAS DE ENTRENO',
           style: TextStyle(fontSize: isSmall ? 16 : 20),

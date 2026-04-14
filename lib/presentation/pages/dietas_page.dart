@@ -29,10 +29,13 @@ class DietasRecomendadasPage extends StatelessWidget {
         child: Column(
           children: [
             Center(
-              child: Image.asset(
-                'assets/images/dietas_logo.png',
-                height: 180,
-                fit: BoxFit.contain,
+              child: Hero(
+                tag: 'hero-nutricion',
+                child: Image.asset(
+                  'assets/images/alimentacion_3d.png',
+                  height: 180,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
             const SizedBox(height: 32),
