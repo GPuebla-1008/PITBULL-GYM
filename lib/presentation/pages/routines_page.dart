@@ -104,13 +104,9 @@ class _RoutinesPageState extends State<RoutinesPage>
           children: [
             Hero(
               tag: 'hero-rutinas',
-              child: SvgPicture.asset(
-                'assets/icons/mancuerna_icon.svg',
+              child: Image.asset(
+                'assets/images/fitness-workout.gif',
                 height: 28,
-                colorFilter: const ColorFilter.mode(
-                  AppTheme.goldAccent,
-                  BlendMode.srcIn,
-                ),
                 fit: BoxFit.contain,
               ),
             ),

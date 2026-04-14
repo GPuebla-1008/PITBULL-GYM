@@ -216,7 +216,7 @@ class MainDashboard extends StatelessWidget {
             Glassmorphic3DShortcut(
               title: 'MIS RUTINAS',
               subtitle: 'Principiante, Intermedio y Avanzado',
-              imagePath: 'assets/icons/mancuerna_icon.svg',
+              imagePath: 'assets/images/fitness-workout.gif',
               heroTag: 'hero-rutinas',
               onTap: () => Navigator.push(
                 context,
@@ -546,11 +546,18 @@ class _Glassmorphic3DShortcutState extends State<Glassmorphic3DShortcut> {
                       ),
                     ],
                   ),
-                  child: RotatingPWAIcon(
-                    svgPath: widget.imagePath,
-                    size: 42,
-                    color: AppTheme.goldAccent,
-                  ),
+                  child: widget.imagePath.endsWith('.svg')
+                      ? RotatingPWAIcon(
+                          svgPath: widget.imagePath,
+                          size: 42,
+                          color: AppTheme.goldAccent,
+                        )
+                      : Image.asset(
+                          widget.imagePath,
+                          width: 42,
+                          height: 42,
+                          fit: BoxFit.contain,
+                        ),
                 ),
               ),
               title: Text(
