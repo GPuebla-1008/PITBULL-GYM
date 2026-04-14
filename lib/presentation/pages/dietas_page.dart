@@ -4,6 +4,7 @@ import '../../core/theme/app_theme.dart';
 import 'dieta_mujer_definicion_page.dart';
 import 'dieta_hombre_definicion_page.dart';
 import 'dieta_mujer_ganancia_page.dart';
+import 'dieta_hombre_ganancia_page.dart';
 
 class DietasRecomendadasPage extends StatelessWidget {
   const DietasRecomendadasPage({super.key});
@@ -75,9 +76,7 @@ class DietasRecomendadasPage extends StatelessWidget {
               icon: Icons.sports_gymnastics,
               color: Colors.lightGreen.shade700,
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Próximamente: Ganancia Hombres')),
-                );
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const DietaHombreGananciaPage()));
               },
             ),
           ],
