@@ -98,23 +98,28 @@ class _RoutinesPageState extends State<RoutinesPage>
 
     return Scaffold(
       appBar: AppBar(
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Hero(
-            tag: 'hero-rutinas',
-            child: SvgPicture.asset(
-              'assets/icons/mancuerna_icon.svg',
-              colorFilter: const ColorFilter.mode(
-                AppTheme.goldAccent,
-                BlendMode.srcIn,
+        centerTitle: true,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Hero(
+              tag: 'hero-rutinas',
+              child: SvgPicture.asset(
+                'assets/icons/mancuerna_icon.svg',
+                height: 28,
+                colorFilter: const ColorFilter.mode(
+                  AppTheme.goldAccent,
+                  BlendMode.srcIn,
+                ),
+                fit: BoxFit.contain,
               ),
-              fit: BoxFit.contain,
             ),
-          ),
-        ),
-        title: Text(
-          'RUTINAS DE ENTRENO',
-          style: TextStyle(fontSize: isSmall ? 16 : 20),
+            const SizedBox(width: 12),
+            Text(
+              'RUTINAS DE ENTRENO',
+              style: TextStyle(fontSize: isSmall ? 16 : 20),
+            ),
+          ],
         ),
         bottom: TabBar(
           controller: _tabController,
