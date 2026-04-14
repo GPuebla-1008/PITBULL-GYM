@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/models/supplement_model.dart';
@@ -102,9 +103,13 @@ class _SupplementationPageState extends State<SupplementationPage> {
             Center(
               child: Hero(
                 tag: 'hero-suplementos',
-                child: Image.asset(
-                  'assets/images/suplementos_3d.png',
+                child: SvgPicture.asset(
+                  'assets/icons/suplementos_icon.svg',
                   height: 120,
+                  colorFilter: const ColorFilter.mode(
+                    AppTheme.goldAccent,
+                    BlendMode.srcIn,
+                  ),
                   fit: BoxFit.contain,
                 ),
               ),

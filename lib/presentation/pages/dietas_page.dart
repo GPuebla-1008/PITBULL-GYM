@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_theme.dart';
 import 'dieta_mujer_definicion_page.dart';
@@ -31,9 +32,13 @@ class DietasRecomendadasPage extends StatelessWidget {
             Center(
               child: Hero(
                 tag: 'hero-nutricion',
-                child: Image.asset(
-                  'assets/images/alimentacion_3d.png',
+                child: SvgPicture.asset(
+                  'assets/icons/nutricion_icon.svg',
                   height: 180,
+                  colorFilter: const ColorFilter.mode(
+                    AppTheme.goldAccent,
+                    BlendMode.srcIn,
+                  ),
                   fit: BoxFit.contain,
                 ),
               ),

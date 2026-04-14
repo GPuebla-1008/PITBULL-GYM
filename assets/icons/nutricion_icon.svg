@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Tenedor -->
+  <path d="M25,20 v20 c0,5 4,10 4,10 v30 h6 v-30 c0,0 4,-5 4,-10 v-20 h-2 v15 h-2 v-15 h-2 v15 h-2 v-15 h-2 z" fill="currentColor"/>
+  <!-- Cuchara -->
+  <path d="M50,20 c-8,0 -8,25 0,25 c8,0 8,-25 0,-25 m-3,25 v35 h6 v-35 z" fill="currentColor"/>
+  <!-- Cuchillo -->
+  <path d="M70,20 c0,0 -8,5 -8,25 v35 h6 v-60 z" fill="currentColor"/>
+  <!-- Hoja -->
+  <path d="M75,65 c0,0 15,0 15,15 c0,15 -15,15 -15,15 c0,0 0,-15 -15,-15 c-15,0 -15,-15 -15,-15 c0,0 15,0 30,0 z" fill="currentColor" fill-opacity="0.6"/>
+</svg>

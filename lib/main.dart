@@ -17,6 +17,7 @@ import 'presentation/pages/dietas_page.dart';
 import 'presentation/pages/payment_info_page.dart';
 import 'presentation/pages/admin_dashboard_page.dart';
 import 'presentation/pages/supplementation_page.dart';
+import 'presentation/widgets/rotating_pwa_icon.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -212,14 +213,10 @@ class MainDashboard extends StatelessWidget {
             StopwatchWidget(),
             const SizedBox(height: 16),
             _buildRutinaActiva(context),
-            const SizedBox(height: 48),
-
-            _sectionHeader('ENTRENAMIENTO'),
-            const SizedBox(height: 16),
             Glassmorphic3DShortcut(
               title: 'MIS RUTINAS',
               subtitle: 'Principiante, Intermedio y Avanzado',
-              imagePath: 'assets/images/rutinas_3d.png',
+              imagePath: 'assets/icons/mancuerna_icon.svg',
               heroTag: 'hero-rutinas',
               onTap: () => Navigator.push(
                 context,
@@ -230,7 +227,7 @@ class MainDashboard extends StatelessWidget {
             Glassmorphic3DShortcut(
               title: 'PLANES DE ALIMENTACIÓN',
               subtitle: 'Nutrición, Agua y Monitor de Peso',
-              imagePath: 'assets/images/alimentacion_3d.png',
+              imagePath: 'assets/icons/nutricion_icon.svg',
               heroTag: 'hero-nutricion',
               onTap: () => Navigator.push(
                 context,
@@ -243,7 +240,7 @@ class MainDashboard extends StatelessWidget {
             Glassmorphic3DShortcut(
               title: 'SUPLEMENTACIÓN RECOMENDADA',
               subtitle: 'Guía inteligente según tu objetivo',
-              imagePath: 'assets/images/suplementos_3d.png',
+              imagePath: 'assets/icons/suplementos_icon.svg',
               heroTag: 'hero-suplementos',
               onTap: () => Navigator.push(
                 context,
@@ -537,33 +534,23 @@ class _Glassmorphic3DShortcutState extends State<Glassmorphic3DShortcut> {
               ),
               leading: Hero(
                 tag: widget.heroTag,
-                child: TweenAnimationBuilder<double>(
-                  tween: Tween<double>(begin: 0, end: _isHovered ? 0.15 : 0),
-                  duration: const Duration(milliseconds: 400),
-                  builder: (context, rotation, child) {
-                    return Transform.rotate(
-                      angle: rotation,
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: glowColor,
-                              blurRadius: 15,
-                              spreadRadius: 2,
-                            ),
-                          ],
-                        ),
-                        child: Image.asset(
-                          widget.imagePath,
-                          width: 48,
-                          height: 48,
-                          fit: BoxFit.contain,
-                        ),
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: glowColor,
+                        blurRadius: 15,
+                        spreadRadius: 2,
                       ),
-                    );
-                  },
+                    ],
+                  ),
+                  child: RotatingPWAIcon(
+                    svgPath: widget.imagePath,
+                    size: 42,
+                    color: AppTheme.goldAccent,
+                  ),
                 ),
               ),
               title: Text(

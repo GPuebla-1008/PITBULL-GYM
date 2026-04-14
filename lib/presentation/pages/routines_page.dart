@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/theme/app_theme.dart';
 import 'rutina_adaptacion_page.dart';
 import 'rutina_principiante_page.dart';
@@ -101,8 +102,12 @@ class _RoutinesPageState extends State<RoutinesPage>
           padding: const EdgeInsets.all(8.0),
           child: Hero(
             tag: 'hero-rutinas',
-            child: Image.asset(
-              'assets/images/rutinas_3d.png',
+            child: SvgPicture.asset(
+              'assets/icons/mancuerna_icon.svg',
+              colorFilter: const ColorFilter.mode(
+                AppTheme.goldAccent,
+                BlendMode.srcIn,
+              ),
               fit: BoxFit.contain,
             ),
           ),
