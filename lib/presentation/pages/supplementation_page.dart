@@ -103,13 +103,9 @@ class _SupplementationPageState extends State<SupplementationPage> {
             Center(
               child: Hero(
                 tag: 'hero-suplementos',
-                child: SvgPicture.asset(
-                  'assets/icons/suplementos_icon.svg',
+                child: Image.asset(
+                  'assets/images/tenor.gif',
                   height: 120,
-                  colorFilter: const ColorFilter.mode(
-                    AppTheme.goldAccent,
-                    BlendMode.srcIn,
-                  ),
                   fit: BoxFit.contain,
                 ),
               ),
