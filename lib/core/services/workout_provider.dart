@@ -41,53 +41,51 @@ class WorkoutProvider with ChangeNotifier {
 
   List<RutinaAdaptacion> _getFallbackRutinas() {
     return [
-      RutinaAdaptacion(
-        id: 'fullbody_fallback',
-        variante: '3 Días',
-        dias: [
-          DiaRutina(
-            nombreDia: 'Día 1 (A)',
-            ejercicios: [
-              Ejercicio(
-                nombre: 'Sentadillas',
-                tipo: 'Máquina / Peso Libre',
-                seriesReps: '3x12',
-                descanso: '90 seg',
-                urlGif: 'assets/images/exercises/squat.gif',
-                instruccion: 'Mantén la espalda recta.',
-              ),
-              Ejercicio(
-                nombre: 'Press de Banca',
-                tipo: 'Máquina / Barra',
-                seriesReps: '3x10',
-                descanso: '90 seg',
-                urlGif: 'assets/images/exercises/bench_press.gif',
-                instruccion: 'Baja controlado hasta el pecho.',
-              ),
-            ],
-          ),
-        ],
-      ),
-      RutinaAdaptacion(
-        id: 'principiante_fallback',
-        variante: '3 Días',
-        dias: [
-          DiaRutina(
-            nombreDia: 'Tren Superior',
-            ejercicios: [
-              Ejercicio(
-                nombre: 'Jalón al Pecho',
-                tipo: 'Máquina',
-                seriesReps: '3x12',
-                descanso: '60 seg',
-                urlGif: 'assets/images/exercises/lat_pulldown.gif',
-                instruccion: 'Lleva la barra hacia la parte superior del pecho.',
-              ),
-            ],
-          ),
-        ],
-      ),
+      // --- FULL BODY ADAPTACION ---
+      _createMockRutina('fullbody_1', '3 Días', 3),
+      _createMockRutina('fullbody_2', '5 Días', 5),
+
+      // --- PRINCIPIANTE ---
+      _createMockRutina('principiante_1', '3 Días', 3),
+      _createMockRutina('principiante_2', '5 Días', 5),
+
+      // --- INTERMEDIO ---
+      _createMockRutina('intermedio_1', '3 Días', 3),
+      _createMockRutina('intermedio_2', '5 Días', 5),
+
+      // --- AVANZADO ---
+      _createMockRutina('arnold_split_advanced', '6 Días - Arnold', 6),
     ];
+  }
+
+  RutinaAdaptacion _createMockRutina(String id, String variante, int numDias) {
+    return RutinaAdaptacion(
+      id: id,
+      variante: variante,
+      dias: List.generate(numDias, (i) {
+        return DiaRutina(
+          nombreDia: 'Día ${i + 1}',
+          ejercicios: [
+            Ejercicio(
+              nombre: 'Ejercicio de Ejemplo ${i + 1}.1',
+              tipo: 'Máquina',
+              seriesReps: '3x12',
+              descanso: '60 seg',
+              urlGif: 'assets/images/exercises/squat.gif',
+              instruccion: 'Realiza el movimiento de forma controlada.',
+            ),
+            Ejercicio(
+              nombre: 'Ejercicio de Ejemplo ${i + 1}.2',
+              tipo: 'Peso Libre',
+              seriesReps: '4x10',
+              descanso: '90 seg',
+              urlGif: 'assets/images/exercises/bench_press.gif',
+              instruccion: 'Mantén una buena postura durante todo el ejercicio.',
+            ),
+          ],
+        );
+      }),
+    );
   }
 
   // Comienza una sesión
