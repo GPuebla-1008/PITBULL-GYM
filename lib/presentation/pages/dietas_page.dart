@@ -14,12 +14,28 @@ class DietasRecomendadasPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.charcoalBackground,
       appBar: AppBar(
-        title: Text(
-          'Planes de Alimentación',
-          style: GoogleFonts.outfit(
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
+        centerTitle: true,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Hero(
+              tag: 'hero-nutricion',
+              child: Image.asset(
+                'assets/images/good-food.gif',
+                height: 28,
+                fit: BoxFit.contain,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              'Planes de Alimentación',
+              style: GoogleFonts.outfit(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onSurface,
+                fontSize: 18,
+              ),
+            ),
+          ],
         ),
         backgroundColor: AppTheme.deepBlack,
         iconTheme: const IconThemeData(color: AppTheme.goldAccent),
@@ -28,17 +44,7 @@ class DietasRecomendadasPage extends StatelessWidget {
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            Center(
-              child: Hero(
-                tag: 'hero-nutricion',
-                child: Image.asset(
-                  'assets/images/good-food.gif',
-                  height: 180,
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
-            SizedBox(height: 32),
+            const SizedBox(height: 8),
             _buildDietaShortcut(
               context,
               title: 'Definición para Mujeres',

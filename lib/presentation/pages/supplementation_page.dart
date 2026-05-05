@@ -80,12 +80,28 @@ class _SupplementationPageState extends State<SupplementationPage> {
     return Scaffold(
       backgroundColor: AppTheme.charcoalBackground,
       appBar: AppBar(
-        title: Text(
-          'Suplementación Inteligente',
-          style: GoogleFonts.outfit(
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.onSurface,
-          ),
+        centerTitle: true,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Hero(
+              tag: 'hero-suplementos',
+              child: Image.asset(
+                'assets/images/prodecopharma-prodeco.gif',
+                height: 28,
+                fit: BoxFit.contain,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Text(
+              'Suplementación Inteligente',
+              style: GoogleFonts.outfit(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onSurface,
+                fontSize: 18,
+              ),
+            ),
+          ],
         ),
         backgroundColor: AppTheme.deepBlack,
         iconTheme: const IconThemeData(color: AppTheme.goldAccent),
@@ -104,19 +120,7 @@ class _SupplementationPageState extends State<SupplementationPage> {
           children: [
             // Disclaimer
             _buildDisclaimer(),
-            SizedBox(height: 16),
-
-            Center(
-              child: Hero(
-                tag: 'hero-suplementos',
-                child: Image.asset(
-                  'assets/images/prodecopharma-prodeco.gif',
-                  height: 120,
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
-            SizedBox(height: 24),
+            const SizedBox(height: 24),
 
             // Selectores
             _buildSelectors(),
