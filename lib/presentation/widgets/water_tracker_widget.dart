@@ -103,11 +103,13 @@ class WaterTrackerWidget extends StatelessWidget {
                 ),
               ],
             ),
-            _buildTimeLogs(context, metrics),
           ],
         ),
-      ),
-    );
+        _buildTimeLogs(context, metrics),
+      ],
+    ),
+  ),
+);
   }
 
   Widget _buildTimeLogs(BuildContext context, MetricsProvider metrics) {
