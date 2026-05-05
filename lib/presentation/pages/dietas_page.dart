@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_theme.dart';
 import 'dieta_mujer_definicion_page.dart';
@@ -19,7 +18,7 @@ class DietasRecomendadasPage extends StatelessWidget {
           'Planes de Alimentación',
           style: GoogleFonts.outfit(
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         backgroundColor: AppTheme.deepBlack,
@@ -39,7 +38,7 @@ class DietasRecomendadasPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
             _buildDietaShortcut(
               context,
               title: 'Definición para Mujeres',
@@ -55,7 +54,7 @@ class DietasRecomendadasPage extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             _buildDietaShortcut(
               context,
               title: 'Definición para Hombres',
@@ -71,7 +70,7 @@ class DietasRecomendadasPage extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             _buildDietaShortcut(
               context,
               title: 'Ganancia Muscular para Mujeres',
@@ -87,7 +86,7 @@ class DietasRecomendadasPage extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             _buildDietaShortcut(
               context,
               title: 'Ganancia Muscular para Hombres',
@@ -138,7 +137,7 @@ class DietasRecomendadasPage extends StatelessWidget {
                 ),
                 child: Icon(icon, color: color, size: 32),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: 16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,15 +147,15 @@ class DietasRecomendadasPage extends StatelessWidget {
                       style: GoogleFonts.outfit(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4),
                     Text(
                       subtitle,
                       style: GoogleFonts.inter(
                         fontSize: 14,
-                        color: Colors.white70,
+                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                       ),
                     ),
                   ],

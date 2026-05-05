@@ -22,15 +22,72 @@ class WorkoutProvider with ChangeNotifier {
     notifyListeners();
     try {
       final snap = await _db.collection('rutinas_adaptacion').get();
-      _todasLasRutinas = snap.docs
-          .map((d) => RutinaAdaptacion.fromFirestore(d))
-          .toList();
+      if (snap.docs.isEmpty) {
+        // Fallback para localhost o DB vacía
+        _todasLasRutinas = _getFallbackRutinas();
+      } else {
+        _todasLasRutinas = snap.docs
+            .map((d) => RutinaAdaptacion.fromFirestore(d))
+            .toList();
+      }
     } catch (e) {
-      debugPrint("Error fetching rutinas: \$e");
+      debugPrint("Error fetching rutinas: $e");
+      _todasLasRutinas = _getFallbackRutinas();
     } finally {
       _loading = false;
       notifyListeners();
     }
+  }
+
+  List<RutinaAdaptacion> _getFallbackRutinas() {
+    return [
+      RutinaAdaptacion(
+        id: 'fullbody_fallback',
+        variante: '3 Días',
+        dias: [
+          DiaRutina(
+            nombreDia: 'Día 1 (A)',
+            ejercicios: [
+              Ejercicio(
+                nombre: 'Sentadillas',
+                tipo: 'Máquina / Peso Libre',
+                seriesReps: '3x12',
+                descanso: '90 seg',
+                urlGif: 'assets/images/exercises/squat.gif',
+                instruccion: 'Mantén la espalda recta.',
+              ),
+              Ejercicio(
+                nombre: 'Press de Banca',
+                tipo: 'Máquina / Barra',
+                seriesReps: '3x10',
+                descanso: '90 seg',
+                urlGif: 'assets/images/exercises/bench_press.gif',
+                instruccion: 'Baja controlado hasta el pecho.',
+              ),
+            ],
+          ),
+        ],
+      ),
+      RutinaAdaptacion(
+        id: 'principiante_fallback',
+        variante: '3 Días',
+        dias: [
+          DiaRutina(
+            nombreDia: 'Tren Superior',
+            ejercicios: [
+              Ejercicio(
+                nombre: 'Jalón al Pecho',
+                tipo: 'Máquina',
+                seriesReps: '3x12',
+                descanso: '60 seg',
+                urlGif: 'assets/images/exercises/lat_pulldown.gif',
+                instruccion: 'Lleva la barra hacia la parte superior del pecho.',
+              ),
+            ],
+          ),
+        ],
+      ),
+    ];
   }
 
   // Comienza una sesión

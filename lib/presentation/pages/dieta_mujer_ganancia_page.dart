@@ -34,7 +34,7 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
           'Ganancia Muscular',
           style: GoogleFonts.outfit(
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         backgroundColor: AppTheme.deepBlack,
@@ -45,24 +45,20 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // --- MODULO AGUA (FEMENINO: 10 vasos / 2.5L) ---
-            _buildWaterModule(metrics),
-            const SizedBox(height: 16),
-
             // --- MODULO PESO ---
             _buildWeightModule(metrics),
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
 
             // --- SELECTOR DE DIETAS ---
             Text(
               'Variante de Dieta (2000 kcal)',
               style: GoogleFonts.outfit(
-                color: Colors.white70,
+                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -75,13 +71,14 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
                       label: Text(d.titulo),
                       selected: isSelected,
                       onSelected: (selected) {
-                        if (selected)
+                        if (selected) {
                           setState(() => _dietaSeleccionada = index);
+                        }
                       },
                       selectedColor: Colors.deepOrangeAccent.shade700,
                       backgroundColor: AppTheme.warmGrey,
                       labelStyle: TextStyle(
-                        color: isSelected ? Colors.white : Colors.white70,
+                        color: isSelected ? Theme.of(context).colorScheme.onSurface : Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -89,7 +86,7 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
                 }),
               ),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24),
 
             // --- MACROS ---
             Row(
@@ -118,18 +115,18 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
                 ),
               ],
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
 
             // --- CRONOGRAMA ACORDEON CON CHECKBOX ---
             Text(
               'Plan de Volume Diario',
               style: GoogleFonts.outfit(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             Card(
               color: AppTheme.warmGrey,
               shape: RoundedRectangleBorder(
@@ -147,7 +144,7 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
                       leading: Checkbox(
                         value: isChecked,
                         activeColor: Colors.deepOrangeAccent.shade700,
-                        checkColor: Colors.white,
+                        checkColor: Theme.of(context).colorScheme.onSurface,
                         onChanged: (val) =>
                             metrics.toggleMealCheck(dieta.id, comida.horario),
                       ),
@@ -155,7 +152,7 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
                         '${comida.horario} - ${comida.titulo}',
                         style: TextStyle(
                           color: isChecked
-                              ? Colors.white54
+                              ? Theme.of(context).colorScheme.onSurface.withOpacity(0.54)
                               : Colors.deepOrangeAccent,
                           fontWeight: FontWeight.bold,
                           decoration: isChecked
@@ -164,40 +161,40 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
                         ),
                       ),
                       iconColor: Colors.deepOrangeAccent,
-                      collapsedIconColor: Colors.white54,
+                      collapsedIconColor: Theme.of(context).colorScheme.onSurface.withOpacity(0.54),
                       childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                       expandedAlignment: Alignment.centerLeft,
                       children: [
                         Text(
                           'Menú:',
                           style: TextStyle(
-                            color: Colors.white70,
+                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                             fontWeight: FontWeight.bold,
                             fontSize: 13,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4),
                         Text(
                           comida.menu,
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
                             fontSize: 15,
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        SizedBox(height: 12),
                         Text(
                           'Porción exacta (Superávit):',
                           style: TextStyle(
-                            color: Colors.white70,
+                            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                             fontWeight: FontWeight.bold,
                             fontSize: 13,
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4),
                         Text(
                           comida.porciones,
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
                             fontSize: 15,
                           ),
                         ),
@@ -207,18 +204,18 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: 32),
 
             // --- LISTA DE COMPRA ---
             Text(
               'Lista del Supermercado (Estándar de 30 Días)',
               style: GoogleFonts.outfit(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             Card(
               color: AppTheme.warmGrey,
               shape: RoundedRectangleBorder(
@@ -229,13 +226,13 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
                   return CheckboxListTile(
                     value: metrics.isProductChecked(prod.id),
                     activeColor: Colors.deepOrangeAccent.shade700,
-                    checkColor: Colors.white,
+                    checkColor: Theme.of(context).colorScheme.onSurface,
                     title: Text(
                       prod.nombre,
                       style: TextStyle(
                         color: metrics.isProductChecked(prod.id)
-                            ? Colors.white54
-                            : Colors.white,
+                            ? Theme.of(context).colorScheme.onSurface.withOpacity(0.54)
+                            : Theme.of(context).colorScheme.onSurface,
                         decoration: metrics.isProductChecked(prod.id)
                             ? TextDecoration.lineThrough
                             : null,
@@ -243,8 +240,8 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
                     ),
                     subtitle: Text(
                       '${prod.categoria} • ${prod.cantidadMensual}',
-                      style: const TextStyle(
-                        color: Colors.white54,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.54),
                         fontSize: 12,
                       ),
                     ),
@@ -253,7 +250,7 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
                 }).toList(),
               ),
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: 40),
           ],
         ),
       ),
@@ -275,85 +272,9 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
           ),
           Text(
             label,
-            style: const TextStyle(color: Colors.white70, fontSize: 12),
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7), fontSize: 12),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildWaterModule(MetricsProvider metrics) {
-    const meta = 10; // 10 vasos (2.5L) para mujeres
-    final objAlcanzado = metrics.waterGlasses >= meta;
-
-    return Card(
-      color: Colors.blue.shade900.withOpacity(0.3),
-      shape: RoundedRectangleBorder(
-        side: BorderSide(color: Colors.blueAccent.withOpacity(0.5)),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                SizedBox(
-                  width: 80,
-                  height: 80,
-                  child: CircularProgressIndicator(
-                    value: metrics.waterGlasses / meta,
-                    strokeWidth: 8,
-                    backgroundColor: Colors.blue.shade900,
-                    color: Colors.lightBlueAccent,
-                  ),
-                ),
-                Icon(
-                  objAlcanzado ? Icons.verified : Icons.water_drop,
-                  color: Colors.lightBlueAccent,
-                  size: 30,
-                ),
-              ],
-            ),
-            const SizedBox(width: 24),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Hidratación Diaria',
-                    style: GoogleFonts.outfit(
-                      color: Colors.lightBlueAccent,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
-                  ),
-                  Text(
-                    '${metrics.waterGlasses} de $meta vasos (2.5L)',
-                    style: const TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      _roundedBtn(
-                        Icons.remove,
-                        () => metrics.removeWaterGlass(),
-                        Colors.blueGrey,
-                      ),
-                      const SizedBox(width: 16),
-                      _roundedBtn(
-                        Icons.add,
-                        () => metrics.addWaterGlass(),
-                        Colors.lightBlueAccent,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -363,7 +284,7 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
     final lstWeight = metrics.lastWeight;
 
     String deltaTxt = '';
-    Color deltaClr = Colors.white54;
+    Color deltaClr = Theme.of(context).colorScheme.onSurface.withOpacity(0.54);
     IconData deltaIco = Icons.horizontal_rule;
 
     if (curWeight != null && lstWeight != null) {
@@ -393,12 +314,12 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
             Text(
               'Control de Peso',
               style: GoogleFonts.outfit(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             LayoutBuilder(
               builder: (context, constraints) {
                 final isCompact = constraints.maxWidth < 280;
@@ -407,7 +328,7 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           _buildWeightInput(metrics),
-                          const SizedBox(height: 16),
+                          SizedBox(height: 16),
                           if (curWeight != null)
                             _buildWeightStats(
                               curWeight,
@@ -422,7 +343,7 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
                         children: [
                           Expanded(child: _buildWeightInput(metrics)),
                           if (curWeight != null) ...[
-                            const SizedBox(width: 24),
+                            SizedBox(width: 24),
                             _buildWeightStats(
                               curWeight,
                               lstWeight,
@@ -445,12 +366,12 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
     return TextField(
       controller: _weightController,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
-      style: const TextStyle(color: Colors.white),
+      style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
       decoration: InputDecoration(
         labelText: 'Peso de hoy (kg)',
-        labelStyle: const TextStyle(color: Colors.white54),
+        labelStyle: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.54)),
         enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.white24),
+          borderSide: BorderSide(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.24)),
           borderRadius: BorderRadius.circular(8),
         ),
         focusedBorder: OutlineInputBorder(
@@ -487,7 +408,7 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
         Text(
           '${curWeight.toStringAsFixed(1)} kg',
           style: GoogleFonts.outfit(
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.onSurface,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
@@ -497,7 +418,7 @@ class _DietaMujerGananciaPageState extends State<DietaMujerGananciaPage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(deltaIco, color: deltaClr, size: 16),
-              const SizedBox(width: 4),
+              SizedBox(width: 4),
               Text(
                 deltaTxt,
                 style: TextStyle(color: deltaClr, fontWeight: FontWeight.bold),

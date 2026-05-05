@@ -37,13 +37,13 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
           children: [
             Text(
               'Socio: ${socio.nombre}',
-              style: const TextStyle(color: Colors.white70),
+              style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7)),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             TextField(
               controller: montoCtrl,
               keyboardType: TextInputType.number,
-              style: const TextStyle(color: Colors.white),
+              style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
               decoration: InputDecoration(
                 labelText: 'Monto a pagar',
                 labelStyle: TextStyle(color: AppTheme.goldAccent),
@@ -57,9 +57,9 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text(
+            child: Text(
               'Cancelar',
-              style: TextStyle(color: Colors.white54),
+              style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.54)),
             ),
           ),
           ElevatedButton(
@@ -82,13 +82,13 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
               if (success && mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: const Text('Pago registrado correctamente'),
+                    content: Text('Pago registrado correctamente'),
                     backgroundColor: Colors.green.shade700,
                   ),
                 );
               }
             },
-            child: const Text(
+            child: Text(
               'CONFIRMAR',
               style: TextStyle(
                 color: Colors.black,
@@ -108,25 +108,25 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
     return Scaffold(
       backgroundColor: AppTheme.charcoalBackground,
       appBar: AppBar(
-        title: const Text('PANEL DE CONTROL'),
+        title: Text('PANEL DE CONTROL'),
         backgroundColor: Colors.transparent,
         actions: [
           IconButton(
-            icon: const Icon(Icons.cloud_upload, color: Colors.blueAccent),
+            icon: Icon(Icons.cloud_upload, color: Colors.blueAccent),
             tooltip: 'Sembrar Rutinas',
             onPressed: () => SeedRutinasService.inyectarDatos(context),
           ),
         ],
       ),
       body: admin.loading
-          ? const Center(
+          ? Center(
               child: CircularProgressIndicator(color: AppTheme.goldAccent),
             )
           : admin.errorMessage != null
           ? Center(
               child: Text(
                 admin.errorMessage!,
-                style: const TextStyle(color: Colors.redAccent),
+                style: TextStyle(color: Colors.redAccent),
               ),
             )
           : ListView.builder(
@@ -153,14 +153,14 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
                       socio.nombre,
                       style: GoogleFonts.outfit(
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 18,
                       ),
                     ),
                     subtitle: Text(
                       'Día de pago: ${socio.diaPagoFijo}  •  Rol: ${socio.rol}',
-                      style: const TextStyle(
-                        color: Colors.white70,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                         fontSize: 12,
                       ),
                     ),

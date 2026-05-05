@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 import '../../core/services/auth_provider.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class MyAccountPage extends StatefulWidget {
+  const MyAccountPage({super.key});
+
   @override
   _MyAccountPageState createState() => _MyAccountPageState();
 }
@@ -38,7 +39,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
         ),
         content: Text(
           'Elige cómo deseas recibir el código o enlace de recuperación.',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
         ),
         actions: [
           TextButton(
@@ -160,7 +161,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                             child: Text(
                               'IMPORTANTE: Asegurate de que tus datos sean reales ante cualquier emergencia médica.',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Theme.of(context).colorScheme.onSurface,
                                 fontSize: 11,
                               ),
                             ),
@@ -279,7 +280,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
-      style: TextStyle(color: Colors.white),
+      style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
       validator: (v) => v == null || v.isEmpty ? 'Campo requerido' : null,
       decoration: InputDecoration(
         labelText: label,

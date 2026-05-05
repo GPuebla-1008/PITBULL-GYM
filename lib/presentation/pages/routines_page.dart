@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/theme/app_theme.dart';
 import 'rutina_adaptacion_page.dart';
 import 'rutina_principiante_page.dart';
@@ -23,6 +22,8 @@ class Routine {
 }
 
 class RoutinesPage extends StatefulWidget {
+  const RoutinesPage({super.key});
+
   @override
   _RoutinesPageState createState() => _RoutinesPageState();
 }
@@ -110,7 +111,7 @@ class _RoutinesPageState extends State<RoutinesPage>
                 fit: BoxFit.contain,
               ),
             ),
-            const SizedBox(width: 12),
+            SizedBox(width: 12),
             Text(
               'RUTINAS DE ENTRENO',
               style: TextStyle(fontSize: isSmall ? 16 : 20),
@@ -120,13 +121,13 @@ class _RoutinesPageState extends State<RoutinesPage>
         bottom: TabBar(
           controller: _tabController,
           labelColor: AppTheme.goldAccent,
-          unselectedLabelColor: Colors.white60,
+          unselectedLabelColor: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
           indicatorColor: AppTheme.goldAccent,
           labelStyle: TextStyle(
             fontSize: isSmall ? 11 : 14,
             fontWeight: FontWeight.bold,
           ),
-          tabs: const [
+          tabs: [
             Tab(text: 'PRINCIPIANTE'),
             Tab(text: 'INTERMEDIO'),
             Tab(text: 'AVANZADO'),
@@ -213,7 +214,7 @@ class _RoutinesPageState extends State<RoutinesPage>
                     SizedBox(height: 8),
                     Text(
                       routine.description,
-                      style: TextStyle(color: Colors.white70, fontSize: 14),
+                      style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7), fontSize: 14),
                     ),
                     SizedBox(height: 16),
                     ElevatedButton(

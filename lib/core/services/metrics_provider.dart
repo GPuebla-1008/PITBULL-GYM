@@ -8,7 +8,7 @@ class MetricsProvider with ChangeNotifier {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   // Agua
-  int _waterGlasses = 0;
+  List<DateTime> _waterLogs = [];
   String _lastWaterDate = '';
 
   // Peso
@@ -16,9 +16,10 @@ class MetricsProvider with ChangeNotifier {
   double? _lastWeight;
 
   // Mercado local
-  Map<String, bool> _supermarketChecks = {};
+  final Map<String, bool> _supermarketChecks = {};
 
-  int get waterGlasses => _waterGlasses;
+  int get waterGlasses => _waterLogs.length;
+  List<DateTime> get waterLogs => List.unmodifiable(_waterLogs);
   double? get currentWeight => _currentWeight;
   double? get lastWeight => _lastWeight;
 
@@ -35,8 +36,12 @@ class MetricsProvider with ChangeNotifier {
   // --- HIDRATACION ---
   Future<void> _initDailyWater() async {
     final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
     final today = _getTodayDateStr();
+
+    if (user == null) {
+      _loadLocalWaterLogs(today);
+      return;
+    }
 
     try {
       final doc = await _db
@@ -47,60 +52,102 @@ class MetricsProvider with ChangeNotifier {
           .get();
 
       if (doc.exists) {
-        _waterGlasses = doc.data()?['count'] ?? 0;
+        final data = doc.data();
+        if (data != null && data.containsKey('logs')) {
+          final List<dynamic> rawLogs = data['logs'];
+          _waterLogs = rawLogs.map((e) {
+            if (e is Timestamp) return e.toDate();
+            if (e is String) return DateTime.tryParse(e) ?? DateTime.now();
+            return DateTime.now();
+          }).toList();
+        } else {
+          _waterLogs = [];
+        }
         _lastWaterDate = today;
       } else {
-        // Reset a cero y guardar en FB
-        _waterGlasses = 0;
+        _waterLogs = [];
         _lastWaterDate = today;
-        await _updateWaterInFirestore(0);
+        await _updateWaterInFirestore();
       }
       notifyListeners();
     } catch (e) {
-      debugPrint("Error al inicializar agua: $e");
+      debugPrint("Error al inicializar agua desde Firestore: $e");
+      _loadLocalWaterLogs(today);
     }
   }
 
-  Future<void> addWaterGlass() async {
-    if (_waterGlasses < 10) {
-      _waterGlasses++;
-      await _checkAndResetForNewDay();
-      await _updateWaterInFirestore(_waterGlasses);
-      notifyListeners();
+  void _loadLocalWaterLogs(String today) {
+    // Si falla o no hay usuario, limpiar o usar caché simple
+    if (_lastWaterDate != today) {
+      _waterLogs = [];
+      _lastWaterDate = today;
     }
+    notifyListeners();
+  }
+
+  Future<void> addWaterGlass([DateTime? time]) async {
+    await _checkAndResetForNewDay();
+    _waterLogs.add(time ?? DateTime.now());
+    notifyListeners(); // Optimistic update!
+    
+    await _updateWaterInFirestore();
   }
 
   Future<void> removeWaterGlass() async {
-    if (_waterGlasses > 0) {
-      _waterGlasses--;
+    if (_waterLogs.isNotEmpty) {
       await _checkAndResetForNewDay();
-      await _updateWaterInFirestore(_waterGlasses);
+      _waterLogs.removeLast();
+      notifyListeners(); // Optimistic update!
+      
+      await _updateWaterInFirestore();
+    }
+  }
+  
+  Future<void> removeWaterGlassAt(int index) async {
+    if (index >= 0 && index < _waterLogs.length) {
+      _waterLogs.removeAt(index);
       notifyListeners();
+      await _updateWaterInFirestore();
+    }
+  }
+
+  Future<void> updateWaterGlassTime(int index, DateTime newTime) async {
+    if (index >= 0 && index < _waterLogs.length) {
+      _waterLogs[index] = newTime;
+      // Sort to keep chronological order
+      _waterLogs.sort((a, b) => a.compareTo(b));
+      notifyListeners();
+      await _updateWaterInFirestore();
     }
   }
 
   Future<void> _checkAndResetForNewDay() async {
     final today = _getTodayDateStr();
     if (_lastWaterDate != today) {
-      _waterGlasses = 0;
+      _waterLogs = [];
       _lastWaterDate = today;
     }
   }
 
-  Future<void> _updateWaterInFirestore(int count) async {
+  Future<void> _updateWaterInFirestore() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
 
     final today = _getTodayDateStr();
-    await _db
-        .collection('user_metrics')
-        .doc(user.uid)
-        .collection('water_log')
-        .doc(today)
-        .set({
-          'count': count,
-          'timestamp': FieldValue.serverTimestamp(),
-        }, SetOptions(merge: true));
+    try {
+      await _db
+          .collection('user_metrics')
+          .doc(user.uid)
+          .collection('water_log')
+          .doc(today)
+          .set({
+            'logs': _waterLogs.map((e) => e.toIso8601String()).toList(),
+            'count': _waterLogs.length,
+            'timestamp': FieldValue.serverTimestamp(),
+          }, SetOptions(merge: true));
+    } catch (e) {
+      debugPrint("Error guardando agua: $e");
+    }
   }
 
   // --- PESO ---
@@ -132,8 +179,9 @@ class MetricsProvider with ChangeNotifier {
   }
 
   Future<void> saveDailyWeight(double weight) async {
-    if (weight < 40 || weight > 200)
+    if (weight < 40 || weight > 200) {
       return; // Validación límite para ambos géneros
+    }
 
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;

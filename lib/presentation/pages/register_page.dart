@@ -83,7 +83,7 @@ class _RegisterPageState extends State<RegisterPage>
     if (ok) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text(
+          content: Text(
             '¡Cuenta creada! Revisa tu email (o carpeta de spam) para verificarla',
           ),
           backgroundColor: Colors.green.shade700,
@@ -121,7 +121,7 @@ class _RegisterPageState extends State<RegisterPage>
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white70),
+          icon: Icon(Icons.arrow_back_ios, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7)),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -153,7 +153,7 @@ class _RegisterPageState extends State<RegisterPage>
                         size: 36,
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
                     Text(
                       'CREAR CUENTA',
                       style: GoogleFonts.outfit(
@@ -163,15 +163,15 @@ class _RegisterPageState extends State<RegisterPage>
                         letterSpacing: 3,
                       ),
                     ),
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6),
                     Text(
                       'Únete a PITBULL GYM hoy',
                       style: GoogleFonts.inter(
-                        color: Colors.white54,
+                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.54),
                         fontSize: 13,
                       ),
                     ),
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32),
 
                     // Nombre
                     _buildField(
@@ -182,7 +182,7 @@ class _RegisterPageState extends State<RegisterPage>
                           ? 'Ingresá tu nombre'
                           : null,
                     ),
-                    const SizedBox(height: 14),
+                    SizedBox(height: 14),
 
                     // Documento
                     _buildField(
@@ -194,7 +194,7 @@ class _RegisterPageState extends State<RegisterPage>
                           ? 'Ingresá tu documento'
                           : null,
                     ),
-                    const SizedBox(height: 14),
+                    SizedBox(height: 14),
 
                     // Email
                     _buildField(
@@ -208,7 +208,7 @@ class _RegisterPageState extends State<RegisterPage>
                         return null;
                       },
                     ),
-                    const SizedBox(height: 14),
+                    SizedBox(height: 14),
 
                     // Teléfono
                     _buildField(
@@ -220,7 +220,7 @@ class _RegisterPageState extends State<RegisterPage>
                           ? 'Ingresá tu teléfono'
                           : null,
                     ),
-                    const SizedBox(height: 14),
+                    SizedBox(height: 14),
 
                     // Emergencia
                     _buildField(
@@ -232,11 +232,11 @@ class _RegisterPageState extends State<RegisterPage>
                           ? 'Ingresá un contacto de emergencia'
                           : null,
                     ),
-                    const SizedBox(height: 14),
+                    SizedBox(height: 14),
 
                     // Objetivo (Dropdown)
                     DropdownButtonFormField<String>(
-                      value: _objetivo,
+                      initialValue: _objetivo,
                       decoration: InputDecoration(
                         labelText: 'Objetivo en el gym',
                         prefixIcon: Icon(
@@ -261,7 +261,7 @@ class _RegisterPageState extends State<RegisterPage>
                         ),
                       ),
                       dropdownColor: AppTheme.warmGrey,
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
                       iconEnabledColor: AppTheme.goldAccent,
                       items: _objetivos
                           .map(
@@ -270,11 +270,11 @@ class _RegisterPageState extends State<RegisterPage>
                           .toList(),
                       onChanged: (v) => setState(() => _objetivo = v!),
                     ),
-                    const SizedBox(height: 14),
+                    SizedBox(height: 14),
 
                     // Día de Pago (Dropdown)
                     DropdownButtonFormField<int>(
-                      value: _diaPago,
+                      initialValue: _diaPago,
                       decoration: InputDecoration(
                         labelText: 'Día de Pago Fijo (Mes)',
                         prefixIcon: Icon(
@@ -299,7 +299,7 @@ class _RegisterPageState extends State<RegisterPage>
                         ),
                       ),
                       dropdownColor: AppTheme.warmGrey,
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
                       iconEnabledColor: AppTheme.goldAccent,
                       items: _diasPago
                           .map(
@@ -311,7 +311,7 @@ class _RegisterPageState extends State<RegisterPage>
                           .toList(),
                       onChanged: (v) => setState(() => _diaPago = v!),
                     ),
-                    const SizedBox(height: 14),
+                    SizedBox(height: 14),
 
                     // Contraseña
                     _buildField(
@@ -327,13 +327,14 @@ class _RegisterPageState extends State<RegisterPage>
                         onPressed: () => setState(() => _obscure = !_obscure),
                       ),
                       validator: (v) {
-                        if (v == null || v.isEmpty)
+                        if (v == null || v.isEmpty) {
                           return 'Ingresá una contraseña';
+                        }
                         if (v.length < 6) return 'Mínimo 6 caracteres';
                         return null;
                       },
                     ),
-                    const SizedBox(height: 14),
+                    SizedBox(height: 14),
 
                     // Confirmar contraseña
                     _buildField(
@@ -352,14 +353,16 @@ class _RegisterPageState extends State<RegisterPage>
                             setState(() => _obscureConfirm = !_obscureConfirm),
                       ),
                       validator: (v) {
-                        if (v == null || v.isEmpty)
+                        if (v == null || v.isEmpty) {
                           return 'Confirmá la contraseña';
-                        if (v != _passCtrl.text)
+                        }
+                        if (v != _passCtrl.text) {
                           return 'Las contraseñas no coinciden';
+                        }
                         return null;
                       },
                     ),
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32),
 
                     // Botón Registrar
                     SizedBox(
@@ -376,7 +379,7 @@ class _RegisterPageState extends State<RegisterPage>
                           elevation: 8,
                         ),
                         child: _loading
-                            ? const SizedBox(
+                            ? SizedBox(
                                 width: 22,
                                 height: 22,
                                 child: CircularProgressIndicator(
@@ -394,7 +397,7 @@ class _RegisterPageState extends State<RegisterPage>
                               ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    SizedBox(height: 20),
 
                     // Link a login
                     Row(
@@ -402,7 +405,7 @@ class _RegisterPageState extends State<RegisterPage>
                       children: [
                         Text(
                           '¿Ya tenés cuenta? ',
-                          style: GoogleFonts.inter(color: Colors.white54),
+                          style: GoogleFonts.inter(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.54)),
                         ),
                         GestureDetector(
                           onTap: () => Navigator.pop(context),
@@ -442,7 +445,7 @@ class _RegisterPageState extends State<RegisterPage>
       obscureText: obscure,
       keyboardType: keyboardType,
       validator: validator,
-      style: const TextStyle(color: Colors.white),
+      style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: Icon(icon, color: AppTheme.goldAccent),
@@ -459,14 +462,14 @@ class _RegisterPageState extends State<RegisterPage>
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Colors.redAccent, width: 1.5),
+          borderSide: BorderSide(color: Colors.redAccent, width: 1.5),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Colors.redAccent, width: 2),
+          borderSide: BorderSide(color: Colors.redAccent, width: 2),
         ),
         labelStyle: TextStyle(color: AppTheme.goldAccent.withOpacity(0.7)),
-        errorStyle: const TextStyle(color: Colors.redAccent),
+        errorStyle: TextStyle(color: Colors.redAccent),
       ),
     );
   }

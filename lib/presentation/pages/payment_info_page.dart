@@ -12,7 +12,7 @@ class PaymentInfoPage extends StatelessWidget {
     Clipboard.setData(ClipboardData(text: alias)).then((_) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('¡Alias copiado al portapapeles!'),
+          content: Text('¡Alias copiado al portapapeles!'),
           backgroundColor: Colors.green.shade700,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
@@ -29,11 +29,11 @@ class PaymentInfoPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.charcoalBackground,
       appBar: AppBar(
-        title: const Text('PAGO DE CUOTA'),
+        title: Text('PAGO DE CUOTA'),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.white70),
+          icon: Icon(Icons.arrow_back_ios, color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7)),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -61,7 +61,7 @@ class PaymentInfoPage extends StatelessWidget {
                     size: 48,
                   ),
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 24),
                 Text(
                   'DATOS',
                   style: GoogleFonts.outfit(
@@ -71,13 +71,13 @@ class PaymentInfoPage extends StatelessWidget {
                     letterSpacing: 3,
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
                 Text(
                   'Transfiere tu cuota mensual al siguiente alias y envíanos el comprobante.',
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.inter(color: Colors.white70, fontSize: 14),
+                  style: GoogleFonts.inter(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7), fontSize: 14),
                 ),
-                const SizedBox(height: 32),
+                SizedBox(height: 32),
                 Container(
                   padding: const EdgeInsets.symmetric(
                     vertical: 20,
@@ -86,20 +86,20 @@ class PaymentInfoPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: AppTheme.warmGrey,
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: Colors.white10),
+                    border: Border.all(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.1)),
                   ),
                   child: Column(
                     children: [
                       Text(
                         'ALIAS:',
                         style: GoogleFonts.inter(
-                          color: Colors.white54,
+                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.54),
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 2,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8),
                       // Use FittedBox to scale down alias if it's too long for the screen
                       FittedBox(
                         fit: BoxFit.scaleDown,
@@ -108,15 +108,15 @@ class PaymentInfoPage extends StatelessWidget {
                           style: GoogleFonts.outfit(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20),
                       ElevatedButton.icon(
                         onPressed: () => _copyAlias(context),
-                        icon: const Icon(Icons.copy, size: 18),
-                        label: const Text('COPIAR ALIAS'),
+                        icon: Icon(Icons.copy, size: 18),
+                        label: Text('COPIAR ALIAS'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppTheme.goldAccent,
                           foregroundColor: Colors.black,

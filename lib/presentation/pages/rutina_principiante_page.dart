@@ -49,7 +49,7 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
     if (workout.loading) {
       return Scaffold(
         backgroundColor: AppTheme.charcoalBackground,
-        body: const Center(
+        body: Center(
           child: CircularProgressIndicator(color: AppTheme.goldAccent),
         ),
       );
@@ -80,7 +80,7 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
                 title: Text(
                   'Rutina Principiante',
                   style: GoogleFonts.outfit(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
                     fontSize: isSmall ? 14 : 18,
                     shadows: [
@@ -109,7 +109,7 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
                 ),
               ),
               leading: IconButton(
-                icon: const Icon(
+                icon: Icon(
                   Icons.arrow_back_ios,
                   color: AppTheme.goldAccent,
                 ),
@@ -127,15 +127,15 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
                     Text(
                       'Configura tu frecuencia semanal',
                       style: TextStyle(
-                        color: Colors.white70,
+                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                         fontSize: isSmall ? 13 : 16,
                       ),
                     ),
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12),
                     FittedBox(
                       fit: BoxFit.scaleDown,
                       child: SegmentedButton<String>(
-                        segments: const [
+                        segments: [
                           ButtonSegment(
                             value: '3 Días',
                             label: Text('3 DÍAS / SEMANA'),
@@ -155,7 +155,7 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
                           backgroundColor: AppTheme.warmGrey,
                           selectedBackgroundColor: AppTheme.goldAccent,
                           selectedForegroundColor: Colors.black,
-                          foregroundColor: Colors.white,
+                          foregroundColor: Theme.of(context).colorScheme.onSurface,
                         ),
                       ),
                     ),
@@ -171,7 +171,7 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
                     controller: _tabController,
                     isScrollable: true,
                     labelColor: AppTheme.goldAccent,
-                    unselectedLabelColor: Colors.white54,
+                    unselectedLabelColor: Theme.of(context).colorScheme.onSurface.withOpacity(0.54),
                     indicatorColor: AppTheme.goldAccent,
                     labelStyle: TextStyle(fontSize: isSmall ? 12 : 14),
                     tabs: rutinaData.dias
@@ -186,7 +186,7 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
             ? Center(
                 child: Text(
                   "Rutina no disponible. Ingresa como Admin y siembra la base de datos.",
-                  style: TextStyle(color: Colors.white54),
+                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.54)),
                   textAlign: TextAlign.center,
                 ),
               )
@@ -209,7 +209,7 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
                               (route) => route.isFirst,
                             );
                           },
-                          icon: const Icon(Icons.play_arrow_rounded, size: 28),
+                          icon: Icon(Icons.play_arrow_rounded, size: 28),
                           label: Text(
                             'COMENZAR ESTE DÍA',
                             style: TextStyle(fontSize: isSmall ? 13 : 15),
@@ -255,12 +255,12 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
           ClipRRect(
             borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
             child: Container(
-              color: Colors.white, // Fondo blanco para GIFs transparentes
+              color: Theme.of(context).colorScheme.onSurface, // Fondo blanco para GIFs transparentes
               height: imgH,
               child: Image.asset(
                 ej.urlGif,
                 fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) => const Icon(
+                errorBuilder: (context, error, stackTrace) => Icon(
                   Icons.fitness_center,
                   size: 50,
                   color: Colors.black26,
@@ -278,10 +278,10 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
                   style: GoogleFonts.outfit(
                     fontSize: isSmall ? 16 : 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
                 Wrap(
                   spacing: 6.0,
                   runSpacing: 6.0,
@@ -289,7 +289,7 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
                     Chip(
                       label: Text(
                         ej.tipo,
-                        style: const TextStyle(fontSize: 11),
+                        style: TextStyle(fontSize: 11),
                       ),
                       backgroundColor: Colors.black38,
                       side: BorderSide(color: AppTheme.electricOrange),
@@ -298,7 +298,7 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
                     Chip(
                       label: Text(
                         ej.seriesReps,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
                         ),
@@ -308,14 +308,14 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
                       visualDensity: VisualDensity.compact,
                     ),
                     Chip(
-                      avatar: const Icon(
+                      avatar: Icon(
                         Icons.timer,
                         size: 14,
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                       label: Text(
                         ej.descanso,
-                        style: const TextStyle(fontSize: 11),
+                        style: TextStyle(fontSize: 11),
                       ),
                       backgroundColor: Colors.black38,
                       side: BorderSide.none,
@@ -324,11 +324,11 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
                   ],
                 ),
                 if (ej.instruccion.isNotEmpty) ...[
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   Text(
                     ej.instruccion,
                     style: TextStyle(
-                      color: Colors.white70,
+                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                       fontSize: 13,
                       fontStyle: FontStyle.italic,
                     ),

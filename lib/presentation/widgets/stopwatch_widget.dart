@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_theme.dart';
 
 class StopwatchWidget extends StatefulWidget {
+  const StopwatchWidget({super.key});
+
   @override
   _StopwatchWidgetState createState() => _StopwatchWidgetState();
 }
@@ -92,7 +94,7 @@ class _StopwatchWidgetState extends State<StopwatchWidget> {
               fontSize: labelFontSize,
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8),
           FittedBox(
             fit: BoxFit.scaleDown,
             child: Text(
@@ -101,11 +103,11 @@ class _StopwatchWidgetState extends State<StopwatchWidget> {
                 fontSize: timerFontSize,
                 fontFamily: 'Courier',
                 fontWeight: FontWeight.bold,
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
           ),
-          const SizedBox(height: 14),
+          SizedBox(height: 14),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -120,7 +122,7 @@ class _StopwatchWidgetState extends State<StopwatchWidget> {
               SizedBox(width: screenW < 380 ? 14 : 20),
               _buildButton(
                 icon: Icons.refresh,
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onSurface,
                 onPressed: _resetStopwatch,
                 size: buttonSize,
               ),

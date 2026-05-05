@@ -50,7 +50,7 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
     if (workout.loading) {
       return Scaffold(
         backgroundColor: AppTheme.charcoalBackground,
-        body: const Center(
+        body: Center(
           child: CircularProgressIndicator(color: AppTheme.goldAccent),
         ),
       );
@@ -80,7 +80,7 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
                 title: Text(
                   'Arnold Split (6 Días)',
                   style: GoogleFonts.outfit(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
                     fontSize: isSmall ? 14 : 18,
                     shadows: [
@@ -109,7 +109,7 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
                 ),
               ),
               leading: IconButton(
-                icon: const Icon(
+                icon: Icon(
                   Icons.arrow_back_ios,
                   color: AppTheme.goldAccent,
                 ),
@@ -124,7 +124,7 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
                     controller: _tabController,
                     isScrollable: true,
                     labelColor: AppTheme.goldAccent,
-                    unselectedLabelColor: Colors.white54,
+                    unselectedLabelColor: Theme.of(context).colorScheme.onSurface.withOpacity(0.54),
                     indicatorColor: AppTheme.goldAccent,
                     labelStyle: TextStyle(fontSize: isSmall ? 12 : 14),
                     tabs: rutinaData.dias
@@ -136,10 +136,10 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
           ];
         },
         body: rutinaData.dias.isEmpty
-            ? const Center(
+            ? Center(
                 child: Text(
                   "Rutina Arnold no disponible. Ingresa como Admin e inyecta la base de datos.",
-                  style: TextStyle(color: Colors.white54),
+                  style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.54)),
                   textAlign: TextAlign.center,
                 ),
               )
@@ -162,7 +162,7 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
                               (route) => route.isFirst,
                             );
                           },
-                          icon: const Icon(Icons.flash_on, size: 28),
+                          icon: Icon(Icons.flash_on, size: 28),
                           label: Text(
                             'INICIAR SESIÓN HIPERTROFIA',
                             style: TextStyle(
@@ -173,7 +173,7 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
                           style: ElevatedButton.styleFrom(
                             minimumSize: const Size(double.infinity, 50),
                             backgroundColor: AppTheme.electricOrange,
-                            foregroundColor: Colors.white,
+                            foregroundColor: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                       ),
@@ -211,7 +211,7 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
         side: ej.isSuperset
-            ? const BorderSide(color: Colors.redAccent, width: 2)
+            ? BorderSide(color: Colors.redAccent, width: 2)
             : BorderSide.none,
       ),
       margin: EdgeInsets.only(bottom: isSmall ? 12 : 16),
@@ -225,13 +225,13 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
                   top: Radius.circular(14),
                 ),
                 child: Container(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.onSurface,
                   height: imgH,
                   width: double.infinity,
                   child: Image.asset(
                     ej.urlGif,
                     fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) => const Icon(
+                    errorBuilder: (context, error, stackTrace) => Icon(
                       Icons.fitness_center,
                       size: 50,
                       color: Colors.black26,
@@ -254,8 +254,8 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
                     ),
                     child: Text(
                       '🔄 SUPERSERIE G${ej.supersetGroupId ?? 1}',
-                      style: const TextStyle(
-                        color: Colors.white,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
                       ),
@@ -274,50 +274,50 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
                   style: GoogleFonts.outfit(
                     fontSize: isSmall ? 16 : 20,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onSurface,
                   ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
                 Wrap(
                   spacing: 6.0,
                   runSpacing: 6.0,
                   children: [
                     if (ej.intensityTechnique != null)
                       Chip(
-                        avatar: const Icon(
+                        avatar: Icon(
                           Icons.local_fire_department,
                           color: Colors.yellowAccent,
                           size: 16,
                         ),
                         label: Text(
                           '${ej.intensityTechnique}',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 11,
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.onSurface,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         backgroundColor: Colors.red.shade900,
-                        side: const BorderSide(color: Colors.redAccent),
+                        side: BorderSide(color: Colors.redAccent),
                         visualDensity: VisualDensity.compact,
                       ),
                     if (ej.musculoObjetivo != null)
                       Chip(
                         label: Text(
                           ej.musculoObjetivo!,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 11,
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                         ),
                         backgroundColor: AppTheme.deepBlack,
-                        side: const BorderSide(color: Colors.white24),
+                        side: BorderSide(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.24)),
                         visualDensity: VisualDensity.compact,
                       ),
                     Chip(
                       label: Text(
                         ej.tipoDeEquipo ?? ej.tipo,
-                        style: const TextStyle(fontSize: 11),
+                        style: TextStyle(fontSize: 11),
                       ),
                       backgroundColor: Colors.black38,
                       side: BorderSide(color: AppTheme.electricOrange),
@@ -326,7 +326,7 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
                     Chip(
                       label: Text(
                         seriesRepsText,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
                         ),
@@ -337,14 +337,14 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
                     ),
                     if (!ej.isSuperset || ej.descanso != '0 seg')
                       Chip(
-                        avatar: const Icon(
+                        avatar: Icon(
                           Icons.timer,
                           size: 14,
-                          color: Colors.white,
+                          color: Theme.of(context).colorScheme.onSurface,
                         ),
                         label: Text(
                           ej.descanso,
-                          style: const TextStyle(fontSize: 11),
+                          style: TextStyle(fontSize: 11),
                         ),
                         backgroundColor: Colors.black38,
                         side: BorderSide.none,
@@ -353,11 +353,11 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
                   ],
                 ),
                 if (ej.instruccion.isNotEmpty) ...[
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   Text(
                     ej.instruccion,
                     style: TextStyle(
-                      color: Colors.white70,
+                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
                       fontSize: 13,
                       fontStyle: FontStyle.italic,
                     ),

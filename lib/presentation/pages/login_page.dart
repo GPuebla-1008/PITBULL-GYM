@@ -87,11 +87,11 @@ class _LoginPageState extends State<LoginPage>
                   children: [
                     // Logo
                     Image.asset(
-                      'assets/images/logo.png',
+                      'assets/images/logo.jpeg',
                       height: logoH,
                       fit: BoxFit.contain,
                     ),
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32),
 
                     // Título
                     Text(
@@ -103,15 +103,15 @@ class _LoginPageState extends State<LoginPage>
                         letterSpacing: 3,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8),
                     Text(
                       'Accedé a tu panel de entrenamiento',
                       style: GoogleFonts.inter(
-                        color: Colors.white54,
+                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.54),
                         fontSize: 13,
                       ),
                     ),
-                    const SizedBox(height: 36),
+                    SizedBox(height: 36),
 
                     // Email
                     _buildField(
@@ -125,7 +125,7 @@ class _LoginPageState extends State<LoginPage>
                         return null;
                       },
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16),
 
                     // Contraseña
                     _buildField(
@@ -141,13 +141,14 @@ class _LoginPageState extends State<LoginPage>
                         onPressed: () => setState(() => _obscure = !_obscure),
                       ),
                       validator: (v) {
-                        if (v == null || v.isEmpty)
+                        if (v == null || v.isEmpty) {
                           return 'Ingresá tu contraseña';
+                        }
                         if (v.length < 6) return 'Mínimo 6 caracteres';
                         return null;
                       },
                     ),
-                    const SizedBox(height: 32),
+                    SizedBox(height: 32),
 
                     // Botón Entrar
                     SizedBox(
@@ -164,7 +165,7 @@ class _LoginPageState extends State<LoginPage>
                           elevation: 8,
                         ),
                         child: _loading
-                            ? const SizedBox(
+                            ? SizedBox(
                                 width: 22,
                                 height: 22,
                                 child: CircularProgressIndicator(
@@ -182,30 +183,30 @@ class _LoginPageState extends State<LoginPage>
                               ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24),
 
                     // Separador
                     Row(
                       children: [
                         Expanded(
-                          child: Divider(color: Colors.white24, thickness: 1),
+                          child: Divider(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.24), thickness: 1),
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: Text(
                             'O',
                             style: GoogleFonts.inter(
-                              color: Colors.white54,
+                              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.54),
                               fontSize: 13,
                             ),
                           ),
                         ),
                         Expanded(
-                          child: Divider(color: Colors.white24, thickness: 1),
+                          child: Divider(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.24), thickness: 1),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 24),
+                    SizedBox(height: 24),
 
                     // Botón Crear Cuenta
                     SizedBox(
@@ -262,7 +263,7 @@ class _LoginPageState extends State<LoginPage>
       obscureText: obscure,
       keyboardType: keyboardType,
       validator: validator,
-      style: const TextStyle(color: Colors.white),
+      style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: Icon(icon, color: AppTheme.goldAccent),
@@ -279,14 +280,14 @@ class _LoginPageState extends State<LoginPage>
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Colors.redAccent, width: 1.5),
+          borderSide: BorderSide(color: Colors.redAccent, width: 1.5),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Colors.redAccent, width: 2),
+          borderSide: BorderSide(color: Colors.redAccent, width: 2),
         ),
         labelStyle: TextStyle(color: AppTheme.goldAccent.withOpacity(0.7)),
-        errorStyle: const TextStyle(color: Colors.redAccent),
+        errorStyle: TextStyle(color: Colors.redAccent),
       ),
     );
   }
