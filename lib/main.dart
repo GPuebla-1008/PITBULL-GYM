@@ -132,44 +132,51 @@ class _MainDashboardState extends State<MainDashboard> {
       appBar: AppBar(
         title: Text('PITBULL GYM'),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                InkWell(
-                  onTap: () =>
-                      Provider.of<ThemeProvider>(context, listen: false).toggleMode(),
-                  child: const Icon(Icons.brightness_6, size: 20),
+          // Notificaciones Toggle
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'NOTIF.',
+                style: GoogleFonts.outfit(
+                  fontSize: 8,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.goldAccent,
                 ),
-                const SizedBox(height: 4),
-                Transform.scale(
-                  scale: 0.6,
-                  child: Switch(
-                    value: _notificationsEnabled,
-                    onChanged: (val) async {
-                      if (val) {
-                        final granted = await NotificationService.requestPermission();
-                        setState(() => _notificationsEnabled = granted);
-                        if (granted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Notificaciones activadas')),
-                          );
-                        }
-                      } else {
-                        // El navegador no permite revocar desde JS, pero actualizamos estado
-                        setState(() => _notificationsEnabled = false);
-                        NotificationService.cancelReminders();
+              ),
+              Transform.scale(
+                scale: 0.6,
+                child: Switch(
+                  value: _notificationsEnabled,
+                  onChanged: (val) async {
+                    if (val) {
+                      final granted = await NotificationService.requestPermission();
+                      setState(() => _notificationsEnabled = granted);
+                      if (granted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Notificaciones activadas')),
+                        );
                       }
-                    },
-                    activeColor: AppTheme.goldAccent,
-                  ),
+                    } else {
+                      setState(() => _notificationsEnabled = false);
+                      NotificationService.cancelReminders();
+                    }
+                  },
+                  activeColor: AppTheme.goldAccent,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
+          // Tema Modo
           IconButton(
-            icon: const Icon(Icons.logout),
+            icon: const Icon(Icons.brightness_6, size: 20),
+            onPressed: () =>
+                Provider.of<ThemeProvider>(context, listen: false).toggleMode(),
+          ),
+          // Logout
+          IconButton(
+            icon: const Icon(Icons.logout, size: 20),
             onPressed: () async {
               await authProvider.logout();
               if (context.mounted) {
