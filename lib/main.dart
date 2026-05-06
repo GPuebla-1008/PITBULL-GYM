@@ -21,6 +21,8 @@ import 'presentation/widgets/rotating_pwa_icon.dart';
 import 'presentation/widgets/water_tracker_widget.dart';
 import 'core/services/notification_service.dart';
 
+import 'core/services/payment_service.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -35,6 +37,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => AdminProvider()),
         ChangeNotifierProvider(create: (_) => WorkoutProvider()),
         ChangeNotifierProvider(create: (_) => MetricsProvider()),
+        Provider(create: (_) => PaymentService()),
       ],
       child: const PitbullGymApp(),
     ),
@@ -150,17 +153,45 @@ class _MainDashboardState extends State<MainDashboard> {
                   value: _notificationsEnabled,
                   onChanged: (val) async {
                     if (val) {
+                      if (!NotificationService.isSupported) {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Notificaciones no soportadas o bloqueadas por el navegador.'),
+                              backgroundColor: Colors.redAccent,
+                            ),
+                          );
+                        }
+                        return;
+                      }
+
                       final granted = await NotificationService.requestPermission();
-                      setState(() => _notificationsEnabled = granted);
-                      if (granted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text('Notificaciones activadas')),
-                        );
+                      if (context.mounted) {
+                        setState(() => _notificationsEnabled = granted);
+                        if (granted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('¡Notificaciones activadas! 🔔'),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Permiso de notificaciones denegado.'),
+                              backgroundColor: Colors.orange,
+                            ),
+                          );
+                        }
                       }
                     } else {
                       setState(() => _notificationsEnabled = false);
                       NotificationService.cancelReminders();
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Notificaciones desactivadas')),
+                        );
+                      }
                     }
                   },
                   activeColor: AppTheme.goldAccent,
@@ -374,7 +405,7 @@ class _MainDashboardState extends State<MainDashboard> {
             ),
             SizedBox(height: 48),
 
-            if (perfil != null && perfil.rol == 'admin') ...[
+            if (perfil != null && perfil.isAdmin) ...[
               _sectionHeader('ADMINISTRACIÓN (Solo Dueños)'),
               SizedBox(height: 16),
               Card(

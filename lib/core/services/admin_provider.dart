@@ -92,4 +92,51 @@ class AdminProvider with ChangeNotifier {
     if (estado == 'DEUDOR') return Colors.redAccent.shade400;
     return Colors.amberAccent.shade400; // PENDIENTE
   }
+
+  // ── Gestión de Pagos Pendientes ──────────────────────────────────────────
+
+  Stream<QuerySnapshot> getPendingPaymentsStream() {
+    return _db
+        .collection('pagos_pendientes')
+        .where('estado', isEqualTo: 'pendiente')
+        .snapshots();
+  }
+
+  Future<bool> approvePayment(String paymentId, String userId) async {
+    try {
+      final batch = _db.batch();
+
+      // 1. Actualizar estado del pago
+      final paymentRef = _db.collection('pagos_pendientes').doc(paymentId);
+      batch.update(paymentRef, {'estado': 'aprobado'});
+
+      // 2. Actualizar datos del socio
+      final userRef = _db.collection('usuarios').doc(userId);
+      final now = DateTime.now();
+      final newExpiryDate = now.add(const Duration(days: 30));
+
+      batch.update(userRef, {
+        'subscriptionStatus': 'activo',
+        'expiryDate': Timestamp.fromDate(newExpiryDate),
+      });
+
+      // 3. Registrar en la colección histórica de pagos (opcional pero recomendado)
+      final newHistoryRef = _db.collection('pagos').doc();
+      batch.set(newHistoryRef, {
+        'id_socio': userId,
+        'mes': now.month,
+        'anio': now.year,
+        'monto': 0.0, // El monto se podría parametrizar si fuera necesario
+        'fecha_pago': Timestamp.fromDate(now),
+      });
+
+      await batch.commit();
+      notifyListeners();
+      return true;
+    } catch (e) {
+      _errorMessage = 'Error al aprobar pago: $e';
+      notifyListeners();
+      return false;
+    }
+  }
 }

@@ -12,6 +12,9 @@ class UsuarioModel {
   final String rol;
   final DateTime fechaRegistro;
   final int diaPagoFijo;
+  final String subscriptionStatus;
+  final DateTime? expiryDate;
+  final bool isAdmin;
 
   UsuarioModel({
     required this.uid,
@@ -25,6 +28,9 @@ class UsuarioModel {
     this.rol = 'miembro',
     required this.fechaRegistro,
     this.diaPagoFijo = 10,
+    this.subscriptionStatus = 'inactivo',
+    this.expiryDate,
+    this.isAdmin = false,
   });
 
   UsuarioModel copyWith({
@@ -39,6 +45,9 @@ class UsuarioModel {
     String? rol,
     DateTime? fechaRegistro,
     int? diaPagoFijo,
+    String? subscriptionStatus,
+    DateTime? expiryDate,
+    bool? isAdmin,
   }) {
     return UsuarioModel(
       uid: uid ?? this.uid,
@@ -52,6 +61,9 @@ class UsuarioModel {
       rol: rol ?? this.rol,
       fechaRegistro: fechaRegistro ?? this.fechaRegistro,
       diaPagoFijo: diaPagoFijo ?? this.diaPagoFijo,
+      subscriptionStatus: subscriptionStatus ?? this.subscriptionStatus,
+      expiryDate: expiryDate ?? this.expiryDate,
+      isAdmin: isAdmin ?? this.isAdmin,
     );
   }
 
@@ -70,6 +82,9 @@ class UsuarioModel {
       fechaRegistro:
           (d['fecha_registro'] as Timestamp?)?.toDate() ?? DateTime.now(),
       diaPagoFijo: d['dia_pago_fijo'] ?? 10,
+      subscriptionStatus: d['subscriptionStatus'] ?? 'inactivo',
+      expiryDate: (d['expiryDate'] as Timestamp?)?.toDate(),
+      isAdmin: d['isAdmin'] ?? (d['rol'] == 'admin'),
     );
   }
 
@@ -84,5 +99,8 @@ class UsuarioModel {
     'rol': rol,
     'fecha_registro': Timestamp.fromDate(fechaRegistro),
     'dia_pago_fijo': diaPagoFijo,
+    'subscriptionStatus': subscriptionStatus,
+    'expiryDate': expiryDate != null ? Timestamp.fromDate(expiryDate!) : null,
+    'isAdmin': isAdmin,
   };
 }

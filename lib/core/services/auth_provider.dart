@@ -105,6 +105,9 @@ class AuthProvider with ChangeNotifier {
         rutinasAsignadas: [],
         rol: 'miembro',
         fechaRegistro: DateTime.now(),
+        subscriptionStatus: 'inactivo',
+        expiryDate: null,
+        isAdmin: false,
       );
       await _db.collection('usuarios').doc(user.uid).set(perfil.toFirestore());
 
