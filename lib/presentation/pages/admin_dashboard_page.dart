@@ -5,6 +5,7 @@ import '../../core/services/admin_provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/models/usuario_model.dart';
 import '../../core/services/seed_rutinas_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AdminDashboardPage extends StatefulWidget {
   const AdminDashboardPage({super.key});
@@ -177,7 +178,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
         }
 
         return SliverList(
-          delegate: SliverChildBuilderListDelegate(
+          delegate: SliverChildListDelegate(
             snapshot.data!.docs.map((doc) {
               final data = doc.data() as Map<String, dynamic>;
               final paymentId = doc.id;
