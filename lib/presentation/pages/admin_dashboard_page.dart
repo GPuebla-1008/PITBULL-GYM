@@ -162,7 +162,7 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
   }
 
   Widget _buildPendingPayments(AdminProvider admin) {
-    return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+    return StreamBuilder<QuerySnapshot>(
       stream: admin.getPendingPaymentsStream(),
       builder: (context, snapshot) {
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
@@ -184,7 +184,8 @@ class _AdminDashboardPageState extends State<AdminDashboardPage> {
               final paymentId = doc.id;
               final userId = data['userId'] ?? '';
               final nombre = data['nombre'] ?? 'Sin nombre';
-              final fecha = (data['fecha'] as Timestamp?)?.toDate() ?? DateTime.now();
+              final dynamic rawFecha = data['fecha'];
+              final fecha = (rawFecha is Timestamp) ? rawFecha.toDate() : DateTime.now();
 
               return Card(
                 color: Colors.amber.withOpacity(0.05),

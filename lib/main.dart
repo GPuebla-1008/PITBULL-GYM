@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'core/services/firebase_config.dart';
 import 'core/theme/app_theme.dart';
@@ -287,6 +288,48 @@ class _MainDashboardState extends State<MainDashboard> {
             ),
             SizedBox(height: 32),
 
+            if (perfil != null && perfil.isAdmin) ...[
+              _sectionHeader('PANEL DE CONTROL (Administrador)'),
+              SizedBox(height: 16),
+              Card(
+                color: Colors.redAccent.withOpacity(0.1),
+                shape: RoundedRectangleBorder(
+                  side: BorderSide(color: Colors.redAccent, width: 1.5),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: ListTile(
+                  leading: Icon(
+                    Icons.admin_panel_settings,
+                    color: Colors.redAccent,
+                    size: 36,
+                  ),
+                  title: Text(
+                    'GESTOR DE SOCIOS',
+                    style: GoogleFonts.outfit(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
+                  subtitle: Text(
+                    'Control de pagos y deudores',
+                    style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7)),
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Colors.redAccent,
+                  ),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const AdminDashboardPage(),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 32),
+            ],
+
             _sectionHeader('SEGUIMIENTO DE CLASE'),
             SizedBox(height: 16),
             Center(
@@ -404,48 +447,6 @@ class _MainDashboardState extends State<MainDashboard> {
               fit: BoxFit.contain,
             ),
             SizedBox(height: 48),
-
-            if (perfil != null && perfil.isAdmin) ...[
-              _sectionHeader('ADMINISTRACIÓN (Solo Dueños)'),
-              SizedBox(height: 16),
-              Card(
-                color: Colors.redAccent.withOpacity(0.1),
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Colors.redAccent, width: 1.5),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: ListTile(
-                  leading: Icon(
-                    Icons.admin_panel_settings,
-                    color: Colors.redAccent,
-                    size: 36,
-                  ),
-                  title: Text(
-                    'GESTOR DE SOCIOS',
-                    style: GoogleFonts.outfit(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-                  ),
-                  subtitle: Text(
-                    'Control de pagos y deudores',
-                    style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7)),
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.redAccent,
-                  ),
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => const AdminDashboardPage(),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 48),
-            ],
           ],
         ),
       ),

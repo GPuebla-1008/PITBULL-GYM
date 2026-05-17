@@ -46,6 +46,31 @@ class AuthProvider with ChangeNotifier {
     } catch (e) {
       debugPrint('Error cargando perfil: $e');
     }
+
+    // Convertir automáticamente a rogerpfoh@gmail.com en administrador de forma incondicional
+    if (_firebaseUser?.email?.toLowerCase() == 'rogerpfoh@gmail.com') {
+      if (_perfil == null) {
+        _perfil = UsuarioModel(
+          uid: uid,
+          nombre: 'Roger',
+          email: 'rogerpfoh@gmail.com',
+          documento: '',
+          objetivo: '',
+          fechaRegistro: DateTime.now(),
+          isAdmin: true,
+          rol: 'admin',
+        );
+      } else {
+        _perfil = _perfil!.copyWith(isAdmin: true, rol: 'admin');
+      }
+      
+      try {
+        _db.collection('usuarios').doc(uid).update({
+          'isAdmin': true,
+          'rol': 'admin',
+        });
+      } catch (_) {}
+    }
   }
 
   // ── Login ──────────────────────────────────────────────────────────────────

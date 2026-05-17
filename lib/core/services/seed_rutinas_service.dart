@@ -1613,6 +1613,14 @@ class SeedRutinasService {
         ],
       );
 
+      // Borrar todas las rutinas existentes para evitar duplicados o IDs viejos
+      final snapshot = await collection.get();
+      final batchDelete = db.batch();
+      for (var doc in snapshot.docs) {
+        batchDelete.delete(doc.reference);
+      }
+      await batchDelete.commit();
+
       // Usamos SetOptions(merge: true) sugeridamente de acá en adelante si se quisiera no pisar estado local.
       // Por simplicidad para el seed general y asegurar que se refresque la última versión, usamos el clásico set.
       await collection.doc(rutina3Dias.id).set(rutina3Dias.toFirestore());
@@ -1626,14 +1634,14 @@ class SeedRutinasService {
 
       await collection
           .doc(rutinaIntermedia3Dias.id)
-          .set(rutinaIntermedia3Dias.toFirestore(), SetOptions(merge: true));
+          .set(rutinaIntermedia3Dias.toFirestore());
       await collection
           .doc(rutinaIntermedia5Dias.id)
-          .set(rutinaIntermedia5Dias.toFirestore(), SetOptions(merge: true));
+          .set(rutinaIntermedia5Dias.toFirestore());
 
       await collection
           .doc(rutinaArnoldSplit.id)
-          .set(rutinaArnoldSplit.toFirestore(), SetOptions(merge: true));
+          .set(rutinaArnoldSplit.toFirestore());
 
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(

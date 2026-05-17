@@ -95,7 +95,7 @@ class AdminProvider with ChangeNotifier {
 
   // ── Gestión de Pagos Pendientes ──────────────────────────────────────────
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> getPendingPaymentsStream() {
+  Stream<QuerySnapshot> getPendingPaymentsStream() {
     return _db
         .collection('pagos_pendientes')
         .where('estado', isEqualTo: 'pendiente')
