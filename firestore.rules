@@ -1,0 +1,46 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Validar si es el administrador principal por email
+    function isAdmin() {
+      return request.auth != null && request.auth.token.email == 'rogerpfoh@gmail.com';
+    }
+
+    // Validar si el usuario tiene una suscripción activa
+    function isActive() {
+      return request.auth != null && 
+        get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.subscriptionStatus == 'activo';
+    }
+
+    match /usuarios/{userId} {
+      // Permite leer/escribir si es el dueño de la cuenta o si es el admin
+      allow read, write: if request.auth != null && (request.auth.uid == userId || isAdmin());
+    }
+
+    match /pagos/{document=**} {
+      // Permite a cualquier usuario logueado crear pagos y al admin leerlos
+      allow read, write: if request.auth != null;
+    }
+
+    match /pagos_pendientes/{document=**} {
+      allow read, write: if request.auth != null;
+    }
+
+    match /rutinas/{document=**} {
+      // Solo lectura para usuarios con suscripción activa o administradores. Escritura solo para admins.
+      allow read: if request.auth != null && (isActive() || isAdmin());
+      allow write: if isAdmin();
+    }
+
+    match /turnos/{document=**} {
+      // Solo usuarios con suscripción activa o administradores pueden leer y crear turnos.
+      allow read, write: if request.auth != null && (isActive() || isAdmin());
+    }
+
+    // Regla por defecto para otras colecciones (si las hay)
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}

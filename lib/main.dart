@@ -23,6 +23,7 @@ import 'presentation/widgets/water_tracker_widget.dart';
 import 'core/services/notification_service.dart';
 
 import 'core/services/payment_service.dart';
+import 'presentation/widgets/auth_guard.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,14 +63,14 @@ class PitbullGymApp extends StatelessWidget {
       home: const AuthGate(),
       routes: {
         '/login': (context) => const LoginPage(),
-        '/dashboard': (context) => const MainDashboard(),
+        '/dashboard': (context) => const AuthGuard(child: MainDashboard()),
       },
     );
   }
 }
 
 /// AuthGate: escucha el stream de Firebase Auth y redirige automáticamente.
-/// Si el usuario está autenticado → Dashboard. Si no → Login.
+/// Si el usuario está autenticado → AuthGuard → Dashboard. Si no → Login.
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
 
@@ -88,7 +89,7 @@ class AuthGate extends StatelessWidget {
           );
         }
         // Autenticado → Dashboard
-        if (snapshot.hasData) return const MainDashboard();
+        if (snapshot.hasData) return const AuthGuard(child: MainDashboard());
         // No autenticado → Login
         return const LoginPage();
       },

@@ -1,4 +1,8 @@
 {
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": ""
+  },
   "hosting": {
     "public": "build/web",
     "ignore": [
