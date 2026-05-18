@@ -108,7 +108,7 @@ class _BlockedScreenState extends State<BlockedScreen> {
                     // --- CARTEL DE AVISO DE VENCIMIENTO ---
                     Container(
                       padding: const EdgeInsets.all(20),
-                      margin: const EdgeInsets.bottom(32),
+                      margin: const EdgeInsets.only(bottom: 32),
                       decoration: BoxDecoration(
                         color: Colors.redAccent.withOpacity(0.1),
                         borderRadius: BorderRadius.circular(16),
