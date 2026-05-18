@@ -92,8 +92,6 @@ jobs:
       - name: Descargar dependencias
         run: flutter pub get
 
-      - name: Configurar Pods (Dependencies Nativas iOS)
-        run: cd ios && pod install
 
       - name: Construir aplicación iOS (Sin Firma Digital)
         run: flutter build ios --release --no-codesign
