@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage>
                   children: [
                     // Logo
                     Image.asset(
-                      'assets/images/logo.png',
+                      'assets/images/logo_transparent.png',
                       height: logoH,
                       fit: BoxFit.contain,
                     ),

@@ -339,7 +339,7 @@ class _MainDashboardState extends State<MainDashboard> {
                   maxHeight: MediaQuery.of(context).size.height * 0.25,
                 ),
                 child: Image.asset(
-                  'assets/images/logo.png',
+                  'assets/images/logo_transparent.png',
                   fit: BoxFit.contain,
                 ),
               ),
