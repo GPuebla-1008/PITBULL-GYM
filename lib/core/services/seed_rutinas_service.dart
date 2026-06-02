@@ -4,6 +4,29 @@ import '../models/rutina_adaptacion_model.dart';
 
 class SeedRutinasService {
   static Future<void> inyectarDatos(BuildContext context) async {
+    try {
+      await inyectarDatosSilent();
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('¡Datos inyectados en Firestore con éxito!'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error al inyectar: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
+  }
+
+  static Future<void> inyectarDatosSilent() async {
     final db = FirebaseFirestore.instance;
     final collection = db.collection('rutinas_adaptacion');
 
@@ -1699,19 +1722,10 @@ class SeedRutinasService {
           .doc(rutinaArnoldSplit.id)
           .set(rutinaArnoldSplit.toFirestore());
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('¡Datos inyectados en Firestore con éxito!'),
-          backgroundColor: Colors.green,
-        ),
-      );
+      debugPrint('¡Datos inyectados en Firestore con éxito!');
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error al inyectar: \$e'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      debugPrint('Error al inyectar: $e');
+      rethrow;
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/rutina_adaptacion_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'seed_rutinas_service.dart';
 
 class WorkoutProvider with ChangeNotifier {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -29,6 +30,31 @@ class WorkoutProvider with ChangeNotifier {
         _todasLasRutinas = snap.docs
             .map((d) => RutinaAdaptacion.fromFirestore(d))
             .toList();
+
+        // Auto-migración si detectamos rutas con espacios de la versión antigua
+        bool tieneRutasConEspacios = false;
+        for (var r in _todasLasRutinas) {
+          for (var d in r.dias) {
+            for (var e in d.ejercicios) {
+              if (e.urlGif.contains(' ')) {
+                tieneRutasConEspacios = true;
+                break;
+              }
+            }
+            if (tieneRutasConEspacios) break;
+          }
+          if (tieneRutasConEspacios) break;
+        }
+
+        if (tieneRutasConEspacios) {
+          debugPrint("AUTO-MIGRACIÓN: Rutas antiguas con espacios detectadas en Firestore. Sembrando base de datos con rutas limpias...");
+          await SeedRutinasService.inyectarDatosSilent();
+          final freshSnap = await _db.collection('rutinas_adaptacion').get();
+          _todasLasRutinas = freshSnap.docs
+              .map((d) => RutinaAdaptacion.fromFirestore(d))
+              .toList();
+          debugPrint("AUTO-MIGRACIÓN: Base de datos Firestore migrada y recargada con éxito.");
+        }
       }
     } catch (e) {
       debugPrint("Error fetching rutinas: $e");
