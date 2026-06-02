@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/services/workout_provider.dart';
 import '../../core/models/rutina_adaptacion_model.dart';
+import '../widgets/video_player_widget.dart';
 
 class RutinaAdaptacionPage extends StatefulWidget {
   const RutinaAdaptacionPage({super.key});
@@ -257,15 +258,20 @@ class _RutinaAdaptacionPageState extends State<RutinaAdaptacionPage>
             child: Container(
               color: Theme.of(context).colorScheme.onSurface, // Fondo blanco para GIFs transparentes
               height: imgH,
-              child: Image.asset(
-                ej.urlGif,
-                fit: BoxFit.contain,
-                errorBuilder: (context, error, stackTrace) => Icon(
-                  Icons.fitness_center,
-                  size: 50,
-                  color: Colors.black26,
-                ),
-              ),
+              child: ej.urlGif.toLowerCase().endsWith('.mp4')
+                  ? VideoPlayerWidget(
+                      assetPath: ej.urlGif,
+                      height: imgH,
+                    )
+                  : Image.asset(
+                      ej.urlGif,
+                      fit: BoxFit.contain,
+                      errorBuilder: (context, error, stackTrace) => const Icon(
+                        Icons.fitness_center,
+                        size: 50,
+                        color: Colors.black26,
+                      ),
+                    ),
             ),
           ),
           Padding(

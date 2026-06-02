@@ -45,6 +45,7 @@ dependencies:
   firebase_core: ^3.13.0
   firebase_auth: ^5.5.2
   cloud_firestore: ^5.6.6
+  video_player: ^2.11.1
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,9 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/images/exercises/
+    - assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA LUNES/
+    - assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA MIERCOLES/
+    - assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA VIERNES/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
