@@ -74,9 +74,9 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/images/exercises/
-    - assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA LUNES/
-    - assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA MIERCOLES/
-    - assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA VIERNES/
+    - assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_LUNES/
+    - assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_MIERCOLES/
+    - assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_VIERNES/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

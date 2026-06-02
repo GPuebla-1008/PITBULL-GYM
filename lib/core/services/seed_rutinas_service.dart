@@ -21,7 +21,7 @@ class SeedRutinasService {
                 tipo: 'Máquina',
                 seriesReps: '3x12',
                 descanso: '90 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA LUNES/BANCO CUADRICEPS.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_LUNES/BANCO_CUADRICEPS.mp4',
                 instruccion: 'Realiza el movimiento de forma controlada extendiendo las piernas.',
               ),
               Ejercicio(
@@ -29,7 +29,7 @@ class SeedRutinasService {
                 tipo: 'Máquina',
                 seriesReps: '3x12',
                 descanso: '90 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA LUNES/BANCO ISQUIOTIBIALES.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_LUNES/BANCO_ISQUIOTIBIALES.mp4',
                 instruccion: 'Flexiona las rodillas llevando el rodillo hacia tus glúteos de forma controlada.',
               ),
               Ejercicio(
@@ -37,7 +37,7 @@ class SeedRutinasService {
                 tipo: 'Máquina',
                 seriesReps: '3x12',
                 descanso: '90 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA LUNES/JALON AL PECHO.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_LUNES/JALON_AL_PECHO.mp4',
                 instruccion: 'Leva la barra hacia tu pecho sintiendo el trabajo en los dorsales.',
               ),
               Ejercicio(
@@ -45,7 +45,7 @@ class SeedRutinasService {
                 tipo: 'Peso Libre',
                 seriesReps: '3x10',
                 descanso: '90 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA LUNES/PRESS BANCA PLANO.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_LUNES/PRESS_BANCA_PLANO.mp4',
                 instruccion: 'Controla el descenso de la barra al pecho y empuja con fuerza.',
               ),
               Ejercicio(
@@ -53,7 +53,7 @@ class SeedRutinasService {
                 tipo: 'Máquina',
                 seriesReps: '3x12',
                 descanso: '90 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA LUNES/PRESS DE HOMBRO.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_LUNES/PRESS_DE_HOMBRO.mp4',
                 instruccion: 'Empuja la carga verticalmente sobre tu cabeza de forma controlada.',
               ),
               Ejercicio(
@@ -61,7 +61,7 @@ class SeedRutinasService {
                 tipo: 'Peso Libre',
                 seriesReps: '3x12',
                 descanso: '90 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA LUNES/PRESS INCLINADO CON MANCUERNA.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_LUNES/PRESS_INCLINADO_CON_MANCUERNA.mp4',
                 instruccion: 'Inclinación de 30-45 grados. Mueve las mancuernas de forma simétrica.',
               ),
               Ejercicio(
@@ -69,7 +69,7 @@ class SeedRutinasService {
                 tipo: 'Polea',
                 seriesReps: '3x12',
                 descanso: '90 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA LUNES/REMO CERRADO.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_LUNES/REMO_CERRADO.mp4',
                 instruccion: 'Tracciona el agarre cerrado hacia tu abdomen bajo con la espalda recta.',
               ),
             ],
@@ -82,7 +82,7 @@ class SeedRutinasService {
                 tipo: 'Peso Libre',
                 seriesReps: '3x12',
                 descanso: '90 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA MIERCOLES/BANCO SCOTT.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_MIERCOLES/BANCO_SCOTT.mp4',
                 instruccion: 'Apoya bien los brazos en el banco y realiza la flexión de bíceps sin despegar los codos.',
               ),
               Ejercicio(
@@ -90,7 +90,7 @@ class SeedRutinasService {
                 tipo: 'Peso Libre',
                 seriesReps: '3x12',
                 descanso: '90 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA MIERCOLES/CURL CON MANCUERNA.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_MIERCOLES/CURL_CON_MANCUERNA.mp4',
                 instruccion: 'Mantén los codos pegados al cuerpo y realiza el curl girando las muñecas.',
               ),
               Ejercicio(
@@ -98,7 +98,7 @@ class SeedRutinasService {
                 tipo: 'Máquina',
                 seriesReps: '3x12',
                 descanso: '90 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA MIERCOLES/CURL ISQUIOTIBIALES.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_MIERCOLES/CURL_ISQUIOTIBIALES.mp4',
                 instruccion: 'Contrae los isquiotibiales de forma fluida y regresa lento.',
               ),
               Ejercicio(
@@ -106,7 +106,7 @@ class SeedRutinasService {
                 tipo: 'Máquina',
                 seriesReps: '3x15',
                 descanso: '60 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA MIERCOLES/ELEVACION GEMELOS SENTADO.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_MIERCOLES/ELEVACION_GEMELOS_SENTADO.mp4',
                 instruccion: 'Eleva los talones al máximo, sostén un segundo y baja lentamente.',
               ),
               Ejercicio(
@@ -114,7 +114,7 @@ class SeedRutinasService {
                 tipo: 'Peso Libre',
                 seriesReps: '3x12',
                 descanso: '90 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA MIERCOLES/PATADA DE TRICEPS.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_MIERCOLES/PATADA_DE_TRICEPS.mp4',
                 instruccion: 'Mantén el brazo paralelo al suelo y extiende el codo hacia atrás.',
               ),
               Ejercicio(
@@ -122,7 +122,7 @@ class SeedRutinasService {
                 tipo: 'Máquina',
                 seriesReps: '3x12',
                 descanso: '90 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA MIERCOLES/PRENSA.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_MIERCOLES/PRENSA.mp4',
                 instruccion: 'Baja las rodillas controladamente y empuja sin bloquear las rodillas.',
               ),
               Ejercicio(
@@ -130,7 +130,7 @@ class SeedRutinasService {
                 tipo: 'Polea',
                 seriesReps: '3x12',
                 descanso: '90 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA MIERCOLES/TIRON EN POLEA.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_MIERCOLES/TIRON_EN_POLEA.mp4',
                 instruccion: 'Empuja la polea hacia abajo extendiendo completamente los brazos.',
               ),
             ],
@@ -143,7 +143,7 @@ class SeedRutinasService {
                 tipo: 'Máquina',
                 seriesReps: '3x15',
                 descanso: '60 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA VIERNES/ABDUCTORES.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_VIERNES/ABDUCTORES.mp4',
                 instruccion: 'Abre las piernas controlando la resistencia de la máquina.',
               ),
               Ejercicio(
@@ -151,7 +151,7 @@ class SeedRutinasService {
                 tipo: 'Máquina',
                 seriesReps: '3x15',
                 descanso: '60 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA VIERNES/ADDUCTORES.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_VIERNES/ADDUCTORES.mp4',
                 instruccion: 'Cierra las piernas concentrando el esfuerzo en la cara interna del muslo.',
               ),
               Ejercicio(
@@ -159,7 +159,7 @@ class SeedRutinasService {
                 tipo: 'Máquina',
                 seriesReps: '3x12',
                 descanso: '90 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA VIERNES/APERTURA EN MAQUINA.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_VIERNES/APERTURA_EN_MAQUINA.mp4',
                 instruccion: 'Mantén una ligera flexión de codos y aprieta el pecho al centro.',
               ),
               Ejercicio(
@@ -167,7 +167,7 @@ class SeedRutinasService {
                 tipo: 'Peso Libre',
                 seriesReps: '3x12',
                 descanso: '120 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA VIERNES/SENTADILLA.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_VIERNES/SENTADILLA.mp4',
                 instruccion: 'Mantén la espalda recta y baja controlando el movimiento hasta romper el paralelo.',
               ),
               Ejercicio(
@@ -175,7 +175,7 @@ class SeedRutinasService {
                 tipo: 'Peso Libre',
                 seriesReps: '3x12',
                 descanso: '90 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA VIERNES/SERRUCHO.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_VIERNES/SERRUCHO.mp4',
                 instruccion: 'Apoya una rodilla y mano. Tracciona la mancuerna hacia tu cadera.',
               ),
               Ejercicio(
@@ -183,7 +183,7 @@ class SeedRutinasService {
                 tipo: 'Peso Libre',
                 seriesReps: '3x12',
                 descanso: '90 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA VIERNES/VUELOS FRONTALES.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_VIERNES/VUELOS_FRONTALES.mp4',
                 instruccion: 'Eleva las mancuernas al frente hasta la altura de tus ojos.',
               ),
               Ejercicio(
@@ -191,7 +191,7 @@ class SeedRutinasService {
                 tipo: 'Peso Libre',
                 seriesReps: '3x12',
                 descanso: '90 seg',
-                urlGif: 'assets/RUTINAS/RUTINA FULL BODY/DE 3 DIAS/DIA VIERNES/VUELOS LATERALES.mp4',
+                urlGif: 'assets/RUTINAS/RUTINA_FULL_BODY/DE_3_DIAS/DIA_VIERNES/VUELOS_LATERALES.mp4',
                 instruccion: 'Eleva las mancuernas hacia los lados guiando con los codos.',
               ),
             ],
