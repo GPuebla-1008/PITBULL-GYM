@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/services/workout_provider.dart';
 import '../../core/models/rutina_adaptacion_model.dart';
+import '../widgets/video_player_widget.dart';
 
 class RutinaAvanzadaPage extends StatefulWidget {
   const RutinaAvanzadaPage({super.key});
@@ -228,15 +229,20 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
                   color: Theme.of(context).colorScheme.onSurface,
                   height: imgH,
                   width: double.infinity,
-                  child: Image.asset(
-                    ej.urlGif,
-                    fit: BoxFit.contain,
-                    errorBuilder: (context, error, stackTrace) => Icon(
-                      Icons.fitness_center,
-                      size: 50,
-                      color: Colors.black26,
-                    ),
-                  ),
+                  child: ej.urlGif.toLowerCase().endsWith('.mp4')
+                      ? VideoPlayerWidget(
+                          assetPath: ej.urlGif,
+                          height: imgH,
+                        )
+                      : Image.asset(
+                          ej.urlGif,
+                          fit: BoxFit.contain,
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            Icons.fitness_center,
+                            size: 50,
+                            color: Colors.black26,
+                          ),
+                        ),
                 ),
               ),
               if (ej.isSuperset)

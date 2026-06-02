@@ -24,6 +24,7 @@ import 'core/services/notification_service.dart';
 
 import 'core/services/payment_service.dart';
 import 'presentation/widgets/auth_guard.dart';
+import 'presentation/widgets/video_player_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -523,15 +524,19 @@ class _MainDashboardState extends State<MainDashboard> {
                                   child: Stack(
                                     fit: StackFit.expand,
                                     children: [
-                                      Image.asset(
-                                        ej.urlGif,
-                                        fit: BoxFit.contain,
-                                        errorBuilder: (c, e, s) => Icon(
-                                          Icons.fitness_center,
-                                          color: Colors.grey,
-                                          size: 40,
-                                        ),
-                                      ),
+                                      ej.urlGif.toLowerCase().endsWith('.mp4')
+                                          ? VideoPlayerWidget(
+                                              assetPath: ej.urlGif,
+                                            )
+                                          : Image.asset(
+                                              ej.urlGif,
+                                              fit: BoxFit.contain,
+                                              errorBuilder: (c, e, s) => const Icon(
+                                                Icons.fitness_center,
+                                                color: Colors.grey,
+                                                size: 40,
+                                              ),
+                                            ),
                                       if (ej.isCompleted)
                                         Container(
                                           color: Colors.green.withOpacity(0.4),
