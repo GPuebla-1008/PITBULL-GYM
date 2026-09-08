@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/usuario_model.dart';
+import 'notification_service.dart';
 
 enum AuthStatus { loading, authenticated, unauthenticated }
 
@@ -46,6 +48,9 @@ class AuthProvider with ChangeNotifier {
     } catch (e) {
       debugPrint('Error cargando perfil: $e');
     }
+
+    // Sincronizar token de Firebase Cloud Messaging (FCM)
+    unawaited(NotificationService.syncUser(uid));
 
     // Convertir automáticamente a rogerpfoh@gmail.com en administrador de forma incondicional
     if (_firebaseUser?.email?.toLowerCase() == 'rogerpfoh@gmail.com') {

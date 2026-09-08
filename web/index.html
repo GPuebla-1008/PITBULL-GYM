@@ -486,7 +486,7 @@
         }, 3000);
       }
 
-      /* ── Register Service Worker explicitly for Android PWA Heuristics ── */
+      /* ── Register Service Worker explicitly for Android PWA Heuristics & FCM ── */
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
           navigator.serviceWorker.register('flutter_service_worker.js', {
@@ -496,6 +496,13 @@
           }).catch(function (err) {
             console.warn('[SW] Registration failed natively:', err);
           });
+
+          navigator.serviceWorker.register('firebase-messaging-sw.js')
+            .then(function (reg) {
+              console.log('[FCM SW] Registered successfully, scope:', reg.scope);
+            }).catch(function (err) {
+              console.warn('[FCM SW] Registration failed:', err);
+            });
         });
       }
 

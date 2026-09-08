@@ -32,6 +32,9 @@ void main() async {
   // Inicializar Firebase con las credenciales del proyecto pitbull-gym-100889
   await Firebase.initializeApp(options: FirebaseConfig.webOptions);
 
+  // Inicializar Firebase Cloud Messaging (FCM)
+  await NotificationService.initialize();
+
   runApp(
     MultiProvider(
       providers: [
@@ -168,7 +171,7 @@ class _MainDashboardState extends State<MainDashboard> {
                         return;
                       }
 
-                      final granted = await NotificationService.requestPermission();
+                      final granted = await NotificationService.requestPermissionAndRegister(firebaseUser.uid);
                       if (context.mounted) {
                         setState(() => _notificationsEnabled = granted);
                         if (granted) {
