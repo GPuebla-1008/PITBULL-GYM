@@ -72,10 +72,11 @@ class _RoutinesPageState extends State<RoutinesPage>
 
   final List<Routine> advancedRoutines = [
     Routine(
-      title: 'Arnold Split (6 Días)',
-      description: 'Alta frecuencia y volumen. Antagonistas en superserie.',
+      title: 'Pitbull Avanzado (6 Días/Semana)',
+      description:
+          'Alta frecuencia y volumen. 6 días de entrenamiento intenso con videos demostrativos.',
       imagePath: 'assets/images/advanced.png',
-      duration: '90 min',
+      duration: '60-90 min',
       level: 'Avanzado',
     ),
   ];
@@ -242,7 +243,10 @@ class _RoutinesPageState extends State<RoutinesPage>
                               builder: (_) => const RutinaIntermediaPage(),
                             ),
                           );
-                        } else if (routine.title == 'Arnold Split (6 Días)') {
+                        } else if (routine.title ==
+                                'Pitbull Avanzado (6 Días/Semana)' ||
+                            routine.title.contains('Pitbull Avanzado') ||
+                            routine.title == 'Arnold Split (6 Días)') {
                           Navigator.push(
                             context,
                             MaterialPageRoute(

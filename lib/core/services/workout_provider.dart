@@ -31,7 +31,7 @@ class WorkoutProvider with ChangeNotifier {
             .map((d) => RutinaAdaptacion.fromFirestore(d))
             .toList();
 
-        // Auto-migración si detectamos rutas con espacios de la versión antigua
+        // Auto-migración si detectamos rutas con espacios de la versión antigua o si la rutina avanzada aún no tiene videos
         bool tieneRutasConEspacios = false;
         for (var r in _todasLasRutinas) {
           for (var d in r.dias) {
@@ -46,8 +46,20 @@ class WorkoutProvider with ChangeNotifier {
           if (tieneRutasConEspacios) break;
         }
 
-        if (tieneRutasConEspacios) {
-          debugPrint("AUTO-MIGRACIÓN: Rutas antiguas con espacios detectadas en Firestore. Sembrando base de datos con rutas limpias...");
+        bool necesitaActualizarAvanzado = false;
+        final rutinaAvanzada = _todasLasRutinas.firstWhere(
+          (r) => r.id == 'arnold_split_advanced' || r.id == 'pitbull_avanzado_6_dias',
+          orElse: () => RutinaAdaptacion(id: '', variante: '', dias: []),
+        );
+        if (rutinaAvanzada.id.isEmpty ||
+            (rutinaAvanzada.dias.isNotEmpty &&
+                rutinaAvanzada.dias.first.ejercicios.isNotEmpty &&
+                !rutinaAvanzada.dias.first.ejercicios.first.urlGif.endsWith('.mp4'))) {
+          necesitaActualizarAvanzado = true;
+        }
+
+        if (tieneRutasConEspacios || necesitaActualizarAvanzado) {
+          debugPrint("AUTO-MIGRACIÓN: Actualizando rutinas y videos en Firestore...");
           await SeedRutinasService.inyectarDatosSilent();
           final freshSnap = await _db.collection('rutinas_adaptacion').get();
           _todasLasRutinas = freshSnap.docs
@@ -80,8 +92,323 @@ class WorkoutProvider with ChangeNotifier {
       _createMockRutina('intermedio_2', '5 Días', 5),
 
       // --- AVANZADO ---
-      _createMockRutina('arnold_split_advanced', '6 Días - Arnold', 6),
+      _createPitbullAvanzadoFallback('arnold_split_advanced'),
+      _createPitbullAvanzadoFallback('pitbull_avanzado_6_dias'),
     ];
+  }
+
+  RutinaAdaptacion _createPitbullAvanzadoFallback(String id) {
+    return RutinaAdaptacion(
+      id: id,
+      variante: '6 Días/Semana',
+      level: 'advanced',
+      tags: ['pitbull_avanzado', 'advanced', '6-days'],
+      dias: [
+        DiaRutina(
+          nombreDia: 'Lunes',
+          ejercicios: [
+            Ejercicio(
+              nombre: 'PRESS BANCA PLANO',
+              tipo: 'Peso Libre',
+              seriesReps: '4x8-10',
+              descanso: '90 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_LUNES/1_PRESS_BANCA_PLANO.mp4',
+            ),
+            Ejercicio(
+              nombre: 'PRESS MAQUINA CONVERGENTE',
+              tipo: 'Máquina',
+              seriesReps: '4x10-12',
+              descanso: '90 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_LUNES/2_PRESS_MAQUINA_CONVERGENTE.mp4',
+            ),
+            Ejercicio(
+              nombre: 'PRESS INCLINADO CON MANCUERNA',
+              tipo: 'Mancuernas',
+              seriesReps: '4x10-12',
+              descanso: '90 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_LUNES/3_PRESS_INCLINADO_CON_MANCUERNA.mp4',
+            ),
+            Ejercicio(
+              nombre: 'APERTURA EN MAQUINA',
+              tipo: 'Máquina',
+              seriesReps: '3x12-15',
+              descanso: '60 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_LUNES/4_APERTURA_EN_MAQUINA.mp4',
+            ),
+            Ejercicio(
+              nombre: 'FLEXIONES DE BRAZOS',
+              tipo: 'Peso Corporal',
+              seriesReps: '3xFallo',
+              descanso: '60 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_LUNES/5_FLEXIONES_DE_BRAZOS.mp4',
+            ),
+            Ejercicio(
+              nombre: 'PRESS FRANCES',
+              tipo: 'Peso Libre',
+              seriesReps: '4x10-12',
+              descanso: '90 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_LUNES/6_PRESS_FRANCES.mp4',
+            ),
+            Ejercicio(
+              nombre: 'EXTENSION EN POLEA CON CUERDA',
+              tipo: 'Polea',
+              seriesReps: '4x12-15',
+              descanso: '60 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_LUNES/7_EXTENSION_EN_POLEA_CON_CUERDA.mp4',
+            ),
+            Ejercicio(
+              nombre: 'EXTENSION UNILATERAL',
+              tipo: 'Polea',
+              seriesReps: '3x12',
+              descanso: '60 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_LUNES/8_EXTENSION_UNILATERAL.mp4',
+            ),
+          ],
+        ),
+        DiaRutina(
+          nombreDia: 'Martes',
+          ejercicios: [
+            Ejercicio(
+              nombre: 'DOMINADAS',
+              tipo: 'Peso Corporal',
+              seriesReps: '4x6-10',
+              descanso: '90-120 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_MARTES/1_DOMINADAS.mp4',
+            ),
+            Ejercicio(
+              nombre: 'REMO ABIERTO',
+              tipo: 'Máquina / Barra',
+              seriesReps: '4x10-12',
+              descanso: '90 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_MARTES/2_REMO_ABIERTO.mp4',
+            ),
+            Ejercicio(
+              nombre: 'JALON AL PECHO',
+              tipo: 'Polea',
+              seriesReps: '4x10-12',
+              descanso: '90 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_MARTES/3_JALON_AL_PECHO.mp4',
+            ),
+            Ejercicio(
+              nombre: 'REMO CERRADO',
+              tipo: 'Polea',
+              seriesReps: '4x10-12',
+              descanso: '90 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_MARTES/4_REMO_CERRADO.mp4',
+            ),
+            Ejercicio(
+              nombre: 'PULLOVER EN POLEA',
+              tipo: 'Polea',
+              seriesReps: '3x12-15',
+              descanso: '60 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_MARTES/5_PULLOVER_EN_POLEA.mp4',
+            ),
+            Ejercicio(
+              nombre: 'CURL BICEPS',
+              tipo: 'Barra / Mancuerna',
+              seriesReps: '4x10-12',
+              descanso: '60-90 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_MARTES/6_CURL_BICEPS.mp4',
+            ),
+            Ejercicio(
+              nombre: 'CURL CON MANCUERNA',
+              tipo: 'Mancuernas',
+              seriesReps: '4x10-12',
+              descanso: '60 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_MARTES/7_CURL_CON_MANCUERNA.mp4',
+            ),
+            Ejercicio(
+              nombre: 'CURL PREDICADOR',
+              tipo: 'Máquina / Banco Scott',
+              seriesReps: '3x12-15',
+              descanso: '60 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_MARTES/8_CURL_PREDICADOR.mp4',
+            ),
+          ],
+        ),
+        DiaRutina(
+          nombreDia: 'Miércoles',
+          ejercicios: [
+            Ejercicio(
+              nombre: 'SENTADILLA',
+              tipo: 'Peso Libre',
+              seriesReps: '4x8-10',
+              descanso: '120 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_MIERCOLES/1_SENTADILLA.mp4',
+            ),
+            Ejercicio(
+              nombre: 'PRENSA',
+              tipo: 'Máquina',
+              seriesReps: '4x10-12',
+              descanso: '90-120 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_MIERCOLES/2_PRENSA.mp4',
+            ),
+            Ejercicio(
+              nombre: 'SENTADILLA HACK',
+              tipo: 'Máquina',
+              seriesReps: '4x10-12',
+              descanso: '90-120 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_MIERCOLES/3_SENTADILLA_HACK.mp4',
+            ),
+            Ejercicio(
+              nombre: 'BANCO CUADRICEPS',
+              tipo: 'Máquina',
+              seriesReps: '4x12-15',
+              descanso: '60-90 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_MIERCOLES/4_BANCO_CUADRICEPS.mp4',
+            ),
+            Ejercicio(
+              nombre: 'ELEVACION GEMELOS SENTADO',
+              tipo: 'Máquina',
+              seriesReps: '4x15-20',
+              descanso: '60 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_MIERCOLES/5_ELEVACION_GEMELOS_SENTADO.mp4',
+            ),
+          ],
+        ),
+        DiaRutina(
+          nombreDia: 'Jueves',
+          ejercicios: [
+            Ejercicio(
+              nombre: 'PRESS DE HOMBRO',
+              tipo: 'Mancuernas / Máquina',
+              seriesReps: '4x8-10',
+              descanso: '90-120 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_JUEVES/1_PRESS_DE_HOMBRO.mp4',
+            ),
+            Ejercicio(
+              nombre: 'VUELOS LATERALES',
+              tipo: 'Mancuernas',
+              seriesReps: '4x12-15',
+              descanso: '60 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_JUEVES/2_VUELOS_LATERALES.mp4',
+            ),
+            Ejercicio(
+              nombre: 'VUELOS FRONTALES',
+              tipo: 'Mancuernas / Polea',
+              seriesReps: '4x12-15',
+              descanso: '60 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_JUEVES/3_VUELOS_FRONTALES.mp4',
+            ),
+            Ejercicio(
+              nombre: 'VUELOS POSTERIORES',
+              tipo: 'Mancuernas / Máquina',
+              seriesReps: '4x12-15',
+              descanso: '60 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_JUEVES/4_VUELOS_POSTERIORES.mp4',
+            ),
+            Ejercicio(
+              nombre: 'ENCOGIMIENTOS DE HOMBROS',
+              tipo: 'Mancuernas / Barra',
+              seriesReps: '4x12-15',
+              descanso: '60 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_JUEVES/5_ENCOGIMIENTOS_DE_HOMBROS.mp4',
+            ),
+          ],
+        ),
+        DiaRutina(
+          nombreDia: 'Viernes',
+          ejercicios: [
+            Ejercicio(
+              nombre: 'PESO MUERTO CON BARRA',
+              tipo: 'Peso Libre',
+              seriesReps: '4x6-8',
+              descanso: '120 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_VIERNES/1_PESO_MUERTO_CON_BARRA.mp4',
+            ),
+            Ejercicio(
+              nombre: 'REMO EN BARRA',
+              tipo: 'Peso Libre',
+              seriesReps: '4x8-10',
+              descanso: '90 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_VIERNES/2_REMO_EN_BARRA.mp4',
+            ),
+            Ejercicio(
+              nombre: 'SERRUCHO',
+              tipo: 'Mancuernas',
+              seriesReps: '4x10-12',
+              descanso: '60-90 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_VIERNES/3_SERRUCHO.mp4',
+            ),
+            Ejercicio(
+              nombre: 'CURL BICEPS BARRA EZ',
+              tipo: 'Barra EZ',
+              seriesReps: '4x10-12',
+              descanso: '60 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_VIERNES/4_CURL_BICEPS_BARRA_EZ.mp4',
+            ),
+            Ejercicio(
+              nombre: 'CURL MARTILLO',
+              tipo: 'Mancuernas',
+              seriesReps: '4x10-12',
+              descanso: '60 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_VIERNES/5_CURL_MARTILLO.mp4',
+            ),
+            Ejercicio(
+              nombre: 'PRESS CERRADO',
+              tipo: 'Peso Libre',
+              seriesReps: '4x8-10',
+              descanso: '90 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_VIERNES/6_PRESS_CERRADO.mp4',
+            ),
+            Ejercicio(
+              nombre: 'TIRON EN POLEA',
+              tipo: 'Polea',
+              seriesReps: '4x12-15',
+              descanso: '60 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_VIERNES/7_TIRON_EN_POLEA.mp4',
+            ),
+          ],
+        ),
+        DiaRutina(
+          nombreDia: 'Sábado',
+          ejercicios: [
+            Ejercicio(
+              nombre: 'PESO MUERTO CON BARRA',
+              tipo: 'Peso Libre',
+              seriesReps: '4x8-10',
+              descanso: '120 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_SABADO/1_PESO_MUERTO_CON_BARRA.mp4',
+            ),
+            Ejercicio(
+              nombre: 'ESTOCADAS',
+              tipo: 'Mancuernas',
+              seriesReps: '4x10-12',
+              descanso: '90 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_SABADO/2_ESTOCADAS.mp4',
+            ),
+            Ejercicio(
+              nombre: 'HIP THRUST CON BARRA',
+              tipo: 'Peso Libre',
+              seriesReps: '4x10-12',
+              descanso: '90-120 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_SABADO/3_HIP_THUST_CON_BARRA.mp4',
+            ),
+            Ejercicio(
+              nombre: 'ISQUIOTIBIALES ACOSTADO',
+              tipo: 'Máquina',
+              seriesReps: '4x12-15',
+              descanso: '60-90 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_SABADO/4_ISQUIOTIBIALES_ACOSTADO.mp4',
+            ),
+            Ejercicio(
+              nombre: 'BANCO ISQUIOTIBIALES',
+              tipo: 'Máquina',
+              seriesReps: '4x12-15',
+              descanso: '60-90 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_SABADO/5_BANCO_ISQUIOTIBIALES.mp4',
+            ),
+            Ejercicio(
+              nombre: 'PRESS GEMELOS',
+              tipo: 'Máquina / Prensa',
+              seriesReps: '4x15-20',
+              descanso: '60 seg',
+              urlGif: 'assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO/DE_6_DIAS/DIA_SABADO/6_PRESS_GEMELOS.mp4',
+            ),
+          ],
+        ),
+      ],
+    );
   }
 
   RutinaAdaptacion _createMockRutina(String id, String variante, int numDias) {

@@ -46,3 +46,8 @@ app.*.map.json
 
 # Local backup restore point
 backup_restore_point/
+
+# Local scratch and cache
+fetch_logs.dart
+last_run.json
+.firebase/

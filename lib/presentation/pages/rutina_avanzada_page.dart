@@ -16,7 +16,7 @@ class RutinaAvanzadaPage extends StatefulWidget {
 class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
     with TickerProviderStateMixin {
   final String _varianteSeleccionada =
-      '6 Días - Arnold'; // Only one variant for now
+      '6 Días/Semana'; // 6 Días / Semana
   late TabController _tabController;
 
   @override
@@ -57,9 +57,11 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
       );
     }
 
-    // Filter to find the Arnold Split ID
+    // Filter to find the Pitbull Avanzado / Arnold Split ID
     final rutinasAvanzadas = workout.todasLasRutinas
-        .where((r) => r.id == 'arnold_split_advanced')
+        .where((r) =>
+            r.id == 'pitbull_avanzado_6_dias' ||
+            r.id == 'arnold_split_advanced')
         .toList();
 
     final rutinaData = rutinasAvanzadas.isNotEmpty
@@ -79,7 +81,7 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
               backgroundColor: AppTheme.deepBlack,
               flexibleSpace: FlexibleSpaceBar(
                 title: Text(
-                  'Arnold Split (6 Días)',
+                  'Pitbull Avanzado (6 Días/Semana)',
                   style: GoogleFonts.outfit(
                     color: Theme.of(context).colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
@@ -139,7 +141,7 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
         body: rutinaData.dias.isEmpty
             ? Center(
                 child: Text(
-                  "Rutina Arnold no disponible. Ingresa como Admin e inyecta la base de datos.",
+                  "Rutina Pitbull Avanzado no disponible. Ingresa como Admin e inyecta la base de datos.",
                   style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.54)),
                   textAlign: TextAlign.center,
                 ),
