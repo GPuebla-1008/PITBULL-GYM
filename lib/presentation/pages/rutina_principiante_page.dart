@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/services/workout_provider.dart';
+import '../../core/services/seed_rutinas_service.dart';
 import '../../core/models/rutina_adaptacion_model.dart';
 import '../widgets/video_player_widget.dart';
 
@@ -15,13 +16,14 @@ class RutinaPrincipiantePage extends StatefulWidget {
 
 class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
     with TickerProviderStateMixin {
+  String _generoSeleccionado = 'Hombres';
   String _varianteSeleccionada = '3 Días';
   late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 0, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<WorkoutProvider>().fetchRutinas();
     });
@@ -34,9 +36,15 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
   }
 
   void _actualizarTabs(int cantidadDias) {
+    if (cantidadDias <= 0) return;
     if (_tabController.length != cantidadDias) {
+      final oldIndex = _tabController.index;
       _tabController.dispose();
-      _tabController = TabController(length: cantidadDias, vsync: this);
+      _tabController = TabController(
+        length: cantidadDias,
+        vsync: this,
+        initialIndex: oldIndex.clamp(0, cantidadDias - 1),
+      );
     }
   }
 
@@ -56,14 +64,33 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
       );
     }
 
-    final rutinasPrincipiante = workout.todasLasRutinas
-        .where((r) => r.id.startsWith('principiante_'))
-        .toList();
+    final targetId = _generoSeleccionado == 'Hombres'
+        ? (_varianteSeleccionada == '3 Días'
+            ? 'principiante_hombres_3_dias'
+            : 'principiante_hombres_5_dias')
+        : (_varianteSeleccionada == '3 Días'
+            ? 'principiante_mujeres_3_dias'
+            : 'principiante_mujeres_5_dias');
 
-    final rutinaData = rutinasPrincipiante.firstWhere(
-      (r) => r.variante == _varianteSeleccionada,
-      orElse: () =>
-          RutinaAdaptacion(id: '', variante: _varianteSeleccionada, dias: []),
+    final fallbackId = _generoSeleccionado == 'Hombres'
+        ? (_varianteSeleccionada == '3 Días'
+            ? 'principiante_3_dias'
+            : 'principiante_5_dias')
+        : '';
+
+    final rutinaData = workout.todasLasRutinas.firstWhere(
+      (r) => r.id == targetId || (fallbackId.isNotEmpty && r.id == fallbackId),
+      orElse: () {
+        if (_generoSeleccionado == 'Hombres') {
+          return _varianteSeleccionada == '3 Días'
+              ? SeedRutinasService.createPrincipianteHombres3Dias()
+              : SeedRutinasService.createPrincipianteHombres5Dias();
+        } else {
+          return _varianteSeleccionada == '3 Días'
+              ? SeedRutinasService.createPrincipianteMujeres3Dias()
+              : SeedRutinasService.createPrincipianteMujeres5Dias();
+        }
+      },
     );
 
     _actualizarTabs(rutinaData.dias.length);
@@ -126,23 +153,65 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
                 child: Column(
                   children: [
                     Text(
-                      'Configura tu frecuencia semanal',
+                      'Perfil de entrenamiento',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
-                        fontSize: isSmall ? 13 : 16,
+                        fontSize: isSmall ? 12 : 14,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 8),
                     FittedBox(
                       fit: BoxFit.scaleDown,
                       child: SegmentedButton<String>(
-                        segments: [
+                        segments: const [
+                          ButtonSegment(
+                            value: 'Hombres',
+                            icon: Icon(Icons.male_rounded),
+                            label: Text('HOMBRES'),
+                          ),
+                          ButtonSegment(
+                            value: 'Mujeres',
+                            icon: Icon(Icons.female_rounded),
+                            label: Text('MUJERES'),
+                          ),
+                        ],
+                        selected: {_generoSeleccionado},
+                        onSelectionChanged: (Set<String> newSelection) {
+                          setState(() {
+                            _generoSeleccionado = newSelection.first;
+                          });
+                        },
+                        style: SegmentedButton.styleFrom(
+                          backgroundColor: AppTheme.warmGrey,
+                          selectedBackgroundColor: AppTheme.goldAccent,
+                          selectedForegroundColor: Colors.black,
+                          foregroundColor: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Frecuencia semanal',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                        fontSize: isSmall ? 12 : 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: SegmentedButton<String>(
+                        segments: const [
                           ButtonSegment(
                             value: '3 Días',
+                            icon: Icon(Icons.calendar_view_week_rounded),
                             label: Text('3 DÍAS / SEMANA'),
                           ),
                           ButtonSegment(
                             value: '5 Días',
+                            icon: Icon(Icons.calendar_month_rounded),
                             label: Text('5 DÍAS / SEMANA'),
                           ),
                         ],
@@ -203,7 +272,7 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
                           onPressed: () {
                             context.read<WorkoutProvider>().iniciarSesion(
                               dia,
-                              _varianteSeleccionada,
+                              'Rutina Principiante $_generoSeleccionado ($_varianteSeleccionada)',
                             );
                             Navigator.popUntil(
                               context,
@@ -327,6 +396,27 @@ class _RutinaPrincipiantePageState extends State<RutinaPrincipiantePage>
                       side: BorderSide.none,
                       visualDensity: VisualDensity.compact,
                     ),
+                    if (ej.musculoObjetivo != null && ej.musculoObjetivo!.isNotEmpty)
+                      Chip(
+                        avatar: Icon(
+                          Icons.fitness_center,
+                          size: 13,
+                          color: AppTheme.goldAccent,
+                        ),
+                        label: Text(
+                          ej.musculoObjetivo!,
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: AppTheme.goldAccent,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        backgroundColor: Colors.black54,
+                        side: BorderSide(
+                          color: AppTheme.goldAccent.withOpacity(0.5),
+                        ),
+                        visualDensity: VisualDensity.compact,
+                      ),
                   ],
                 ),
                 if (ej.instruccion.isNotEmpty) ...[

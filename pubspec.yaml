@@ -89,6 +89,12 @@ flutter:
     - assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO_2/DE_5_DIAS/DIA_MIERCOLES/
     - assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO_2/DE_5_DIAS/DIA_JUEVES/
     - assets/RUTINAS/RUTINA_AVANZADO/PITBULL_AVANZADO_2/DE_5_DIAS/DIA_VIERNES/
+    - assets/EJERCICIOS_PITBULLGYM/BICEPS/
+    - assets/EJERCICIOS_PITBULLGYM/ESPALDA/
+    - assets/EJERCICIOS_PITBULLGYM/HOMBRO/
+    - assets/EJERCICIOS_PITBULLGYM/PECHO/
+    - assets/EJERCICIOS_PITBULLGYM/PIERNAS/
+    - assets/EJERCICIOS_PITBULLGYM/TRICEPS/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

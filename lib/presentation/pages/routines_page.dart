@@ -34,27 +34,11 @@ class _RoutinesPageState extends State<RoutinesPage>
 
   final List<Routine> beginnerRoutines = [
     Routine(
-      title: 'Full Body Adaptación',
+      title: 'Rutina de Principiante',
       description:
-          'Rutina de 3 días para adaptar el cuerpo. Ejercicios básicos con peso corporal y máquinas.',
+          'Adaptada para hombres y mujeres con opciones de 3 y 5 días. 100% videos demostrativos de Pitbull Gym.',
       imagePath: 'assets/images/beginner.png',
-      duration: '45 min',
-      level: 'Principiante',
-    ),
-    Routine(
-      title: 'Rutina Principiante (3 y 5 días)',
-      description:
-          'Frecuencia flexible. Combina máquinas, poleas y mancuernas para una progresión constante.',
-      imagePath: 'assets/images/beginner.png',
-      duration: '50-60 min',
-      level: 'Principiante',
-    ),
-    Routine(
-      title: 'Tren Inferior y Core',
-      description:
-          'Fortalecimiento de piernas, glúteos y zona media para una base sólida.',
-      imagePath: 'assets/images/beginner.png',
-      duration: '40 min',
+      duration: '45-60 min',
       level: 'Principiante',
     ),
   ];
@@ -228,19 +212,19 @@ class _RoutinesPageState extends State<RoutinesPage>
                     SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: () {
-                        if (routine.title == 'Full Body Adaptación') {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const RutinaAdaptacionPage(),
-                            ),
-                          );
-                        } else if (routine.title ==
-                            'Rutina Principiante (3 y 5 días)') {
+                        if (routine.title == 'Rutina de Principiante' ||
+                            routine.title == 'Rutina Principiante (3 y 5 días)') {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (_) => const RutinaPrincipiantePage(),
+                            ),
+                          );
+                        } else if (routine.title == 'Full Body Adaptación') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const RutinaAdaptacionPage(),
                             ),
                           );
                         } else if (routine.title ==
