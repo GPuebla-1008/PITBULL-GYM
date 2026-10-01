@@ -79,6 +79,14 @@ class _RoutinesPageState extends State<RoutinesPage>
       duration: '60-90 min',
       level: 'Avanzado',
     ),
+    Routine(
+      title: 'Pitbull Avanzado 2 (5 Días/Semana)',
+      description:
+          'División de 5 días de alta intensidad y volumen con videos demostrativos.',
+      imagePath: 'assets/images/advanced.png',
+      duration: '60-90 min',
+      level: 'Avanzado',
+    ),
   ];
 
   @override
@@ -243,6 +251,18 @@ class _RoutinesPageState extends State<RoutinesPage>
                               builder: (_) => const RutinaIntermediaPage(),
                             ),
                           );
+                        } else if (routine.title.contains('Pitbull Avanzado 2') ||
+                            routine.title.contains('5 Días')) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const RutinaAvanzadaPage(
+                                rutinaId: 'pitbull_avanzado_2_5_dias',
+                                titulo: 'Pitbull Avanzado 2 (5 Días/Semana)',
+                                variante: '5 Días/Semana',
+                              ),
+                            ),
+                          );
                         } else if (routine.title ==
                                 'Pitbull Avanzado (6 Días/Semana)' ||
                             routine.title.contains('Pitbull Avanzado') ||
@@ -250,7 +270,11 @@ class _RoutinesPageState extends State<RoutinesPage>
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => const RutinaAvanzadaPage(),
+                              builder: (_) => const RutinaAvanzadaPage(
+                                rutinaId: 'pitbull_avanzado_6_dias',
+                                titulo: 'Pitbull Avanzado (6 Días/Semana)',
+                                variante: '6 Días/Semana',
+                              ),
                             ),
                           );
                         } else {

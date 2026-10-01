@@ -58,6 +58,17 @@ class WorkoutProvider with ChangeNotifier {
           necesitaActualizarAvanzado = true;
         }
 
+        final rutinaAvanzada2 = _todasLasRutinas.firstWhere(
+          (r) => r.id == 'pitbull_avanzado_2_5_dias',
+          orElse: () => RutinaAdaptacion(id: '', variante: '', dias: []),
+        );
+        if (rutinaAvanzada2.id.isEmpty ||
+            (rutinaAvanzada2.dias.isNotEmpty &&
+                rutinaAvanzada2.dias.first.ejercicios.isNotEmpty &&
+                !rutinaAvanzada2.dias.first.ejercicios.first.urlGif.endsWith('.mp4'))) {
+          necesitaActualizarAvanzado = true;
+        }
+
         if (tieneRutasConEspacios || necesitaActualizarAvanzado) {
           debugPrint("AUTO-MIGRACIÓN: Actualizando rutinas y videos en Firestore...");
           await SeedRutinasService.inyectarDatosSilent();
@@ -94,6 +105,7 @@ class WorkoutProvider with ChangeNotifier {
       // --- AVANZADO ---
       _createPitbullAvanzadoFallback('arnold_split_advanced'),
       _createPitbullAvanzadoFallback('pitbull_avanzado_6_dias'),
+      SeedRutinasService.createPitbullAvanzado2('pitbull_avanzado_2_5_dias'),
     ];
   }
 

@@ -7,7 +7,16 @@ import '../../core/models/rutina_adaptacion_model.dart';
 import '../widgets/video_player_widget.dart';
 
 class RutinaAvanzadaPage extends StatefulWidget {
-  const RutinaAvanzadaPage({super.key});
+  final String rutinaId;
+  final String titulo;
+  final String variante;
+
+  const RutinaAvanzadaPage({
+    super.key,
+    this.rutinaId = 'pitbull_avanzado_6_dias',
+    this.titulo = 'Pitbull Avanzado (6 Días/Semana)',
+    this.variante = '6 Días/Semana',
+  });
 
   @override
   State<RutinaAvanzadaPage> createState() => _RutinaAvanzadaPageState();
@@ -15,8 +24,6 @@ class RutinaAvanzadaPage extends StatefulWidget {
 
 class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
     with TickerProviderStateMixin {
-  final String _varianteSeleccionada =
-      '6 Días/Semana'; // 6 Días / Semana
   late TabController _tabController;
 
   @override
@@ -57,16 +64,18 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
       );
     }
 
-    // Filter to find the Pitbull Avanzado / Arnold Split ID
+    // Filter to find the routine
     final rutinasAvanzadas = workout.todasLasRutinas
         .where((r) =>
-            r.id == 'pitbull_avanzado_6_dias' ||
-            r.id == 'arnold_split_advanced')
+            widget.rutinaId == 'pitbull_avanzado_2_5_dias'
+                ? r.id == 'pitbull_avanzado_2_5_dias'
+                : (r.id == 'pitbull_avanzado_6_dias' ||
+                    r.id == 'arnold_split_advanced'))
         .toList();
 
     final rutinaData = rutinasAvanzadas.isNotEmpty
         ? rutinasAvanzadas.first
-        : RutinaAdaptacion(id: '', variante: _varianteSeleccionada, dias: []);
+        : RutinaAdaptacion(id: '', variante: widget.variante, dias: []);
 
     _actualizarTabs(rutinaData.dias.length);
 
@@ -81,7 +90,7 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
               backgroundColor: AppTheme.deepBlack,
               flexibleSpace: FlexibleSpaceBar(
                 title: Text(
-                  'Pitbull Avanzado (6 Días/Semana)',
+                  widget.titulo,
                   style: GoogleFonts.outfit(
                     color: Theme.of(context).colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
@@ -141,7 +150,7 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
         body: rutinaData.dias.isEmpty
             ? Center(
                 child: Text(
-                  "Rutina Pitbull Avanzado no disponible. Ingresa como Admin e inyecta la base de datos.",
+                  "Rutina ${widget.titulo} no disponible. Ingresa como Admin e inyecta la base de datos.",
                   style: TextStyle(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.54)),
                   textAlign: TextAlign.center,
                 ),
@@ -158,7 +167,7 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
                           onPressed: () {
                             context.read<WorkoutProvider>().iniciarSesion(
                               dia,
-                              _varianteSeleccionada,
+                              widget.variante,
                             );
                             Navigator.popUntil(
                               context,
