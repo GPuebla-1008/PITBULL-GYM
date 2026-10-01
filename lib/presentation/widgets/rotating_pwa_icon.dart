@@ -22,7 +22,6 @@ class _RotatingPWAIconState extends State<RotatingPWAIcon>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _rotationAnimation;
-  bool _isHovered = false;
 
   @override
   void initState() {
@@ -66,11 +65,7 @@ class _RotatingPWAIconState extends State<RotatingPWAIcon>
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      onEnter: (_) {
-        setState(() => _isHovered = true);
-        _triggerAnimation();
-      },
-      onExit: (_) => setState(() => _isHovered = false),
+      onEnter: (_) => _triggerAnimation(),
       child: GestureDetector(
         onTap: () => _triggerAnimation(),
         child: AnimatedBuilder(

@@ -30,37 +30,85 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   void didUpdateWidget(covariant VideoPlayerWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.assetPath != widget.assetPath) {
-      _controller.dispose();
+      if (_initialized) {
+        _controller.dispose();
+      }
       _initialized = false;
       _initializeController();
     }
   }
 
   Future<void> _initializeController() async {
-    _controller = VideoPlayerController.asset(widget.assetPath);
-    try {
-      await _controller.initialize();
-      await _controller.setLooping(true);
-      await _controller.setVolume(0.0); // Silenciado como un GIF
-      if (mounted) {
+    final cleanPath = widget.assetPath.startsWith('/')
+        ? widget.assetPath.substring(1)
+        : widget.assetPath;
+
+    // Build candidates for asset / web loading
+    final List<Future<VideoPlayerController> Function()> strategies = [
+      () async => VideoPlayerController.asset(
+            cleanPath,
+            videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+          ),
+      () async => VideoPlayerController.networkUrl(
+            Uri.parse(cleanPath),
+            videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+          ),
+      () async => VideoPlayerController.networkUrl(
+            Uri.parse('assets/$cleanPath'),
+            videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+          ),
+      () async => VideoPlayerController.networkUrl(
+            Uri.parse('assets/assets/${cleanPath.replaceFirst('assets/', '')}'),
+            videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+          ),
+    ];
+
+    Object? lastError;
+
+    for (final strategy in strategies) {
+      try {
+        final controller = await strategy();
+        await controller.initialize();
+        await controller.setLooping(true);
+        await controller.setVolume(0.0); // Muted for autoplay compatibility
+
+        if (!mounted) {
+          await controller.dispose();
+          return;
+        }
+
+        _controller = controller;
         setState(() {
           _initialized = true;
+          _error = null;
         });
-        _controller.play();
+
+        // Safely initiate playback
+        try {
+          await _controller.play();
+        } catch (playErr) {
+          debugPrint("Autoplay note for '${widget.assetPath}': $playErr");
+        }
+
+        return; // Successfully initialized
+      } catch (e) {
+        lastError = e;
+        debugPrint("Strategy attempt failed for '${widget.assetPath}': $e");
       }
-    } catch (e) {
-      debugPrint("Error al inicializar el video '${widget.assetPath}': $e");
-      if (mounted) {
-        setState(() {
-          _error = e.toString();
-        });
-      }
+    }
+
+    if (mounted) {
+      setState(() {
+        _error = lastError?.toString() ?? 'Error al cargar video';
+      });
     }
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    if (_initialized) {
+      _controller.dispose();
+    }
     super.dispose();
   }
 
