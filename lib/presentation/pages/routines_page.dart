@@ -45,9 +45,9 @@ class _RoutinesPageState extends State<RoutinesPage>
 
   final List<Routine> intermediateRoutines = [
     Routine(
-      title: 'Rutina Intermedia (3 y 5 días)',
+      title: 'Rutina de Intermedio',
       description:
-          'Frecuencia de 3 días Full Body o 5 días combinando PPL y Torso/Pierna.',
+          'Adaptada para hombres y mujeres con opciones de 3 y 5 días. 100% videos demostrativos de Pitbull Gym.',
       imagePath: 'assets/images/intermediate.png',
       duration: '60-75 min',
       level: 'Intermedio',
@@ -227,8 +227,10 @@ class _RoutinesPageState extends State<RoutinesPage>
                               builder: (_) => const RutinaAdaptacionPage(),
                             ),
                           );
-                        } else if (routine.title ==
-                            'Rutina Intermedia (3 y 5 días)') {
+                        } else if (routine.title == 'Rutina de Intermedio' ||
+                            routine.title == 'Rutina Intermedia' ||
+                            routine.title ==
+                                'Rutina Intermedia (3 y 5 días)') {
                           Navigator.push(
                             context,
                             MaterialPageRoute(

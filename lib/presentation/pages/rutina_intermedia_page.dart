@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/services/workout_provider.dart';
+import '../../core/services/seed_rutinas_service.dart';
 import '../../core/models/rutina_adaptacion_model.dart';
 import '../widgets/video_player_widget.dart';
 
@@ -15,13 +16,14 @@ class RutinaIntermediaPage extends StatefulWidget {
 
 class _RutinaIntermediaPageState extends State<RutinaIntermediaPage>
     with TickerProviderStateMixin {
+  String _generoSeleccionado = 'Hombres';
   String _varianteSeleccionada = '3 Días';
   late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 0, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<WorkoutProvider>().fetchRutinas();
     });
@@ -34,9 +36,15 @@ class _RutinaIntermediaPageState extends State<RutinaIntermediaPage>
   }
 
   void _actualizarTabs(int cantidadDias) {
+    if (cantidadDias <= 0) return;
     if (_tabController.length != cantidadDias) {
+      final oldIndex = _tabController.index;
       _tabController.dispose();
-      _tabController = TabController(length: cantidadDias, vsync: this);
+      _tabController = TabController(
+        length: cantidadDias,
+        vsync: this,
+        initialIndex: oldIndex.clamp(0, cantidadDias - 1),
+      );
     }
   }
 
@@ -56,14 +64,33 @@ class _RutinaIntermediaPageState extends State<RutinaIntermediaPage>
       );
     }
 
-    final rutinasIntermedias = workout.todasLasRutinas
-        .where((r) => r.id.startsWith('intermedio_'))
-        .toList();
+    final targetId = _generoSeleccionado == 'Hombres'
+        ? (_varianteSeleccionada == '3 Días'
+            ? 'intermedio_hombres_3_dias'
+            : 'intermedio_hombres_5_dias')
+        : (_varianteSeleccionada == '3 Días'
+            ? 'intermedio_mujeres_3_dias'
+            : 'intermedio_mujeres_5_dias');
 
-    final rutinaData = rutinasIntermedias.firstWhere(
-      (r) => r.variante == _varianteSeleccionada,
-      orElse: () =>
-          RutinaAdaptacion(id: '', variante: _varianteSeleccionada, dias: []),
+    final fallbackId = _generoSeleccionado == 'Hombres'
+        ? (_varianteSeleccionada == '3 Días'
+            ? 'intermedio_3_dias'
+            : 'intermedio_5_dias')
+        : '';
+
+    final rutinaData = workout.todasLasRutinas.firstWhere(
+      (r) => r.id == targetId || (fallbackId.isNotEmpty && r.id == fallbackId),
+      orElse: () {
+        if (_generoSeleccionado == 'Hombres') {
+          return _varianteSeleccionada == '3 Días'
+              ? SeedRutinasService.createIntermedioHombres3Dias()
+              : SeedRutinasService.createIntermedioHombres5Dias();
+        } else {
+          return _varianteSeleccionada == '3 Días'
+              ? SeedRutinasService.createIntermedioMujeres3Dias()
+              : SeedRutinasService.createIntermedioMujeres5Dias();
+        }
+      },
     );
 
     _actualizarTabs(rutinaData.dias.length);
@@ -126,24 +153,66 @@ class _RutinaIntermediaPageState extends State<RutinaIntermediaPage>
                 child: Column(
                   children: [
                     Text(
-                      'Configura tu split semanal',
+                      'Perfil de entrenamiento',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
-                        fontSize: isSmall ? 13 : 16,
+                        fontSize: isSmall ? 12 : 14,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: 12),
+                    const SizedBox(height: 8),
                     FittedBox(
                       fit: BoxFit.scaleDown,
                       child: SegmentedButton<String>(
-                        segments: [
+                        segments: const [
+                          ButtonSegment(
+                            value: 'Hombres',
+                            icon: Icon(Icons.male_rounded),
+                            label: Text('HOMBRES'),
+                          ),
+                          ButtonSegment(
+                            value: 'Mujeres',
+                            icon: Icon(Icons.female_rounded),
+                            label: Text('MUJERES'),
+                          ),
+                        ],
+                        selected: {_generoSeleccionado},
+                        onSelectionChanged: (Set<String> newSelection) {
+                          setState(() {
+                            _generoSeleccionado = newSelection.first;
+                          });
+                        },
+                        style: SegmentedButton.styleFrom(
+                          backgroundColor: AppTheme.warmGrey,
+                          selectedBackgroundColor: AppTheme.goldAccent,
+                          selectedForegroundColor: Colors.black,
+                          foregroundColor: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Frecuencia semanal',
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                        fontSize: isSmall ? 12 : 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: SegmentedButton<String>(
+                        segments: const [
                           ButtonSegment(
                             value: '3 Días',
-                            label: Text('3 DÍAS (FULL BODY)'),
+                            icon: Icon(Icons.calendar_view_week_rounded),
+                            label: Text('3 DÍAS / SEMANA'),
                           ),
                           ButtonSegment(
                             value: '5 Días',
-                            label: Text('5 DÍAS (PPL + T/P)'),
+                            icon: Icon(Icons.calendar_month_rounded),
+                            label: Text('5 DÍAS / SEMANA'),
                           ),
                         ],
                         selected: {_varianteSeleccionada},
@@ -203,7 +272,7 @@ class _RutinaIntermediaPageState extends State<RutinaIntermediaPage>
                           onPressed: () {
                             context.read<WorkoutProvider>().iniciarSesion(
                               dia,
-                              _varianteSeleccionada,
+                              'Rutina Intermedia $_generoSeleccionado ($_varianteSeleccionada)',
                             );
                             Navigator.popUntil(
                               context,

@@ -76,7 +76,17 @@ class WorkoutProvider with ChangeNotifier {
           necesitaActualizarPrincipiante = true;
         }
 
-        if (tieneRutasConEspacios || necesitaActualizarAvanzado || necesitaActualizarPrincipiante) {
+        bool necesitaActualizarIntermedio = false;
+        final hasIntermedioHombres = _todasLasRutinas.any((r) => r.id == 'intermedio_hombres_3_dias');
+        final hasIntermedioMujeres = _todasLasRutinas.any((r) => r.id == 'intermedio_mujeres_3_dias');
+        if (!hasIntermedioHombres || !hasIntermedioMujeres) {
+          necesitaActualizarIntermedio = true;
+        }
+
+        if (tieneRutasConEspacios ||
+            necesitaActualizarAvanzado ||
+            necesitaActualizarPrincipiante ||
+            necesitaActualizarIntermedio) {
           debugPrint("AUTO-MIGRACIÓN: Actualizando rutinas y videos en Firestore...");
           await SeedRutinasService.inyectarDatosSilent();
           final freshSnap = await _db.collection('rutinas_adaptacion').get();
@@ -107,9 +117,11 @@ class WorkoutProvider with ChangeNotifier {
       SeedRutinasService.createPrincipianteMujeres3Dias(),
       SeedRutinasService.createPrincipianteMujeres5Dias(),
 
-      // --- INTERMEDIO ---
-      _createMockRutina('intermedio_1', '3 Días', 3),
-      _createMockRutina('intermedio_2', '5 Días', 5),
+      // --- INTERMEDIO (HOMBRES Y MUJERES) ---
+      SeedRutinasService.createIntermedioHombres3Dias(),
+      SeedRutinasService.createIntermedioHombres5Dias(),
+      SeedRutinasService.createIntermedioMujeres3Dias(),
+      SeedRutinasService.createIntermedioMujeres5Dias(),
 
       // --- AVANZADO ---
       _createPitbullAvanzadoFallback('arnold_split_advanced'),
