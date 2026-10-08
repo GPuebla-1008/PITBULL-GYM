@@ -41,7 +41,7 @@ class _HtmlVideoPlayerState extends State<HtmlVideoPlayer> {
 
     _viewId = 'video-dom-${canonicalAssetPath.hashCode}-${DateTime.now().microsecondsSinceEpoch}';
 
-    _videoElement = html.VideoElement()
+    final video = html.VideoElement()
       ..autoplay = true
       ..loop = true
       ..muted = true
@@ -57,23 +57,29 @@ class _HtmlVideoPlayerState extends State<HtmlVideoPlayer> {
       ..style.border = 'none'
       ..style.outline = 'none';
 
-    // Source 1: Canónico 'assets/...'
-    final src1 = html.SourceElement()
-      ..src = Uri.encodeFull(canonicalAssetPath)
-      ..type = 'video/mp4';
-    _videoElement!.append(src1);
+    // Lista de candidatos de URL con fallback dinámico
+    final candidates = [
+      Uri.encodeFull(canonicalAssetPath),
+      Uri.encodeFull(pathWithoutAssets),
+      Uri.encodeFull('assets/assets/$pathWithoutAssets'),
+    ];
 
-    // Source 2: Relativo '...'
-    final src2 = html.SourceElement()
-      ..src = Uri.encodeFull(pathWithoutAssets)
-      ..type = 'video/mp4';
-    _videoElement!.append(src2);
+    int candidateIdx = 0;
+    video.src = candidates[0];
 
-    // Source 3: Fallback 'assets/assets/...'
-    final src3 = html.SourceElement()
-      ..src = Uri.encodeFull('assets/assets/$pathWithoutAssets')
-      ..type = 'video/mp4';
-    _videoElement!.append(src3);
+    video.onError.listen((_) {
+      candidateIdx++;
+      if (candidateIdx < candidates.length) {
+        video.src = candidates[candidateIdx];
+        video.load();
+        video.play().catchError((_) {});
+      }
+    });
+
+    video.load();
+    video.play().catchError((_) {});
+
+    _videoElement = video;
 
     ui_web.platformViewRegistry.registerViewFactory(
       _viewId,
