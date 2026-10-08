@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/services/workout_provider.dart';
 import '../../core/models/rutina_adaptacion_model.dart';
+import '../../core/services/seed_rutinas_service.dart';
 import '../widgets/video_player_widget.dart';
 
 class RutinaAvanzadaPage extends StatefulWidget {
@@ -65,17 +66,29 @@ class _RutinaAvanzadaPageState extends State<RutinaAvanzadaPage>
     }
 
     // Filter to find the routine
-    final rutinasAvanzadas = workout.todasLasRutinas
-        .where((r) =>
-            widget.rutinaId == 'pitbull_avanzado_2_5_dias'
-                ? r.id == 'pitbull_avanzado_2_5_dias'
-                : (r.id == 'pitbull_avanzado_6_dias' ||
-                    r.id == 'arnold_split_advanced'))
-        .toList();
-
-    final rutinaData = rutinasAvanzadas.isNotEmpty
-        ? rutinasAvanzadas.first
-        : RutinaAdaptacion(id: '', variante: widget.variante, dias: []);
+    final rutinaData = workout.todasLasRutinas.firstWhere(
+      (r) {
+        if (widget.rutinaId.contains('mujer')) {
+          return r.id == 'pitbull_mujer_avanzado_5_dias' ||
+              r.id == 'pitbull_mujer_avanzado' ||
+              r.id == 'pitbull_mujer_5_dias';
+        } else if (widget.rutinaId == 'pitbull_avanzado_2_5_dias') {
+          return r.id == 'pitbull_avanzado_2_5_dias';
+        } else {
+          return r.id == 'pitbull_avanzado_6_dias' ||
+              r.id == 'arnold_split_advanced';
+        }
+      },
+      orElse: () {
+        if (widget.rutinaId.contains('mujer')) {
+          return SeedRutinasService.createPitbullMujerAvanzado5Dias();
+        } else if (widget.rutinaId == 'pitbull_avanzado_2_5_dias') {
+          return SeedRutinasService.createPitbullAvanzado2();
+        } else {
+          return RutinaAdaptacion(id: '', variante: widget.variante, dias: []);
+        }
+      },
+    );
 
     _actualizarTabs(rutinaData.dias.length);
 

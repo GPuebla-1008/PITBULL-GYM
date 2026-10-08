@@ -71,6 +71,14 @@ class _RoutinesPageState extends State<RoutinesPage>
       duration: '60-90 min',
       level: 'Avanzado',
     ),
+    Routine(
+      title: 'Pitbull Mujer Avanzado (5 Días/Semana)',
+      description:
+          'División femenina de 5 días de alta intensidad y volumen con videos demostrativos.',
+      imagePath: 'assets/images/advanced.png',
+      duration: '60-90 min',
+      level: 'Avanzado',
+    ),
   ];
 
   @override
@@ -237,8 +245,21 @@ class _RoutinesPageState extends State<RoutinesPage>
                               builder: (_) => const RutinaIntermediaPage(),
                             ),
                           );
+                        } else if (routine.title.contains('Pitbull Mujer') ||
+                            routine.title.contains('Mujer')) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const RutinaAvanzadaPage(
+                                rutinaId: 'pitbull_mujer_avanzado_5_dias',
+                                titulo: 'Pitbull Mujer Avanzado (5 Días/Semana)',
+                                variante: '5 Días/Semana',
+                              ),
+                            ),
+                          );
                         } else if (routine.title.contains('Pitbull Avanzado 2') ||
-                            routine.title.contains('5 Días')) {
+                            (routine.title.contains('5 Días') &&
+                                !routine.title.contains('Mujer'))) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
