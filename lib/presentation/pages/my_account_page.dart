@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../core/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 import '../../core/services/auth_provider.dart';
+import '../../core/services/notification_service.dart';
 
 class MyAccountPage extends StatefulWidget {
   const MyAccountPage({super.key});
@@ -198,6 +200,145 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       keyboardType: TextInputType.phone,
                     ),
                     SizedBox(height: 32),
+
+                    SizedBox(height: 24),
+
+                    // ── Sección de Notificaciones Push ──
+                    Container(
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: AppTheme.warmGrey,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: AppTheme.goldAccent.withOpacity(0.3),
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(Icons.notifications_active, color: AppTheme.goldAccent, size: 22),
+                              SizedBox(width: 8),
+                              Text(
+                                'NOTIFICACIONES PUSH',
+                                style: TextStyle(
+                                  color: AppTheme.goldAccent,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 14,
+                                  letterSpacing: 1,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            NotificationService.isGranted
+                                ? 'Estado: 🟢 Habilitadas en este navegador'
+                                : 'Estado: ⚪ No habilitadas o pendientes de permiso',
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.onSurface,
+                              fontSize: 12,
+                            ),
+                          ),
+                          SizedBox(height: 14),
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: [
+                              if (!NotificationService.isGranted)
+                                ElevatedButton.icon(
+                                  onPressed: () async {
+                                    final granted = await NotificationService.requestPermissionAndRegister(
+                                      auth.firebaseUser?.uid,
+                                    );
+                                    setState(() {});
+                                    if (mounted) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            granted
+                                                ? '¡Notificaciones activadas con éxito! 🔔'
+                                                : 'Permiso denegado por el navegador.',
+                                          ),
+                                          backgroundColor: granted ? Colors.green : Colors.orange,
+                                        ),
+                                      );
+                                    }
+                                  },
+                                  icon: Icon(Icons.check_circle_outline, size: 16),
+                                  label: Text('ACTIVAR NOTIFICACIONES'),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: AppTheme.goldAccent,
+                                    foregroundColor: Colors.black,
+                                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                    textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              OutlinedButton.icon(
+                                onPressed: () async {
+                                  final token = await NotificationService.getFcmToken();
+                                  if (token != null && token.isNotEmpty) {
+                                    await Clipboard.setData(ClipboardData(text: token));
+                                    if (mounted) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            '¡Token FCM copiado al portapapeles! 📋\nPegalo en Firebase Console para probar.',
+                                          ),
+                                          backgroundColor: Colors.green,
+                                          duration: Duration(seconds: 4),
+                                        ),
+                                      );
+                                    }
+                                  } else {
+                                    if (mounted) {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Primero activá las notificaciones para generar tu Token.',
+                                          ),
+                                          backgroundColor: Colors.orange,
+                                        ),
+                                      );
+                                    }
+                                  }
+                                },
+                                icon: Icon(Icons.copy, size: 16, color: AppTheme.goldAccent),
+                                label: Text('COPIAR MI TOKEN FCM', style: TextStyle(color: AppTheme.goldAccent)),
+                                style: OutlinedButton.styleFrom(
+                                  side: BorderSide(color: AppTheme.goldAccent),
+                                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                  textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              OutlinedButton.icon(
+                                onPressed: () {
+                                  NotificationService.showNotification(
+                                    '¡PITBULL GYM Notificaciones!',
+                                    'Tu dispositivo está recibiendo alertas correctamente. 💪🔥',
+                                  );
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Notificación local de prueba enviada 🔔'),
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                },
+                                icon: Icon(Icons.send, size: 16, color: AppTheme.electricOrange),
+                                label: Text('PROBAR ALERTA', style: TextStyle(color: AppTheme.electricOrange)),
+                                style: OutlinedButton.styleFrom(
+                                  side: BorderSide(color: AppTheme.electricOrange),
+                                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                                  textStyle: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 24),
 
                     Align(
                       alignment: Alignment.centerLeft,
