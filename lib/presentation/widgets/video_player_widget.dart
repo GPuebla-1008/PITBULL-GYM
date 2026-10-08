@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -39,29 +40,45 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   }
 
   Future<void> _initializeController() async {
-    final cleanPath = widget.assetPath.startsWith('/')
-        ? widget.assetPath.substring(1)
-        : widget.assetPath;
+    // 1. Normalizar la ruta eliminando barras iniciales y cualquier duplicación de assets/
+    final cleanPath = widget.assetPath.replaceFirst(RegExp(r'^/+'), '');
+    final pathWithoutAssets = cleanPath.replaceFirst(RegExp(r'^assets/'), '');
+    final canonicalAssetPath = 'assets/$pathWithoutAssets';
 
-    // Build candidates for asset / web loading
-    final List<Future<VideoPlayerController> Function()> strategies = [
-      () async => VideoPlayerController.asset(
-            cleanPath,
+    // 2. Definir estrategias de carga limpias sin duplicar assets/
+    final List<Future<VideoPlayerController> Function()> strategies = [];
+
+    if (kIsWeb) {
+      // En Web:
+      // A) VideoPlayerController.networkUrl con URL codificada canónica (ej. 'assets/RUTINAS/...mp4')
+      strategies.add(() async => VideoPlayerController.networkUrl(
+            Uri.parse(Uri.encodeFull(canonicalAssetPath)),
             videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-          ),
-      () async => VideoPlayerController.networkUrl(
-            Uri.parse(cleanPath),
+          ));
+
+      // B) VideoPlayerController.networkUrl con URL codificada relativa (ej. 'RUTINAS/...mp4')
+      strategies.add(() async => VideoPlayerController.networkUrl(
+            Uri.parse(Uri.encodeFull(pathWithoutAssets)),
             videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-          ),
-      () async => VideoPlayerController.networkUrl(
-            Uri.parse('assets/$cleanPath'),
+          ));
+
+      // C) VideoPlayerController.asset pasando la ruta relativa limpia
+      // (Flutter Web internamente le agrega un único 'assets/', quedando 'assets/RUTINAS/...')
+      strategies.add(() async => VideoPlayerController.asset(
+            pathWithoutAssets,
             videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-          ),
-      () async => VideoPlayerController.networkUrl(
-            Uri.parse('assets/assets/${cleanPath.replaceFirst('assets/', '')}'),
+          ));
+    } else {
+      // En Mobile / Desktop:
+      strategies.add(() async => VideoPlayerController.asset(
+            canonicalAssetPath,
             videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-          ),
-    ];
+          ));
+      strategies.add(() async => VideoPlayerController.asset(
+            pathWithoutAssets,
+            videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+          ));
+    }
 
     Object? lastError;
 
@@ -70,7 +87,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
         final controller = await strategy();
         await controller.initialize();
         await controller.setLooping(true);
-        await controller.setVolume(0.0); // Muted for autoplay compatibility
+        await controller.setVolume(0.0); // Muted para permitir autoplay en navegadores
 
         if (!mounted) {
           await controller.dispose();
@@ -83,14 +100,14 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
           _error = null;
         });
 
-        // Safely initiate playback
+        // Iniciar reproducción
         try {
           await _controller.play();
         } catch (playErr) {
           debugPrint("Autoplay note for '${widget.assetPath}': $playErr");
         }
 
-        return; // Successfully initialized
+        return; // Éxito
       } catch (e) {
         lastError = e;
         debugPrint("Strategy attempt failed for '${widget.assetPath}': $e");
