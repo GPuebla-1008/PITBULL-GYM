@@ -6,6 +6,9 @@ class PagoPendienteModel {
   final String nombre;
   final DateTime fecha;
   final String estado;
+  final String plan;
+  final int duracionDias;
+  final double monto;
 
   PagoPendienteModel({
     required this.id,
@@ -13,6 +16,9 @@ class PagoPendienteModel {
     required this.nombre,
     required this.fecha,
     this.estado = 'pendiente',
+    this.plan = '1 Mes',
+    this.duracionDias = 30,
+    this.monto = 0.0,
   });
 
   factory PagoPendienteModel.fromFirestore(DocumentSnapshot doc) {
@@ -23,6 +29,9 @@ class PagoPendienteModel {
       nombre: d['nombre'] ?? '',
       fecha: (d['fecha'] as Timestamp?)?.toDate() ?? DateTime.now(),
       estado: d['estado'] ?? 'pendiente',
+      plan: d['plan'] ?? '1 Mes',
+      duracionDias: d['duracionDias'] ?? 30,
+      monto: (d['monto'] ?? 0.0).toDouble(),
     );
   }
 
@@ -31,5 +40,8 @@ class PagoPendienteModel {
     'nombre': nombre,
     'fecha': Timestamp.fromDate(fecha),
     'estado': estado,
+    'plan': plan,
+    'duracionDias': duracionDias,
+    'monto': monto,
   };
 }

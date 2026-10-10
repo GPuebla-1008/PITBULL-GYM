@@ -113,15 +113,16 @@ class _LoginPageState extends State<LoginPage>
                     ),
                     SizedBox(height: 36),
 
-                    // Email
+                    // Usuario o Email
                     _buildField(
                       controller: _emailCtrl,
-                      label: 'Email',
-                      icon: Icons.email_outlined,
+                      label: 'Usuario o Email',
+                      icon: Icons.person_outline,
                       keyboardType: TextInputType.emailAddress,
                       validator: (v) {
-                        if (v == null || v.isEmpty) return 'Ingresá tu email';
-                        if (!v.contains('@')) return 'Email inválido';
+                        if (v == null || v.trim().isEmpty) {
+                          return 'Ingresá tu usuario o email';
+                        }
                         return null;
                       },
                     ),

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/pago_pendiente_model.dart';
 
 class PaymentService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -8,10 +7,12 @@ class PaymentService {
   Future<void> notifyTransfer({
     required String userId,
     required String nombre,
+    double monto = 0.0,
   }) async {
     await _db.collection('pagos_pendientes').add({
       'userId': userId,
       'nombre': nombre,
+      'monto': monto,
       'fecha': Timestamp.now(),
       'estado': 'pendiente',
     });
@@ -25,5 +26,15 @@ class PaymentService {
         .where('estado', isEqualTo: 'pendiente')
         .snapshots()
         .map((snapshot) => snapshot.docs.isNotEmpty);
+  }
+
+  // Stream para obtener el pago pendiente del usuario
+  Stream<DocumentSnapshot?> getPendingPaymentDoc(String userId) {
+    return _db
+        .collection('pagos_pendientes')
+        .where('userId', isEqualTo: userId)
+        .where('estado', isEqualTo: 'pendiente')
+        .snapshots()
+        .map((snapshot) => snapshot.docs.isNotEmpty ? snapshot.docs.first : null);
   }
 }

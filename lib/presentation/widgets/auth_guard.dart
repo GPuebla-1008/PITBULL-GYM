@@ -13,19 +13,25 @@ class AuthGuard extends StatelessWidget {
   const AuthGuard({super.key, required this.child});
 
   bool _isBlocked(UsuarioModel perfil) {
-    // Los administradores nunca se bloquean
+    // 1. Los administradores nunca se bloquean
     if (perfil.isAdmin || perfil.rol == 'admin') return false;
 
-    // Si el estado es activo, no se bloquea
-    if (perfil.subscriptionStatus == 'activo') return false;
-
-    // Si el estado es inactivo y la fecha de expiración es nula (usuario nuevo que nunca pagó) o ya pasó, se bloquea
-    if (perfil.subscriptionStatus == 'inactivo') {
-      if (perfil.expiryDate == null) return true;
-      if (DateTime.now().isAfter(perfil.expiryDate!)) return true;
+    // 2. Si tiene fecha de vencimiento y ya pasó la fecha/hora actual -> BLOQUEADO
+    if (perfil.expiryDate != null && DateTime.now().isAfter(perfil.expiryDate!)) {
+      return true;
     }
 
-    return false; // Por defecto no bloquear
+    // 3. Si el estado de suscripción está marcado como inactivo -> BLOQUEADO
+    if (perfil.subscriptionStatus == 'inactivo') {
+      return true;
+    }
+
+    // 4. Si no tiene fecha de vencimiento y no está marcado como activo -> BLOQUEADO
+    if (perfil.expiryDate == null && perfil.subscriptionStatus != 'activo') {
+      return true;
+    }
+
+    return false; // Membresía vigente
   }
 
   @override
@@ -70,6 +76,12 @@ class AuthGuard extends StatelessWidget {
 
         // Evaluar si debe ser bloqueado
         if (_isBlocked(perfil)) {
+          // Si hay subpantallas abiertas en el navegador, cerrarlas para volver a la raíz
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (context.mounted && Navigator.of(context).canPop()) {
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            }
+          });
           return BlockedScreen(perfil: perfil);
         }
 

@@ -47,50 +47,97 @@ class AdminProvider with ChangeNotifier {
     }
   }
 
+  static DateTime calcularMismoDiaMesSiguiente(DateTime baseDate) {
+    int year = baseDate.year;
+    int month = baseDate.month + 1;
+    if (month > 12) {
+      year += 1;
+      month = 1;
+    }
+    int day = baseDate.day;
+    int maxDays = DateTime(year, month + 1, 0).day;
+    if (day > maxDays) {
+      day = maxDays;
+    }
+    return DateTime(year, month, day, 23, 59, 59);
+  }
+
   Future<bool> registrarPagoMesActual(String idSocio, double monto) async {
+    final now = DateTime.now();
+    return cobrarSocio(
+      idSocio: idSocio,
+      fechaVencimiento: calcularMismoDiaMesSiguiente(now),
+      plan: '1 Mes',
+      monto: monto,
+    );
+  }
+
+  Future<bool> cobrarSocio({
+    required String idSocio,
+    required DateTime fechaVencimiento,
+    required String plan,
+    required double monto,
+  }) async {
     try {
       final now = DateTime.now();
+      final batch = _db.batch();
+
+      // 1. Actualizar usuario con nuevo estado y fecha exacta establecida por el admin
+      final userRef = _db.collection('usuarios').doc(idSocio);
+      batch.update(userRef, {
+        'subscriptionStatus': 'activo',
+        'expiryDate': Timestamp.fromDate(fechaVencimiento),
+      });
+
+      // 2. Registrar pago en historial
+      final newHistoryRef = _db.collection('pagos').doc();
+      final dias = fechaVencimiento.difference(now).inDays.clamp(1, 9999);
       final nuevoPago = PagoModel(
-        idPago: _db.collection('pagos').doc().id,
+        idPago: newHistoryRef.id,
         idSocio: idSocio,
         mes: now.month,
         anio: now.year,
         monto: monto,
         fechaPago: now,
+        plan: plan,
+        duracionDias: dias,
       );
+      batch.set(newHistoryRef, nuevoPago.toFirestore());
 
-      await _db
-          .collection('pagos')
-          .doc(nuevoPago.idPago)
-          .set(nuevoPago.toFirestore());
-      _pagosMesActual.add(nuevoPago);
-      notifyListeners();
+      await batch.commit();
+      await fetchData();
       return true;
     } catch (e) {
-      _errorMessage = 'Error al registrar pago: $e';
+      _errorMessage = 'Error al registrar cobro: $e';
       notifyListeners();
       return false;
     }
   }
 
   String getEstadoSocio(UsuarioModel socio) {
-    // Buscar si ya pagó este mes
-    final pagado = _pagosMesActual.any((p) => p.idSocio == socio.uid);
-    if (pagado) return 'AL DÍA';
+    if (socio.isAdmin || socio.rol == 'admin') return 'ADMIN';
 
-    // Si no pagó, revisar vencimiento
     final now = DateTime.now();
-    if (now.day > socio.diaPagoFijo) {
-      return 'DEUDOR';
-    } else {
-      return 'PENDIENTE';
+    if (socio.expiryDate != null) {
+      if (socio.expiryDate!.isAfter(now)) {
+        return 'AL DÍA';
+      } else {
+        return 'VENCIDO';
+      }
     }
+
+    if (socio.subscriptionStatus == 'activo') {
+      return 'AL DÍA';
+    }
+
+    return 'INACTIVO';
   }
 
   Color getColorEstado(String estado) {
     if (estado == 'AL DÍA') return Colors.greenAccent.shade400;
-    if (estado == 'DEUDOR') return Colors.redAccent.shade400;
-    return Colors.amberAccent.shade400; // PENDIENTE
+    if (estado == 'ADMIN') return Colors.blueAccent.shade400;
+    if (estado == 'VENCIDO' || estado == 'DEUDOR') return Colors.redAccent.shade400;
+    return Colors.amberAccent.shade400; // INACTIVO / PENDIENTE
   }
 
   // ── Gestión de Pagos Pendientes ──────────────────────────────────────────
@@ -102,36 +149,51 @@ class AdminProvider with ChangeNotifier {
         .snapshots();
   }
 
-  Future<bool> approvePayment(String paymentId, String userId) async {
+  Future<bool> approvePayment({
+    required String paymentId,
+    required String userId,
+    required DateTime fechaVencimiento,
+    required String plan,
+    double monto = 0.0,
+  }) async {
     try {
+      final now = DateTime.now();
       final batch = _db.batch();
 
-      // 1. Actualizar estado del pago
+      // 1. Actualizar estado del pago pendiente
       final paymentRef = _db.collection('pagos_pendientes').doc(paymentId);
-      batch.update(paymentRef, {'estado': 'aprobado'});
+      batch.update(paymentRef, {
+        'estado': 'aprobado',
+        'aprobadoEn': Timestamp.fromDate(now),
+        'plan': plan,
+        'expiryDate': Timestamp.fromDate(fechaVencimiento),
+        'monto': monto,
+      });
 
       // 2. Actualizar datos del socio
       final userRef = _db.collection('usuarios').doc(userId);
-      final now = DateTime.now();
-      final newExpiryDate = now.add(const Duration(days: 30));
-
       batch.update(userRef, {
         'subscriptionStatus': 'activo',
-        'expiryDate': Timestamp.fromDate(newExpiryDate),
+        'expiryDate': Timestamp.fromDate(fechaVencimiento),
       });
 
-      // 3. Registrar en la colección histórica de pagos (opcional pero recomendado)
+      // 3. Registrar en la colección histórica de pagos
       final newHistoryRef = _db.collection('pagos').doc();
-      batch.set(newHistoryRef, {
-        'id_socio': userId,
-        'mes': now.month,
-        'anio': now.year,
-        'monto': 0.0, // El monto se podría parametrizar si fuera necesario
-        'fecha_pago': Timestamp.fromDate(now),
-      });
+      final dias = fechaVencimiento.difference(now).inDays.clamp(1, 9999);
+      final nuevoPago = PagoModel(
+        idPago: newHistoryRef.id,
+        idSocio: userId,
+        mes: now.month,
+        anio: now.year,
+        monto: monto,
+        fechaPago: now,
+        plan: plan,
+        duracionDias: dias,
+      );
+      batch.set(newHistoryRef, nuevoPago.toFirestore());
 
       await batch.commit();
-      notifyListeners();
+      await fetchData();
       return true;
     } catch (e) {
       _errorMessage = 'Error al aprobar pago: $e';

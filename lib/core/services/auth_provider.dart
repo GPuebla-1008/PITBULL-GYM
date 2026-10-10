@@ -52,28 +52,56 @@ class AuthProvider with ChangeNotifier {
     // Sincronizar token de Firebase Cloud Messaging (FCM)
     unawaited(NotificationService.syncUser(uid));
 
-    // Convertir automáticamente a rogerpfoh@gmail.com en administrador de forma incondicional
-    if (_firebaseUser?.email?.toLowerCase() == 'rogerpfoh@gmail.com') {
+    // Convertir automáticamente a administradores de forma incondicional
+    final emailLower = _firebaseUser?.email?.toLowerCase();
+    final isSpecialAdmin = emailLower == 'rogerpfoh@gmail.com' ||
+        emailLower == 'pitbullgym@pitbullgym.com' ||
+        emailLower == 'carlosgallelli@hotmail.com' ||
+        (emailLower != null && emailLower.contains('carlos') && emailLower.contains('guevara'));
+
+    if (isSpecialAdmin) {
+      String defaultName = 'Administrador';
+      if (emailLower == 'rogerpfoh@gmail.com') {
+        defaultName = 'Roger';
+      } else if (emailLower == 'pitbullgym@pitbullgym.com') {
+        defaultName = 'PITBULLGYM';
+      } else if (emailLower == 'carlosgallelli@hotmail.com' ||
+          (emailLower != null && emailLower.contains('carlos'))) {
+        defaultName = 'CARLOS GUEVARA';
+      }
+
       if (_perfil == null) {
         _perfil = UsuarioModel(
           uid: uid,
-          nombre: 'Roger',
-          email: 'rogerpfoh@gmail.com',
-          documento: '',
-          objetivo: '',
+          nombre: defaultName,
+          email: _firebaseUser!.email ?? '',
+          documento: 'ADMIN',
+          objetivo: 'Administrador',
           fechaRegistro: DateTime.now(),
           isAdmin: true,
           rol: 'admin',
+          subscriptionStatus: 'activo',
         );
       } else {
-        _perfil = _perfil!.copyWith(isAdmin: true, rol: 'admin');
+        _perfil = _perfil!.copyWith(
+          isAdmin: true,
+          rol: 'admin',
+          subscriptionStatus: 'activo',
+          nombre: (_perfil!.nombre.isEmpty || _perfil!.nombre.toLowerCase() == 'carlos')
+              ? defaultName
+              : _perfil!.nombre,
+        );
       }
-      
+
       try {
-        _db.collection('usuarios').doc(uid).update({
+        _db.collection('usuarios').doc(uid).set({
           'isAdmin': true,
           'rol': 'admin',
-        });
+          'subscriptionStatus': 'activo',
+          if (emailLower == 'carlosgallelli@hotmail.com' ||
+              (emailLower != null && emailLower.contains('carlos')))
+            'nombre': 'CARLOS GUEVARA',
+        }, SetOptions(merge: true));
       } catch (_) {}
     }
   }
@@ -82,11 +110,23 @@ class AuthProvider with ChangeNotifier {
   Future<bool> login(String email, String password) async {
     _errorMessage = null;
     try {
+      String resolvedEmail = email.trim().toLowerCase();
+      // Si el usuario ingresa solo el nombre de usuario (ej: PITBULLGYM), completar dominio
+      if (!resolvedEmail.contains('@')) {
+        resolvedEmail = '$resolvedEmail@pitbullgym.com';
+      }
+
       final credential = await _auth.signInWithEmailAndPassword(
-        email: email.trim(),
+        email: resolvedEmail,
         password: password,
       );
-      if (credential.user != null && !credential.user!.emailVerified) {
+      final isSpecialAdmin = resolvedEmail == 'rogerpfoh@gmail.com' ||
+          resolvedEmail == 'pitbullgym@pitbullgym.com' ||
+          resolvedEmail == 'carlosgallelli@hotmail.com' ||
+          (resolvedEmail.contains('carlos') && resolvedEmail.contains('guevara'));
+      if (credential.user != null &&
+          !credential.user!.emailVerified &&
+          !isSpecialAdmin) {
         _errorMessage =
             'Debes verificar tu email antes de entrar. Revisa tu bandeja de entrada o correo no deseado.';
         await _auth.signOut();

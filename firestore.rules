@@ -4,13 +4,22 @@ service cloud.firestore {
     
     // Validar si es el administrador principal por email
     function isAdmin() {
-      return request.auth != null && request.auth.token.email == 'rogerpfoh@gmail.com';
+      return request.auth != null && (
+        request.auth.token.email == 'rogerpfoh@gmail.com' ||
+        request.auth.token.email == 'pitbullgym@pitbullgym.com' ||
+        request.auth.token.email == 'carlosgallelli@hotmail.com'
+      );
     }
 
-    // Validar si el usuario tiene una suscripción activa
+    // Validar si el usuario tiene una suscripción activa y vigente
     function isActive() {
       return request.auth != null && 
-        get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.subscriptionStatus == 'activo';
+        get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.subscriptionStatus == 'activo' &&
+        (
+          !('expiryDate' in get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data) ||
+          get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.expiryDate == null ||
+          get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.expiryDate > request.time
+        );
     }
 
     match /usuarios/{userId} {

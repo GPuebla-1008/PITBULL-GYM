@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/services/payment_service.dart';
 import '../../core/services/auth_provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PaymentInfoPage extends StatefulWidget {
   const PaymentInfoPage({super.key});
@@ -85,10 +86,10 @@ class _PaymentInfoPageState extends State<PaymentInfoPage> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: StreamBuilder<bool>(
-        stream: paymentService.hasPendingPayment(userId),
+      body: StreamBuilder<DocumentSnapshot?>(
+        stream: paymentService.getPendingPaymentDoc(userId),
         builder: (context, snapshot) {
-          final isPending = snapshot.data ?? false;
+          final isPending = snapshot.data != null;
 
           return Center(
             child: SingleChildScrollView(
@@ -112,7 +113,7 @@ class _PaymentInfoPageState extends State<PaymentInfoPage> {
                             const Icon(Icons.hourglass_empty, color: Colors.amber, size: 48),
                             const SizedBox(height: 16),
                             Text(
-                              'Su pago está siendo verificado',
+                              'Su pago está en verificación',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.outfit(
                                 fontSize: 20,
@@ -152,21 +153,21 @@ class _PaymentInfoPageState extends State<PaymentInfoPage> {
                       ),
                       const SizedBox(height: 24),
                       Text(
-                        'DATOS',
+                        'DATOS DE PAGO',
                         style: GoogleFonts.outfit(
-                          fontSize: 24,
+                          fontSize: 22,
                           fontWeight: FontWeight.w900,
                           color: AppTheme.goldAccent,
-                          letterSpacing: 3,
+                          letterSpacing: 2.5,
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 12),
                       Text(
-                        'Transfiere tu cuota mensual al siguiente alias y presiona el botón de confirmación.',
+                        'Transfiere tu cuota al siguiente alias y presiona el botón de confirmación.',
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.inter(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7), fontSize: 14),
+                        style: GoogleFonts.inter(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7), fontSize: 13),
                       ),
-                      const SizedBox(height: 32),
+                      const SizedBox(height: 24),
                       Container(
                         padding: const EdgeInsets.symmetric(
                           vertical: 20,
@@ -216,10 +217,10 @@ class _PaymentInfoPageState extends State<PaymentInfoPage> {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 32),
+                      const SizedBox(height: 28),
                       SizedBox(
                         width: double.infinity,
-                        height: 56,
+                        height: 54,
                         child: ElevatedButton(
                           onPressed: _isSubmitting ? null : () => _notifyPayment(context),
                           style: ElevatedButton.styleFrom(
